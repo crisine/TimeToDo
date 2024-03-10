@@ -1,0 +1,623 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FAA928632B99850800B21BA7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928622B99850800B21BA7 /* AppDelegate.swift */; };
+		FAA928652B99850800B21BA7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928642B99850800B21BA7 /* SceneDelegate.swift */; };
+		FAA9286C2B99850900B21BA7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAA9286B2B99850900B21BA7 /* Assets.xcassets */; };
+		FAA9286F2B99850900B21BA7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAA9286D2B99850900B21BA7 /* LaunchScreen.storyboard */; };
+		FAA928772B99860000B21BA7 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = FAA928762B99860000B21BA7 /* .gitignore */; };
+		FAA9287A2B99995C00B21BA7 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = FAA928792B99995C00B21BA7 /* SnapKit */; };
+		FAA9287D2B99997D00B21BA7 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = FAA9287C2B99997D00B21BA7 /* Realm */; };
+		FAA9287F2B99997D00B21BA7 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FAA9287E2B99997D00B21BA7 /* RealmSwift */; };
+		FAA928822B99998F00B21BA7 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = FAA928812B99998F00B21BA7 /* Toast */; };
+		FAA928852B9999A400B21BA7 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928842B9999A400B21BA7 /* BaseViewController.swift */; };
+		FAA9288D2B999C5400B21BA7 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA9288C2B999C5400B21BA7 /* MainTabBarViewController.swift */; };
+		FAA9289E2B999E7600B21BA7 /* OverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA9289D2B999E7600B21BA7 /* OverViewController.swift */; };
+		FAA928A02B999EF100B21BA7 /* AddTodoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA9289F2B999EF100B21BA7 /* AddTodoViewController.swift */; };
+		FAA928A22B999F2D00B21BA7 /* DetailTodoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928A12B999F2D00B21BA7 /* DetailTodoViewController.swift */; };
+		FAA928A42B999F6700B21BA7 /* PomoTimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928A32B999F6700B21BA7 /* PomoTimerViewController.swift */; };
+		FAA928A62B999F7A00B21BA7 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928A52B999F7A00B21BA7 /* SettingViewController.swift */; };
+		FAA928A92B99A0F600B21BA7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = FAA928A82B99A0F600B21BA7 /* Localizable.xcstrings */; };
+		FAA928AC2B99A14B00B21BA7 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928AB2B99A14B00B21BA7 /* String+Extension.swift */; };
+		FAA928B02B9B272700B21BA7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAA928AF2B9B272700B21BA7 /* Main.storyboard */; };
+		FAA928B22B9B293C00B21BA7 /* PomoTimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928B12B9B293C00B21BA7 /* PomoTimerViewModel.swift */; };
+		FAA928B52B9B294F00B21BA7 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928B42B9B294F00B21BA7 /* Observable.swift */; };
+		FAA928B72B9C9C1F00B21BA7 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928B62B9C9C1F00B21BA7 /* Notification.swift */; };
+		FAA928C22B9DA49900B21BA7 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928C12B9DA49900B21BA7 /* Repository.swift */; };
+		FAA928C52B9DA57B00B21BA7 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928C42B9DA57B00B21BA7 /* Todo.swift */; };
+		FAA928C72B9DAB8100B21BA7 /* OverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928C62B9DAB8100B21BA7 /* OverviewViewModel.swift */; };
+		FAA928CA2B9DB7EC00B21BA7 /* OverviewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928C92B9DB7EC00B21BA7 /* OverviewSection.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		FAA9285F2B99850800B21BA7 /* TimeToDo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeToDo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAA928622B99850800B21BA7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		FAA928642B99850800B21BA7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		FAA9286B2B99850900B21BA7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FAA9286E2B99850900B21BA7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		FAA928702B99850900B21BA7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FAA928762B99860000B21BA7 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		FAA928842B9999A400B21BA7 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		FAA9288C2B999C5400B21BA7 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
+		FAA9289D2B999E7600B21BA7 /* OverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverViewController.swift; sourceTree = "<group>"; };
+		FAA9289F2B999EF100B21BA7 /* AddTodoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTodoViewController.swift; sourceTree = "<group>"; };
+		FAA928A12B999F2D00B21BA7 /* DetailTodoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTodoViewController.swift; sourceTree = "<group>"; };
+		FAA928A32B999F6700B21BA7 /* PomoTimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomoTimerViewController.swift; sourceTree = "<group>"; };
+		FAA928A52B999F7A00B21BA7 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		FAA928A82B99A0F600B21BA7 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		FAA928AB2B99A14B00B21BA7 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		FAA928AF2B9B272700B21BA7 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		FAA928B12B9B293C00B21BA7 /* PomoTimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomoTimerViewModel.swift; sourceTree = "<group>"; };
+		FAA928B42B9B294F00B21BA7 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		FAA928B62B9C9C1F00B21BA7 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		FAA928C12B9DA49900B21BA7 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		FAA928C42B9DA57B00B21BA7 /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
+		FAA928C62B9DAB8100B21BA7 /* OverviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewViewModel.swift; sourceTree = "<group>"; };
+		FAA928C92B9DB7EC00B21BA7 /* OverviewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewSection.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FAA9285C2B99850800B21BA7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAA928822B99998F00B21BA7 /* Toast in Frameworks */,
+				FAA9287F2B99997D00B21BA7 /* RealmSwift in Frameworks */,
+				FAA9287D2B99997D00B21BA7 /* Realm in Frameworks */,
+				FAA9287A2B99995C00B21BA7 /* SnapKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FAA928562B99850800B21BA7 = {
+			isa = PBXGroup;
+			children = (
+				FAA928762B99860000B21BA7 /* .gitignore */,
+				FAA928612B99850800B21BA7 /* TimeToDo */,
+				FAA928602B99850800B21BA7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FAA928602B99850800B21BA7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FAA9285F2B99850800B21BA7 /* TimeToDo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FAA928612B99850800B21BA7 /* TimeToDo */ = {
+			isa = PBXGroup;
+			children = (
+				FAA928C82B9DB7E300B21BA7 /* Enum */,
+				FAA928AA2B99A14000B21BA7 /* Extension */,
+				FAA928832B99999600B21BA7 /* Base */,
+				FAA928B32B9B294400B21BA7 /* Observable */,
+				FAA928A72B99A0E300B21BA7 /* Localization */,
+				FAA928C02B9DA46F00B21BA7 /* Repository */,
+				FAA928C32B9DA55C00B21BA7 /* Model */,
+				FAA928882B999C1800B21BA7 /* Features */,
+				FAA928622B99850800B21BA7 /* AppDelegate.swift */,
+				FAA928642B99850800B21BA7 /* SceneDelegate.swift */,
+				FAA9286B2B99850900B21BA7 /* Assets.xcassets */,
+				FAA928AF2B9B272700B21BA7 /* Main.storyboard */,
+				FAA9286D2B99850900B21BA7 /* LaunchScreen.storyboard */,
+				FAA928702B99850900B21BA7 /* Info.plist */,
+			);
+			path = TimeToDo;
+			sourceTree = "<group>";
+		};
+		FAA928832B99999600B21BA7 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				FAA928842B9999A400B21BA7 /* BaseViewController.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		FAA928882B999C1800B21BA7 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				FAA928B82B9CAD1600B21BA7 /* Notification */,
+				FAA9288E2B999C9100B21BA7 /* OverView */,
+				FAA9288F2B999C9600B21BA7 /* AddTodo */,
+				FAA928902B999C9F00B21BA7 /* DetailTodo */,
+				FAA928912B999CA800B21BA7 /* PomoTimer */,
+				FAA928922B999CB500B21BA7 /* Setting */,
+				FAA928892B999C2900B21BA7 /* MainTab */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		FAA928892B999C2900B21BA7 /* MainTab */ = {
+			isa = PBXGroup;
+			children = (
+				FAA9288C2B999C5400B21BA7 /* MainTabBarViewController.swift */,
+			);
+			path = MainTab;
+			sourceTree = "<group>";
+		};
+		FAA9288E2B999C9100B21BA7 /* OverView */ = {
+			isa = PBXGroup;
+			children = (
+				FAA9289D2B999E7600B21BA7 /* OverViewController.swift */,
+				FAA928C62B9DAB8100B21BA7 /* OverviewViewModel.swift */,
+			);
+			path = OverView;
+			sourceTree = "<group>";
+		};
+		FAA9288F2B999C9600B21BA7 /* AddTodo */ = {
+			isa = PBXGroup;
+			children = (
+				FAA9289F2B999EF100B21BA7 /* AddTodoViewController.swift */,
+			);
+			path = AddTodo;
+			sourceTree = "<group>";
+		};
+		FAA928902B999C9F00B21BA7 /* DetailTodo */ = {
+			isa = PBXGroup;
+			children = (
+				FAA928A12B999F2D00B21BA7 /* DetailTodoViewController.swift */,
+			);
+			path = DetailTodo;
+			sourceTree = "<group>";
+		};
+		FAA928912B999CA800B21BA7 /* PomoTimer */ = {
+			isa = PBXGroup;
+			children = (
+				FAA928A32B999F6700B21BA7 /* PomoTimerViewController.swift */,
+				FAA928B12B9B293C00B21BA7 /* PomoTimerViewModel.swift */,
+			);
+			path = PomoTimer;
+			sourceTree = "<group>";
+		};
+		FAA928922B999CB500B21BA7 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				FAA928A52B999F7A00B21BA7 /* SettingViewController.swift */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		FAA928A72B99A0E300B21BA7 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				FAA928A82B99A0F600B21BA7 /* Localizable.xcstrings */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
+		FAA928AA2B99A14000B21BA7 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				FAA928AB2B99A14B00B21BA7 /* String+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		FAA928B32B9B294400B21BA7 /* Observable */ = {
+			isa = PBXGroup;
+			children = (
+				FAA928B42B9B294F00B21BA7 /* Observable.swift */,
+			);
+			path = Observable;
+			sourceTree = "<group>";
+		};
+		FAA928B82B9CAD1600B21BA7 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				FAA928B62B9C9C1F00B21BA7 /* Notification.swift */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
+		FAA928C02B9DA46F00B21BA7 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				FAA928C12B9DA49900B21BA7 /* Repository.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		FAA928C32B9DA55C00B21BA7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				FAA928C42B9DA57B00B21BA7 /* Todo.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		FAA928C82B9DB7E300B21BA7 /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+				FAA928C92B9DB7EC00B21BA7 /* OverviewSection.swift */,
+			);
+			path = Enum;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FAA9285E2B99850800B21BA7 /* TimeToDo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FAA928732B99850900B21BA7 /* Build configuration list for PBXNativeTarget "TimeToDo" */;
+			buildPhases = (
+				FAA9285B2B99850800B21BA7 /* Sources */,
+				FAA9285C2B99850800B21BA7 /* Frameworks */,
+				FAA9285D2B99850800B21BA7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TimeToDo;
+			packageProductDependencies = (
+				FAA928792B99995C00B21BA7 /* SnapKit */,
+				FAA9287C2B99997D00B21BA7 /* Realm */,
+				FAA9287E2B99997D00B21BA7 /* RealmSwift */,
+				FAA928812B99998F00B21BA7 /* Toast */,
+			);
+			productName = TimeToDo;
+			productReference = FAA9285F2B99850800B21BA7 /* TimeToDo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FAA928572B99850800B21BA7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1510;
+				LastUpgradeCheck = 1510;
+				TargetAttributes = {
+					FAA9285E2B99850800B21BA7 = {
+						CreatedOnToolsVersion = 15.1;
+					};
+				};
+			};
+			buildConfigurationList = FAA9285A2B99850800B21BA7 /* Build configuration list for PBXProject "TimeToDo" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				ko,
+				ja,
+			);
+			mainGroup = FAA928562B99850800B21BA7;
+			packageReferences = (
+				FAA928782B99995C00B21BA7 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				FAA9287B2B99997D00B21BA7 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				FAA928802B99998F00B21BA7 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+			);
+			productRefGroup = FAA928602B99850800B21BA7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FAA9285E2B99850800B21BA7 /* TimeToDo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FAA9285D2B99850800B21BA7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAA928772B99860000B21BA7 /* .gitignore in Resources */,
+				FAA928B02B9B272700B21BA7 /* Main.storyboard in Resources */,
+				FAA928A92B99A0F600B21BA7 /* Localizable.xcstrings in Resources */,
+				FAA9286F2B99850900B21BA7 /* LaunchScreen.storyboard in Resources */,
+				FAA9286C2B99850900B21BA7 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FAA9285B2B99850800B21BA7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAA928852B9999A400B21BA7 /* BaseViewController.swift in Sources */,
+				FAA928A62B999F7A00B21BA7 /* SettingViewController.swift in Sources */,
+				FAA928A22B999F2D00B21BA7 /* DetailTodoViewController.swift in Sources */,
+				FAA928B52B9B294F00B21BA7 /* Observable.swift in Sources */,
+				FAA928B22B9B293C00B21BA7 /* PomoTimerViewModel.swift in Sources */,
+				FAA928C52B9DA57B00B21BA7 /* Todo.swift in Sources */,
+				FAA928C22B9DA49900B21BA7 /* Repository.swift in Sources */,
+				FAA928C72B9DAB8100B21BA7 /* OverviewViewModel.swift in Sources */,
+				FAA9288D2B999C5400B21BA7 /* MainTabBarViewController.swift in Sources */,
+				FAA928AC2B99A14B00B21BA7 /* String+Extension.swift in Sources */,
+				FAA9289E2B999E7600B21BA7 /* OverViewController.swift in Sources */,
+				FAA928B72B9C9C1F00B21BA7 /* Notification.swift in Sources */,
+				FAA928CA2B9DB7EC00B21BA7 /* OverviewSection.swift in Sources */,
+				FAA928632B99850800B21BA7 /* AppDelegate.swift in Sources */,
+				FAA928652B99850800B21BA7 /* SceneDelegate.swift in Sources */,
+				FAA928A42B999F6700B21BA7 /* PomoTimerViewController.swift in Sources */,
+				FAA928A02B999EF100B21BA7 /* AddTodoViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		FAA9286D2B99850900B21BA7 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FAA9286E2B99850900B21BA7 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FAA928712B99850900B21BA7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		FAA928722B99850900B21BA7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FAA928742B99850900B21BA7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JJS82CC46U;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TimeToDo/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.crisine.TimeToDo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		FAA928752B99850900B21BA7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JJS82CC46U;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TimeToDo/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.crisine.TimeToDo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FAA9285A2B99850800B21BA7 /* Build configuration list for PBXProject "TimeToDo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FAA928712B99850900B21BA7 /* Debug */,
+				FAA928722B99850900B21BA7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FAA928732B99850900B21BA7 /* Build configuration list for PBXNativeTarget "TimeToDo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FAA928742B99850900B21BA7 /* Debug */,
+				FAA928752B99850900B21BA7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FAA928782B99995C00B21BA7 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		FAA9287B2B99997D00B21BA7 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = 10.47.0;
+			};
+		};
+		FAA928802B99998F00B21BA7 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FAA928792B99995C00B21BA7 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FAA928782B99995C00B21BA7 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		FAA9287C2B99997D00B21BA7 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FAA9287B2B99997D00B21BA7 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		FAA9287E2B99997D00B21BA7 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FAA9287B2B99997D00B21BA7 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+		FAA928812B99998F00B21BA7 /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FAA928802B99998F00B21BA7 /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = FAA928572B99850800B21BA7 /* Project object */;
+}
