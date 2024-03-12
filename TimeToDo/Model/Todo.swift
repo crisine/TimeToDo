@@ -21,11 +21,17 @@ class Todo: Object, Identifiable {
     @Persisted var dueDate: Date?
     @Persisted var isDeleted = false
     
-    convenience init(title: String, createdDate: Date, modifiedDate: Date) {
+    convenience init(superId: ObjectId? = nil, title: String, memo: String? = nil, priority: Int? = nil, createdDate: Date, modifiedDate: Date, startDate: Date? = nil, dueDate: Date? = nil, isDeleted: Bool = false) {
         self.init()
+        self.superId = superId
         self.title = title
+        self.memo = memo
+        self.priority = priority
         self.createdDate = createdDate
         self.modifiedDate = modifiedDate
+        self.startDate = startDate
+        self.dueDate = dueDate
+        self.isDeleted = isDeleted
     }
     
 }

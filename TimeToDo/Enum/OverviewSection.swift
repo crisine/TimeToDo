@@ -7,8 +7,3 @@
 
 import Foundation
 
-enum OverviewSection: Int {
-    
-    case todo
-    
-}

@@ -9,9 +9,16 @@ import UIKit
 import RealmSwift
 import SnapKit
 
+enum OverviewSection: Int, Hashable, CaseIterable {
+    case calendar
+    case graph
+    case todo
+}
+
+
 final class OverviewViewController: BaseViewController {
     
-    lazy var prototypeCollectionView: UICollectionView = {
+    lazy var mainCollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
         
         return view
@@ -36,24 +43,31 @@ final class OverviewViewController: BaseViewController {
     let viewModel = OverviewViewModel()
     
     private var dataSource: UICollectionViewDiffableDataSource<OverviewSection, Todo>!
+    private let sections = OverviewSection.allCases
+    
+    override func viewWillAppear(_ animated: Bool) {
+        viewModel.inputViewWillAppearTrigger.value = ()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        mainCollectionView.delegate = self
+        navigationItem.title = "가나다"
+        
+        configureNavigationBar()
         transform()
         configureDataSource()
-        
-        viewModel.inputViewDidLoadTrigger.value = ()
     }
     
     override func configureHierarchy() {
-        [prototypeCollectionView, prototypeAddButton, prototypeRemoveButton].forEach { subview in
+        [mainCollectionView, prototypeAddButton, prototypeRemoveButton].forEach { subview in
             view.addSubview(subview)
         }
     }
     
     override func configureConstraints() {
-        prototypeCollectionView.snp.makeConstraints { make in
+        mainCollectionView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
         
@@ -85,6 +99,13 @@ final class OverviewViewController: BaseViewController {
 
 // MARK: collectionView 관련
 extension OverviewViewController {
+    
+    private func configureCollectionView() {
+        // mainCollectionView.register(CalendarCell.self, forCellWithReuseIdentifier: CalendarCell.identifier)
+        // GraphCell, TodoCell, ...
+        mainCollectionView.register(CalendarCollectionViewCell.self, forCellWithReuseIdentifier: CalendarCollectionViewCell.identifier)
+    }
+    
     func updateSnapshot(todoList: [Todo]) {
         var snapshot = NSDiffableDataSourceSnapshot<OverviewSection, Todo>()
         
@@ -97,33 +118,17 @@ extension OverviewViewController {
     private func configureDataSource() {
         
         // 셀 형식에 대한 선언
-        let cellRegistraion: UICollectionView.CellRegistration<UICollectionViewListCell, Todo>!
+        let cellRegistraion: UICollectionView.CellRegistration<CalendarCollectionViewCell, Todo>!
         
         // 셀 내에 값을 넣어주기
         cellRegistraion = UICollectionView.CellRegistration(handler: { cell, indexPath, itemIdentifier in
             
-            print("Cell Registration Handler")
+            cell.dayLabel.text = "일"
+            cell.dayNumberImageView.image = UIImage(systemName: "10.square.fill")
             
-            // cell 내부 컨텐츠 설정
-            var content = UIListContentConfiguration.valueCell()
-            content.text = itemIdentifier.title
-            content.textProperties.color = .black
-            
-            content.secondaryText = itemIdentifier.memo
-            content.secondaryTextProperties.color = .lightGray
-            
-            content.image = UIImage(systemName: "timer")
-            
-            cell.contentConfiguration = content
-            
-            var backgroundConfig = UIBackgroundConfiguration.listPlainCell()
-            backgroundConfig.backgroundColor = .systemGray6
-            backgroundConfig.cornerRadius = 16
-            
-            cell.backgroundConfiguration = backgroundConfig
         })
         
-        dataSource = UICollectionViewDiffableDataSource(collectionView: prototypeCollectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+        dataSource = UICollectionViewDiffableDataSource(collectionView: mainCollectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             
             let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistraion,
                                                                     for: indexPath,
@@ -133,14 +138,33 @@ extension OverviewViewController {
         })
     }
     
-    private func createLayout() -> UICollectionViewLayout {
-        var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
-        configuration.backgroundColor = .background
-        configuration.showsSeparators = true
-        
-        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
-        
-        return layout
+    private func createLayout() -> UICollectionViewCompositionalLayout {
+        UICollectionViewCompositionalLayout { [weak self] sectionIndex, layoutEnviornment in
+            guard let self else { return nil }
+            let section = self.sections[sectionIndex]
+            switch section {
+            case .calendar:
+                // MARK: fractionalWidth, Height로 비율 정하기
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
+                
+                // MARK: layoutSize에서 width, height의 값은 고정 70pt 씩 정사각형으로 줌
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .absolute(70), heightDimension: .absolute(70)), subitems: [item])
+                
+                // MARK: item을 group에 넣고, group을 section에 넣음
+                let section = NSCollectionLayoutSection(group: group)
+                
+                section.orthogonalScrollingBehavior = .continuous
+                
+                
+                print("DEBUG: Section Setted")
+                return section
+            case .graph:
+                return nil
+                
+            case .todo:
+                return nil
+            }
+        }
     }
     
     func transform() {
@@ -148,6 +172,41 @@ extension OverviewViewController {
             guard let todoList else { return }
             self?.updateSnapshot(todoList: todoList)
         }
+        
+        viewModel.outputDidSelectItemAt.bind { [weak self] todo in
+            guard let todo else { return }
+            
+            let vc = DetailTodoViewController()
+            vc.todo = todo
+            self?.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+}
+
+// MARK: NavigationBar 관련
+extension OverviewViewController {
+    
+    private func configureNavigationBar() {
+        let calendarButton = UIBarButtonItem(image: UIImage(systemName: "calendar.circle"), style: .plain, target: self, action: #selector(didNavigationBarCalendarButtonTapped))
+        calendarButton.tintColor = .tint
+        
+        navigationItem.setLeftBarButton(calendarButton, animated: true)
+    }
+    
+    @objc private func didNavigationBarCalendarButtonTapped() {
+        viewModel.inputNavigationBarCalendarButtonTrigger.value = ()
+    }
+}
+
+// MARK: collectionView 이벤트 관련
+extension OverviewViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let todo = dataSource.itemIdentifier(for: indexPath) else {
+            // TODO: 에러 처리
+            return
+        }
+        viewModel.inputDidSelectItemAtTrigger.value = (todo)
     }
 }
 
