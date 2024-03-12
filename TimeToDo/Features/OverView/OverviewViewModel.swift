@@ -18,10 +18,8 @@ class OverviewViewModel {
     var inputProtoTypeDeleteTodoButtonTrigger: Observable<Void?> = Observable(nil)
     var inputDidSelectItemAtTrigger: Observable<Todo?> = Observable(nil)
     
-    
     var outputDidSelectItemAt: Observable<Todo?> = Observable(nil)
-    
-    var outputTodoList: Observable<[Todo]?> = Observable(nil)
+    var outputDateDayList: Observable<[DateDay]?> = Observable(nil)
     
     init() {
         
@@ -35,7 +33,8 @@ class OverviewViewModel {
         }
         
         inputViewWillAppearTrigger.bind { [weak self] _ in
-            self?.fetchTodo()
+            // self?.fetchTodo()
+            self?.calcDateDays()
         }
         
         inputProtoTypeAddTodoButtonTrigger.bind { [weak self] _ in
@@ -59,7 +58,38 @@ class OverviewViewModel {
         let todoList = Array(repository.fetchTodo().filter { todo in
             todo.isDeleted == false
         })
-        outputTodoList.value = todoList
+//        outputTodoList.value = todoList
+    }
+    
+    private func calcDateDays() {
+        let calendar = Calendar.current
+        var dateDayList: [DateDay] = []
+        let currentDate = Date()
+        
+        if let firstDayOfMonth = Calendar.firstDayOfMonth(currentDate),
+           let lastDayOfMonth = Calendar.lastDayOfMonth(currentDate) {
+            
+            var dateIterator = firstDayOfMonth
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd EE"
+            
+            while dateIterator <= lastDayOfMonth {
+            
+                let separatedDateString = dateFormatter.string(from: dateIterator).split(separator: " ").map { String($0) }
+                
+                print(separatedDateString)
+                
+                dateDayList.append(DateDay(dayNumber: separatedDateString[0], weekday: separatedDateString[1]))
+                
+                guard let nextDateIterator = calendar.date(byAdding: .day, value: 1, to: dateIterator) else { return }
+                
+                dateIterator = nextDateIterator
+            }
+        }
+        
+        print(dateDayList)
+        
+        outputDateDayList.value = dateDayList
     }
     
     private func removeAllTodos() {

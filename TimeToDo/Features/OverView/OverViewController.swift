@@ -42,7 +42,7 @@ final class OverviewViewController: BaseViewController {
     
     let viewModel = OverviewViewModel()
     
-    private var dataSource: UICollectionViewDiffableDataSource<OverviewSection, Todo>!
+    private var dataSource: UICollectionViewDiffableDataSource<OverviewSection, DateDay>!
     private let sections = OverviewSection.allCases
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,11 +53,26 @@ final class OverviewViewController: BaseViewController {
         super.viewDidLoad()
         
         mainCollectionView.delegate = self
-        navigationItem.title = "가나다"
+        navigationItem.title = "OverView"
         
         configureNavigationBar()
         transform()
         configureDataSource()
+    }
+    
+    func transform() {
+        viewModel.outputDateDayList.bind { [weak self] dateDay in
+            guard let dateDay else { return }
+            self?.updateSnapshot(dateDayList: dateDay)
+        }
+        
+        viewModel.outputDidSelectItemAt.bind { [weak self] todo in
+            guard let todo else { return }
+            
+            let vc = DetailTodoViewController()
+            vc.todo = todo
+            self?.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     override func configureHierarchy() {
@@ -106,11 +121,11 @@ extension OverviewViewController {
         mainCollectionView.register(CalendarCollectionViewCell.self, forCellWithReuseIdentifier: CalendarCollectionViewCell.identifier)
     }
     
-    func updateSnapshot(todoList: [Todo]) {
-        var snapshot = NSDiffableDataSourceSnapshot<OverviewSection, Todo>()
+    func updateSnapshot(dateDayList: [DateDay]) {
+        var snapshot = NSDiffableDataSourceSnapshot<OverviewSection, DateDay>()
         
-        snapshot.appendSections([.todo])
-        snapshot.appendItems(todoList, toSection: .todo)
+        snapshot.appendSections([.calendar])
+        snapshot.appendItems(dateDayList, toSection: .calendar)
         
         dataSource.apply(snapshot)
     }
@@ -118,13 +133,13 @@ extension OverviewViewController {
     private func configureDataSource() {
         
         // 셀 형식에 대한 선언
-        let cellRegistraion: UICollectionView.CellRegistration<CalendarCollectionViewCell, Todo>!
+        let cellRegistraion: UICollectionView.CellRegistration<CalendarCollectionViewCell, DateDay>!
         
         // 셀 내에 값을 넣어주기
         cellRegistraion = UICollectionView.CellRegistration(handler: { cell, indexPath, itemIdentifier in
             
-            cell.dayLabel.text = "일"
-            cell.dayNumberImageView.image = UIImage(systemName: "10.square.fill")
+            cell.dayLabel.text = itemIdentifier.weekday
+            cell.dayNumberImageView.image = UIImage(systemName: "\(itemIdentifier.dayNumber).square.fill")
             
         })
         
@@ -166,21 +181,6 @@ extension OverviewViewController {
             }
         }
     }
-    
-    func transform() {
-        viewModel.outputTodoList.bind { [weak self] todoList in
-            guard let todoList else { return }
-            self?.updateSnapshot(todoList: todoList)
-        }
-        
-        viewModel.outputDidSelectItemAt.bind { [weak self] todo in
-            guard let todo else { return }
-            
-            let vc = DetailTodoViewController()
-            vc.todo = todo
-            self?.navigationController?.pushViewController(vc, animated: true)
-        }
-    }
 }
 
 // MARK: NavigationBar 관련
@@ -202,11 +202,11 @@ extension OverviewViewController {
 extension OverviewViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let todo = dataSource.itemIdentifier(for: indexPath) else {
+        guard let dateDay = dataSource.itemIdentifier(for: indexPath) else {
             // TODO: 에러 처리
             return
         }
-        viewModel.inputDidSelectItemAtTrigger.value = (todo)
+//        viewModel.inputDidSelectItemAtTrigger.value = (dateDay)
     }
 }
 

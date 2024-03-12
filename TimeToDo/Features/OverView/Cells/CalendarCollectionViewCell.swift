@@ -49,8 +49,6 @@ class CalendarCollectionViewCell: BaseCollectionViewCell {
     
     override func configureCell() {
         
-        // MARK: 테스트용
-        contentView.backgroundColor = .systemGray5
     }
     
 }
