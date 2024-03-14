@@ -240,9 +240,9 @@ extension OverviewViewController {
     }
     
     @objc private func didAddTodoBarButtonTapped() {
-        let vc = AddTodoViewController()
-        vc.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(vc, animated: true)
+        let nav = UINavigationController(rootViewController: AddTodoViewController())
+        nav.modalPresentationStyle = .fullScreen
+        navigationController?.present(nav, animated: true)
     }
 }
 
