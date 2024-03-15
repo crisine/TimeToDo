@@ -16,20 +16,28 @@ class PomoPickerViewController: BaseViewController {
     private let pickerTitleList = (1...1440).map { String($0) }
     private lazy var doneBarButton: UIBarButtonItem = {
         let view = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(didDoneBarButtonTapped))
+        view.isEnabled = false
         return view
     }()
     private lazy var cancelBarButton: UIBarButtonItem = {
         let view = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(didCancelBarButtonTapped))
         return view
     }()
-    private var selectedPomoTime: Int?
-    
-    var delegate: SendPomotime?
-    
     private let pomoPickerView: UIPickerView =  {
         let view = UIPickerView()
         return view
     }()
+    
+    private var selectedPomoTime: Int?
+    
+    var delegate: SendPomotime?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        pomoPickerView.delegate = self
+        pomoPickerView.dataSource = self
+    }
     
     override func configureHierarchy() {
         view.addSubview(pomoPickerView)
@@ -42,9 +50,7 @@ class PomoPickerViewController: BaseViewController {
     }
     
     override func configureView() {
-        pomoPickerView.delegate = self
-        
-        doneBarButton.isEnabled = false
+        navigationItem.setLeftBarButton(cancelBarButton, animated: true)
         navigationItem.setRightBarButton(doneBarButton, animated: true)
     }
 }
@@ -64,7 +70,16 @@ extension PomoPickerViewController {
 }
 
 // MARK: UIPickerView 설정 관련
-extension PomoPickerViewController: UIPickerViewDelegate {
+extension PomoPickerViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerTitleList.count
+    }
+    
     
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
         return 40

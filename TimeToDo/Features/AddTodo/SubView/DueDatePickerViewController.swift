@@ -8,17 +8,42 @@
 import UIKit
 import FSCalendar
 
+protocol SendDueDate {
+    func sendDueDate(date: Date)
+}
+
 class DueDatePickerViewController: BaseViewController {
     
-    let calendarView: FSCalendar = {
-        let view = FSCalendar()
-        view.appearance.selectionColor = .tint
+    private let calendarView: FSCalendar = {
+        
+    let view = FSCalendar()
+    view.appearance.selectionColor = .tint
+    view.appearance.weekdayFont = .boldSystemFont(ofSize: 18)
+    view.appearance.weekdayTextColor = .tint
+    view.appearance.headerTitleColor = .tint
+    view.appearance.headerTitleFont = .boldSystemFont(ofSize: 24)
+    view.appearance.titleDefaultColor = .text
+    return view
+}()
+    private lazy var cancelBarButton: UIBarButtonItem = {
+        let view = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(didCancelBarButtonTapped))
+        view.tintColor = .systemRed
         return view
     }()
+    private lazy var doneBarButton: UIBarButtonItem = {
+        let view = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(didDoneBarButtonTapped))
+        view.isEnabled = false
+        view.tintColor = .tint
+        return view
+    }()
+    
+    var delegate: SendDueDate?
+    var selectedDueDate: Date?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        calendarView.delegate = self
     }
     
     override func configureHierarchy() {
@@ -34,6 +59,27 @@ class DueDatePickerViewController: BaseViewController {
     }
     
     override func configureView() {
-        
+        navigationItem.setLeftBarButton(cancelBarButton, animated: true)
+        navigationItem.setRightBarButton(doneBarButton, animated: true)
+    }
+}
+
+extension DueDatePickerViewController {
+    @objc private func didCancelBarButtonTapped() {
+        dismiss(animated: true)
+    }
+    
+    @objc private func didDoneBarButtonTapped() {
+        guard let selectedDueDate else { return }
+        delegate?.sendDueDate(date: selectedDueDate)
+        dismiss(animated: true)
+    }
+}
+
+extension DueDatePickerViewController: FSCalendarDelegate {
+    
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        selectedDueDate = date
+        doneBarButton.isEnabled = true
     }
 }

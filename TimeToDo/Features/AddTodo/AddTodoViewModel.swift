@@ -16,6 +16,11 @@ class AddTodoViewModel {
     
     private var addTodoTextFieldEdited = false
     
+    var todoTitleString: String?
+    var todoMemoString: String?
+    var dueDate: Date?
+    var pomodoroMinutes: Int?
+    
     var isAddTodoTextFieldEdited: Bool {
         return addTodoTextFieldEdited
     }
@@ -24,15 +29,27 @@ class AddTodoViewModel {
         return [pomodoroNumbers, pomodoroTimes]
     }
     
-    var dueDateSwitchIsOn: Bool?
-    
+    var inputTodoTitle: Observable<String?> = Observable(nil)
+    var inputTodoMemo: Observable<String?> = Observable(nil)
     var inputDoneButtonTrigger: Observable<Todo?> = Observable(nil)
     var inputTextViewDidBeginEditTrigger: Observable<Void?> = Observable(nil)
-    var inputDueDateSwitchIsOn: Observable<Bool?> = Observable(nil)
+    var inputPomoTime: Observable<Int?> = Observable(nil)
+    var inputDueDate: Observable<Date?> = Observable(nil)
     
-    var outputDueDateSwitchIsOn: Observable<Void?> = Observable(nil)
+    var outputPomoTime: Observable<String?> = Observable(nil)
+    var outputDueDate: Observable<String?> = Observable(nil)
     
     init() {
+        inputTodoTitle.bind { [weak self] todoTitle in
+            guard let todoTitle else { return }
+            self?.todoTitleString = todoTitle
+        }
+        
+        inputTodoMemo.bind { [weak self] todoMemo in
+            guard let todoMemo else { return }
+            self?.todoMemoString = todoMemo
+        }
+        
         inputDoneButtonTrigger.bind { [weak self] todo in
             guard let todo else { return }
             self?.addTodo(todo: todo)
@@ -42,29 +59,24 @@ class AddTodoViewModel {
             self?.addTodoTextFieldEdited.toggle()
         }
         
-        inputDueDateSwitchIsOn.bind { [weak self] isOn in
-            self?.dueDateSwitchIsOn = isOn
-            self?.outputDueDateSwitchIsOn.value = ()
+        inputPomoTime.bind { [weak self] minutes in
+            guard let minutes else { return }
+            self?.outputPomoTime.value = (String(minutes))
         }
-    }
-    
-    func numberOfRowsInComponent(_ component: Int) -> Int {
-        if component == 0 {
-            return pomodoroNumbers.count
-        } else {
-            return pomodoroTimes.count
-        }
-    }
-    
-    func titleForRow(_ component: Int, rowNumber: Int) -> String {
-        if component == 0 {
-            return pomodoroNumbers[rowNumber]
-        } else {
-            return pomodoroTimes[rowNumber]
+        
+        inputDueDate.bind { [weak self] dueDate in
+            guard let dueDate else { return }
+            self?.outputDueDate.value = (self?.dateToFormattedDateString(date: dueDate))
         }
     }
     
     private func addTodo(todo: Todo) {
         repository.addTodo(todo)
+    }
+    
+    private func dateToFormattedDateString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd EE"
+        return dateFormatter.string(from: date)
     }
 }
