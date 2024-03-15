@@ -9,6 +9,21 @@ import UIKit
 
 final class AddTodoViewController: BaseViewController {
     
+    enum Section: Int, Hashable {
+        case date
+        case pomo
+    }
+    
+    enum ItemType {
+        case dueDate, pomoTime
+    }
+    
+    struct Item: Hashable {
+        let iconImage: UIImage
+        let title: String
+        let type: ItemType
+    }
+    
     private let titleTextField: UITextField = {
         let view = UITextField()
         
@@ -45,6 +60,9 @@ final class AddTodoViewController: BaseViewController {
     }()
     private let pomoPickerButton: UIButton = {
         let view = UIButton(configuration: .filled())
+        
+        view.setTitle("뽀모도로 시간 선택하기", for: .normal)
+        view.titleLabel?.font = .boldSystemFont(ofSize: 24)
         view.setImage(UIImage(systemName: "alarm"), for: .normal)
         view.tintColor = .systemRed
         return view
@@ -52,11 +70,22 @@ final class AddTodoViewController: BaseViewController {
     private let dueDatePickerButton: UIButton = {
         let view = UIButton(configuration: .filled())
         
+        view.setTitle("마감일 선택하기", for: .normal)
+        view.titleLabel?.font = .boldSystemFont(ofSize: 24)
         view.setImage(UIImage(systemName: "calendar.badge.clock"), for: .normal)
         view.tintColor = .tint
         
         return view
     }()
+    private let mainTableView: UITableView = {
+        let view = UITableView(frame: .zero, style: .plain)
+        view.backgroundColor = .yellow
+        view.isScrollEnabled = false
+        return view
+    }()
+    
+    private var dataSource: UITableViewDiffableDataSource<Section, Item>! = nil
+    private var currentSnapShot: NSDiffableDataSourceSnapshot<Section, Item>! = nil
     
     private let viewModel = AddTodoViewModel()
     
@@ -64,10 +93,22 @@ final class AddTodoViewController: BaseViewController {
         super.viewDidLoad()
         
         memoTextView.delegate = self
+        
+        mainTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        
+        transform()
+        configureDataSource()
+        updateUI()
+    }
+    
+    private func transform() {
+        viewModel.outputDueDateSwitchIsOn.bind { _ in
+            self.updateUI()
+        }
     }
     
     override func configureHierarchy() {
-        [titleTextField, memoTextView, pomoPickerButton, dueDatePickerButton].forEach { subview in
+        [titleTextField, memoTextView, pomoPickerButton, dueDatePickerButton, mainTableView].forEach { subview in
             view.addSubview(subview)
         }
     }
@@ -85,16 +126,22 @@ final class AddTodoViewController: BaseViewController {
             make.height.equalTo(120)
         }
         
-        dueDatePickerButton.snp.makeConstraints { make in
-            make.top.equalTo(memoTextView.snp.bottom).offset(16)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
-            make.height.equalTo(32)
-        }
+//        dueDatePickerButton.snp.makeConstraints { make in
+//            make.top.equalTo(memoTextView.snp.bottom).offset(16)
+//            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
+//            make.height.equalTo(32)
+//        }
+//        
+//        pomoPickerButton.snp.makeConstraints { make in
+//            make.top.equalTo(dueDatePickerButton.snp.bottom).offset(8)
+//            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
+//            make.height.equalTo(32)
+//        }
         
-        pomoPickerButton.snp.makeConstraints { make in
-            make.top.equalTo(dueDatePickerButton.snp.bottom).offset(8)
+        mainTableView.snp.makeConstraints { make in
+            make.top.equalTo(memoTextView.snp.bottom).offset(8)
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
-            make.height.equalTo(32)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(8)
         }
         
     }
@@ -114,6 +161,55 @@ final class AddTodoViewController: BaseViewController {
         dueDatePickerButton.addTarget(self, action: #selector(didDueDatePickerButtonTapped), for: .touchUpInside)
     }
     
+}
+
+// MARK: 컬렉션 뷰 관련
+extension AddTodoViewController {
+    
+    private func configureDataSource() {
+        dataSource = UITableViewDiffableDataSource<Section, Item>(tableView: mainTableView) { [weak self] (tableView: UITableView, indexPath: IndexPath, item: Item) -> UITableViewCell? in
+            guard let self else { return nil }
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            
+            var content = cell.defaultContentConfiguration()
+            
+            content.text = item.title
+            content.image = item.iconImage
+            
+            switch item.type {
+            case .dueDate:
+                let enableDueDateSwitch = UISwitch()
+                enableDueDateSwitch.addTarget(self, action: #selector(didDueDateSwitchEnabled), for: .touchUpInside)
+                cell.accessoryView = enableDueDateSwitch
+            case .pomoTime:
+                let enablePomoTimeSwitch = UISwitch()
+                cell.accessoryView = enablePomoTimeSwitch
+            }
+            
+            cell.contentConfiguration = content
+            return cell
+        }
+        
+        self.dataSource.defaultRowAnimation = .fade
+    }
+    
+    private func updateUI() {
+        
+        currentSnapShot = NSDiffableDataSourceSnapshot<Section, Item>()
+        
+        // TODO: 직접 item 넣지 말고 ViewModel에서 들고있어야 함
+        currentSnapShot.appendSections([.date, .pomo])
+        currentSnapShot.appendItems([Item(iconImage: UIImage(systemName: "calendar")!, title: "마감 날짜", type: .dueDate)], toSection: .date)
+        currentSnapShot.appendItems([Item(iconImage: UIImage(systemName: "timer")!, title: "뽀모도로 시간", type: .pomoTime)], toSection: .pomo)
+        
+        if viewModel.dueDateSwitchIsOn == true {
+            currentSnapShot.appendItems([Item(iconImage: UIImage(), title: "가나다", type: .dueDate)])
+        }
+        
+        
+        self.dataSource.apply(currentSnapShot, animatingDifferences: true)
+    }
 }
 
 // MARK: 버튼 이벤트 관련
@@ -139,8 +235,41 @@ extension AddTodoViewController {
     }
     
     @objc private func didDueDatePickerButtonTapped() {
-        let nav = UINavigationController(rootViewController: DueDatePickerViewController())
-        present(nav, animated: true)
+        let vc = DueDatePickerViewController()
+        
+        let nav = UINavigationController(rootViewController: vc)
+        
+        if let sheet = nav.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersGrabberVisible = true
+        }
+        
+        self.present(nav, animated: true)
+    }
+    
+    @objc private func didPomoPickerButtonTapped() {
+        let vc = PomoPickerViewController()
+        vc.delegate = self
+        
+        let nav = UINavigationController(rootViewController: vc)
+        
+        if let sheet = nav.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersGrabberVisible = true
+        }
+        
+        self.present(nav, animated: true)
+    }
+    
+    @objc private func didDueDateSwitchEnabled(sender: UISwitch) {
+        viewModel.inputDueDateSwitchIsOn.value = sender.isOn
+    }
+}
+
+// MARK: Pomo, DueDate 데이터 전송 관련
+extension AddTodoViewController: SendPomotime {
+    func sendPomoTime(minutes: Int) {
+        
     }
 }
 

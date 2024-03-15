@@ -24,8 +24,13 @@ class AddTodoViewModel {
         return [pomodoroNumbers, pomodoroTimes]
     }
     
+    var dueDateSwitchIsOn: Bool?
+    
     var inputDoneButtonTrigger: Observable<Todo?> = Observable(nil)
     var inputTextViewDidBeginEditTrigger: Observable<Void?> = Observable(nil)
+    var inputDueDateSwitchIsOn: Observable<Bool?> = Observable(nil)
+    
+    var outputDueDateSwitchIsOn: Observable<Void?> = Observable(nil)
     
     init() {
         inputDoneButtonTrigger.bind { [weak self] todo in
@@ -35,6 +40,11 @@ class AddTodoViewModel {
         
         inputTextViewDidBeginEditTrigger.bind { [weak self] _ in
             self?.addTodoTextFieldEdited.toggle()
+        }
+        
+        inputDueDateSwitchIsOn.bind { [weak self] isOn in
+            self?.dueDateSwitchIsOn = isOn
+            self?.outputDueDateSwitchIsOn.value = ()
         }
     }
     

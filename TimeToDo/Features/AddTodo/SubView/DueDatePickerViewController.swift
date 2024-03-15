@@ -8,9 +8,13 @@
 import UIKit
 import FSCalendar
 
-class DueDatePickerViewController: ModalViewController {
+class DueDatePickerViewController: BaseViewController {
     
-    let calendarView = FSCalendar()
+    let calendarView: FSCalendar = {
+        let view = FSCalendar()
+        view.appearance.selectionColor = .tint
+        return view
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +29,7 @@ class DueDatePickerViewController: ModalViewController {
     
     override func configureConstraints() {
         calendarView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.edges.equalTo(view.safeAreaLayoutGuide).inset(8)
         }
     }
     

@@ -278,12 +278,6 @@ extension OverviewViewController: UICollectionViewDelegate {
 
 // MARK: 버튼 이벤트 관련
 extension OverviewViewController {
-    @objc private func didPrototypeAddButtonTapped() {
-        // mainView.viewModel.inputProtoTypeAddTodoButtonTrigger.value = ()
-        let nav = UINavigationController(rootViewController: AddTodoViewController())
-        present(nav, animated: true)
-    }
-    
     @objc private func didTodoDoneButtonTapped(gesture: TodoDoneButtonGestureRecognizer) {
         guard let id = gesture.id else { return }
         print("gesture catched")

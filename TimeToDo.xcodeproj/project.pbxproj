@@ -42,9 +42,9 @@
 		FAA928E92BA07C5000B21BA7 /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = FAA928E82BA07C5000B21BA7 /* DGCharts */; };
 		FAA928EB2BA07DE600B21BA7 /* ChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928EA2BA07DE600B21BA7 /* ChartCollectionViewCell.swift */; };
 		FAA928ED2BA0ACAE00B21BA7 /* TodoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928EC2BA0ACAE00B21BA7 /* TodoCollectionViewCell.swift */; };
-		FAA929062BA3376600B21BA7 /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA929052BA3376600B21BA7 /* ModalViewController.swift */; };
 		FAA929082BA338ED00B21BA7 /* DueDatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA929072BA338ED00B21BA7 /* DueDatePickerViewController.swift */; };
 		FAA9290B2BA3393600B21BA7 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = FAA9290A2BA3393600B21BA7 /* FSCalendar */; };
+		FAA9290D2BA34A9000B21BA7 /* PomoPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA9290C2BA34A9000B21BA7 /* PomoPickerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,8 +80,8 @@
 		FAA928E52BA0765700B21BA7 /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
 		FAA928EA2BA07DE600B21BA7 /* ChartCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCollectionViewCell.swift; sourceTree = "<group>"; };
 		FAA928EC2BA0ACAE00B21BA7 /* TodoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoCollectionViewCell.swift; sourceTree = "<group>"; };
-		FAA929052BA3376600B21BA7 /* ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
 		FAA929072BA338ED00B21BA7 /* DueDatePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DueDatePickerViewController.swift; sourceTree = "<group>"; };
+		FAA9290C2BA34A9000B21BA7 /* PomoPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomoPickerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,7 +124,6 @@
 				FAA928C82B9DB7E300B21BA7 /* Enum */,
 				FAA928AA2B99A14000B21BA7 /* Extension */,
 				FAA928832B99999600B21BA7 /* Base */,
-				FAA929042BA3375B00B21BA7 /* CustomView */,
 				FAA928B32B9B294400B21BA7 /* Observable */,
 				FAA928A72B99A0E300B21BA7 /* Localization */,
 				FAA928C02B9DA46F00B21BA7 /* Repository */,
@@ -289,16 +288,9 @@
 			isa = PBXGroup;
 			children = (
 				FAA929072BA338ED00B21BA7 /* DueDatePickerViewController.swift */,
+				FAA9290C2BA34A9000B21BA7 /* PomoPickerViewController.swift */,
 			);
 			path = SubView;
-			sourceTree = "<group>";
-		};
-		FAA929042BA3375B00B21BA7 /* CustomView */ = {
-			isa = PBXGroup;
-			children = (
-				FAA929052BA3376600B21BA7 /* ModalViewController.swift */,
-			);
-			path = CustomView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -404,6 +396,7 @@
 				FAA928EB2BA07DE600B21BA7 /* ChartCollectionViewCell.swift in Sources */,
 				FAA928C22B9DA49900B21BA7 /* Repository.swift in Sources */,
 				FAA928C72B9DAB8100B21BA7 /* OverviewViewModel.swift in Sources */,
+				FAA9290D2BA34A9000B21BA7 /* PomoPickerViewController.swift in Sources */,
 				FAA9288D2B999C5400B21BA7 /* MainTabBarViewController.swift in Sources */,
 				FAA928D32B9F340800B21BA7 /* CalendarCollectionViewCell.swift in Sources */,
 				FAA928AC2B99A14B00B21BA7 /* String+Extension.swift in Sources */,
@@ -414,7 +407,6 @@
 				FAA928652B99850800B21BA7 /* SceneDelegate.swift in Sources */,
 				FAA929082BA338ED00B21BA7 /* DueDatePickerViewController.swift in Sources */,
 				FAA928E42BA0605100B21BA7 /* DateDay.swift in Sources */,
-				FAA929062BA3376600B21BA7 /* ModalViewController.swift in Sources */,
 				FAA928A42B999F6700B21BA7 /* PomoTimerViewController.swift in Sources */,
 				FAA928CC2B9DE15400B21BA7 /* AddTodoViewModel.swift in Sources */,
 				FAA928A02B999EF100B21BA7 /* AddTodoViewController.swift in Sources */,
