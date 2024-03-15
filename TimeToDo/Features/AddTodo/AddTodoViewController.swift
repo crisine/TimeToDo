@@ -224,8 +224,7 @@ extension AddTodoViewController {
             return
         }
         
-        let todo = Todo(title: todoTitle, memo: viewModel.todoMemoString, modifiedDate: Date(),
-                        dueDate: viewModel.dueDate, estimatedPomodoroMinutes: viewModel.pomodoroMinutes)
+        let todo = Todo(title: todoTitle, memo: viewModel.todoMemoString, modifiedDate: Date(), dueDate: viewModel.dueDate, estimatedPomodoroMinutes: viewModel.pomodoroMinutes)
         
         viewModel.inputDoneButtonTrigger.value = (todo)
         

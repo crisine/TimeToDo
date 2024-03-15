@@ -10,9 +10,24 @@ import SnapKit
 
 class TodoCollectionViewCell: BaseCollectionViewCell {
     
-    let backView: UIVisualEffectView = {
+    private let backView: UIVisualEffectView = {
         let view = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-        view.backgroundColor = .clear
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 8
+        view.backgroundColor = .systemGray6
+        return view
+    }()
+    
+    private let mainStackView: UIStackView = {
+        let view = UIStackView(frame: .zero)
+        view.axis = .vertical
+        view.distribution = .fillProportionally
+        return view
+    }()
+    private let primaryStackView: UIStackView = {
+        let view = UIStackView(frame: .zero)
+        view.axis = .horizontal
+        view.distribution = .fillProportionally
         return view
     }()
     let doneButton: UIButton = {
@@ -21,6 +36,8 @@ class TodoCollectionViewCell: BaseCollectionViewCell {
         
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 24)
         view.setImage(UIImage(systemName: "circle", withConfiguration: imageConfig), for: .normal)
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 20
         
         return view
     }()
@@ -32,15 +49,41 @@ class TodoCollectionViewCell: BaseCollectionViewCell {
         
         return view
     }()
-    let subTitleStackView: UIStackView = {
+    
+    private let subStackView: UIStackView = {
         let view = UIStackView()
-        
+        view.axis = .horizontal
+        view.distribution = .fill
+        return view
+    }()
+    let calenderImageView: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(systemName: "calendar.badge.clock")
+        view.tintColor = .tint
+        view.contentMode = .scaleAspectFit
+        view.isHidden = true
+        return view
+    }()
+    let dueDateLabel: UILabel = {
+        let view = UILabel()
+        view.font = .systemFont(ofSize: 12)
+        view.textColor = .systemGray
         return view
     }()
     
     override func configureHierarchy() {
-        [backView, doneButton, todoTitleLabel, subTitleStackView].forEach {
+        [backView, doneButton, mainStackView].forEach {
             contentView.addSubview($0)
+        }
+        
+        [primaryStackView, subStackView].forEach {
+            mainStackView.addArrangedSubview($0)
+        }
+        
+        primaryStackView.addArrangedSubview(todoTitleLabel)
+        
+        [calenderImageView, dueDateLabel].forEach {
+            subStackView.addArrangedSubview($0)
         }
     }
     
@@ -51,39 +94,26 @@ class TodoCollectionViewCell: BaseCollectionViewCell {
         
         doneButton.snp.makeConstraints { make in
             make.centerY.equalTo(contentView.safeAreaLayoutGuide)
-            make.leading.equalTo(contentView.snp.leading).offset(16)
-            make.size.equalTo(32)
+            make.leading.equalTo(contentView.snp.leading).offset(8)
+            make.size.equalTo(40)
         }
         
-        todoTitleLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(contentView.safeAreaLayoutGuide).offset(-8)
-            make.leading.equalTo(doneButton.snp.trailing).offset(16)
+        mainStackView.snp.makeConstraints { make in
+            make.leading.equalTo(doneButton.snp.trailing).offset(4)
             make.trailing.equalTo(contentView.safeAreaLayoutGuide).inset(8)
-            make.height.equalTo(20)
+            make.verticalEdges.equalTo(contentView.safeAreaLayoutGuide).inset(8)
         }
         
-        subTitleStackView.snp.makeConstraints { make in
-            make.leading.equalTo(todoTitleLabel.snp.leading)
-            make.centerY.equalTo(contentView.safeAreaLayoutGuide).offset(16)
-            make.trailing.equalTo(todoTitleLabel)
+        subStackView.snp.makeConstraints { make in
+            make.horizontalEdges.equalTo(mainStackView).inset(8)
+        }
+        
+        calenderImageView.snp.makeConstraints { make in
+            make.width.equalTo(24)
         }
     }
     
     override func configureCell() {
         
-//        contentView.backgroundColor = .systemGray6
-//        contentView.clipsToBounds = true
-//        contentView.layer.cornerRadius = 8
-        
-        backView.clipsToBounds = true
-        backView.layer.cornerRadius = 8
-        backView.layer.shadowColor = UIColor.black.cgColor
-        backView.layer.shadowOpacity = 0.25
-        backView.layer.shadowOffset = CGSize(width: 2, height: 2)
-        backView.layer.shadowRadius = 3
-        backView.layer.masksToBounds = false
-        
-        doneButton.clipsToBounds = true
-        doneButton.layer.cornerRadius = 20
     }
 }

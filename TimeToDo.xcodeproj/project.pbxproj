@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FAA141012BA479B000D12951 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA141002BA479B000D12951 /* Date+Extension.swift */; };
 		FAA928632B99850800B21BA7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928622B99850800B21BA7 /* AppDelegate.swift */; };
 		FAA928652B99850800B21BA7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928642B99850800B21BA7 /* SceneDelegate.swift */; };
 		FAA9286C2B99850900B21BA7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAA9286B2B99850900B21BA7 /* Assets.xcassets */; };
@@ -48,6 +49,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FAA141002BA479B000D12951 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		FAA9285F2B99850800B21BA7 /* TimeToDo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeToDo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAA928622B99850800B21BA7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FAA928642B99850800B21BA7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 				FAA928AB2B99A14B00B21BA7 /* String+Extension.swift */,
 				FAA928D62B9F35E500B21BA7 /* UICollectionViewCell+Extension.swift */,
 				FAA928E52BA0765700B21BA7 /* Calendar+Extension.swift */,
+				FAA141002BA479B000D12951 /* Date+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -408,6 +411,7 @@
 				FAA929082BA338ED00B21BA7 /* DueDatePickerViewController.swift in Sources */,
 				FAA928E42BA0605100B21BA7 /* DateDay.swift in Sources */,
 				FAA928A42B999F6700B21BA7 /* PomoTimerViewController.swift in Sources */,
+				FAA141012BA479B000D12951 /* Date+Extension.swift in Sources */,
 				FAA928CC2B9DE15400B21BA7 /* AddTodoViewModel.swift in Sources */,
 				FAA928A02B999EF100B21BA7 /* AddTodoViewController.swift in Sources */,
 			);

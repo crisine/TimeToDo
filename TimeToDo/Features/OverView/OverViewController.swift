@@ -166,6 +166,9 @@ extension OverviewViewController {
                 cell.doneButton.setImage(UIImage(systemName: doneButtonImageName), for: .normal)
                 print(doneButtonImageName)
                 
+                cell.dueDateLabel.text = todo.dueDate?.toString
+                cell.calenderImageView.isHidden = todo.dueDate != nil ? false : true
+                
                 let gesture = TodoDoneButtonGestureRecognizer(target: self, action: #selector(self?.didTodoDoneButtonTapped))
                 gesture.id = todo.id
                 
@@ -178,9 +181,7 @@ extension OverviewViewController {
     
     // 각 섹션 - 그룹 - 셀의 레이아웃 잡는 부분
     private func createLayout() -> UICollectionViewCompositionalLayout {
-        UICollectionViewCompositionalLayout { [weak self] sectionIndex, layoutEnviornment in
-            
-            guard let self else { return nil }
+        UICollectionViewCompositionalLayout { sectionIndex, layoutEnviornment in
             
             guard let section = OverviewSection(rawValue: sectionIndex) else { return nil }
             

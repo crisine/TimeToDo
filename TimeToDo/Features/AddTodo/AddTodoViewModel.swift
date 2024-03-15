@@ -61,22 +61,18 @@ class AddTodoViewModel {
         
         inputPomoTime.bind { [weak self] minutes in
             guard let minutes else { return }
+            self?.pomodoroMinutes = minutes
             self?.outputPomoTime.value = (String(minutes))
         }
         
         inputDueDate.bind { [weak self] dueDate in
             guard let dueDate else { return }
-            self?.outputDueDate.value = (self?.dateToFormattedDateString(date: dueDate))
+            self?.dueDate = dueDate
+            self?.outputDueDate.value = (dueDate.toString)
         }
     }
     
     private func addTodo(todo: Todo) {
         repository.addTodo(todo)
-    }
-    
-    private func dateToFormattedDateString(date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd EE"
-        return dateFormatter.string(from: date)
     }
 }
