@@ -21,7 +21,7 @@ class TodoCollectionViewCell: BaseCollectionViewCell {
     private let mainStackView: UIStackView = {
         let view = UIStackView(frame: .zero)
         view.axis = .vertical
-        view.distribution = .fillProportionally
+        view.distribution = .fillEqually
         return view
     }()
     private let primaryStackView: UIStackView = {
@@ -49,11 +49,17 @@ class TodoCollectionViewCell: BaseCollectionViewCell {
         
         return view
     }()
-    
-    private let subStackView: UIStackView = {
+
+    let subStackView: UIStackView = {
         let view = UIStackView()
         view.axis = .horizontal
         view.distribution = .fill
+        view.isHidden = true
+        return view
+    }()
+    
+    private let dueDateView: UIView = {
+        let view = UIView()
         return view
     }()
     let calenderImageView: UIImageView = {
@@ -61,7 +67,6 @@ class TodoCollectionViewCell: BaseCollectionViewCell {
         view.image = UIImage(systemName: "calendar.badge.clock")
         view.tintColor = .tint
         view.contentMode = .scaleAspectFit
-        view.isHidden = true
         return view
     }()
     let dueDateLabel: UILabel = {
@@ -82,8 +87,10 @@ class TodoCollectionViewCell: BaseCollectionViewCell {
         
         primaryStackView.addArrangedSubview(todoTitleLabel)
         
+        subStackView.addArrangedSubview(dueDateView)
+        
         [calenderImageView, dueDateLabel].forEach {
-            subStackView.addArrangedSubview($0)
+            dueDateView.addSubview($0)
         }
     }
     
@@ -94,7 +101,7 @@ class TodoCollectionViewCell: BaseCollectionViewCell {
         
         doneButton.snp.makeConstraints { make in
             make.centerY.equalTo(contentView.safeAreaLayoutGuide)
-            make.leading.equalTo(contentView.snp.leading).offset(8)
+            make.leading.equalTo(contentView).offset(8)
             make.size.equalTo(40)
         }
         
@@ -104,12 +111,14 @@ class TodoCollectionViewCell: BaseCollectionViewCell {
             make.verticalEdges.equalTo(contentView.safeAreaLayoutGuide).inset(8)
         }
         
-        subStackView.snp.makeConstraints { make in
-            make.horizontalEdges.equalTo(mainStackView).inset(8)
+        calenderImageView.snp.makeConstraints { make in
+            make.centerY.equalTo(dueDateView)
+            make.leading.equalTo(dueDateView)
         }
         
-        calenderImageView.snp.makeConstraints { make in
-            make.width.equalTo(24)
+        dueDateLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(dueDateView)
+            make.leading.equalTo(calenderImageView.snp.trailing).offset(4)
         }
     }
     

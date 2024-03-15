@@ -167,7 +167,7 @@ extension OverviewViewController {
                 print(doneButtonImageName)
                 
                 cell.dueDateLabel.text = todo.dueDate?.toString
-                cell.calenderImageView.isHidden = todo.dueDate != nil ? false : true
+                cell.subStackView.isHidden = todo.dueDate != nil ? false : true
                 
                 let gesture = TodoDoneButtonGestureRecognizer(target: self, action: #selector(self?.didTodoDoneButtonTapped))
                 gesture.id = todo.id
