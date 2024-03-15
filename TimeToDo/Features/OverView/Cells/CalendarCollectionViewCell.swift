@@ -13,6 +13,13 @@ class CalendarCollectionViewCell: BaseCollectionViewCell {
     let backView: UIView = {
         let view = UIView()
         view.backgroundColor = .background
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 8
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.25
+        view.layer.shadowOffset = CGSize(width: 0, height: 0)
+        view.layer.shadowRadius = 2
+        view.layer.masksToBounds = false
         return view
     }()
     let dayLabel: UILabel = {
@@ -57,13 +64,14 @@ class CalendarCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func configureCell() {
-        backView.clipsToBounds = true
-        backView.layer.cornerRadius = 8
-        backView.layer.shadowColor = UIColor.black.cgColor
-        backView.layer.shadowOpacity = 0.25
-        backView.layer.shadowOffset = CGSize(width: 2, height: 2)
-        backView.layer.shadowRadius = 3
-        backView.layer.masksToBounds = false
+        
     }
     
+    func appearingAsToday() {
+        dayNumberImageView.tintColor = .systemRed
+    }
+    
+    func appearingAsSelected() {
+        backView.backgroundColor = .systemGray4
+    }
 }

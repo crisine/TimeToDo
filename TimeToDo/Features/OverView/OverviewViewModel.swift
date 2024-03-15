@@ -10,7 +10,9 @@ import RealmSwift
 
 class OverviewViewModel {
     
-    let repository = Repository()
+    private let repository = Repository()
+    
+    var todayDayInt: Int = Date().dayToInt
     
     var inputCalendarBarButtonTrigger: Observable<Void?> = Observable(nil)
     

@@ -14,4 +14,10 @@ extension Date {
         formatter.dateFormat = "yyyy-MM-dd EE"
         return formatter.string(from: self)
     }
+    
+    var dayToInt: Int {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd"
+        return Int(formatter.string(from: self)) ?? 0
+    }
 }

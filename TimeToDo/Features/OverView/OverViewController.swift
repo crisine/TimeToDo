@@ -52,6 +52,12 @@ final class OverviewViewController: BaseViewController {
         configureDataSource()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let indexPath = IndexPath(item: viewModel.todayDayInt - 1, section: OverviewSection.calendar.rawValue)
+        mainCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
+    }
+    
     func transform() {
         viewModel.outputDateDayList.bind { [weak self] _ in
             self?.updateSnapshot()
@@ -138,6 +144,11 @@ extension OverviewViewController {
                 
                 cell.dayLabel.text = dateDay.weekday
                 cell.dayNumberImageView.image = UIImage(systemName: "\(dateDay.dayNumber).square.fill")
+                
+                if Int(dateDay.dayNumber) == self?.viewModel.todayDayInt {
+                    cell.appearingAsToday()
+                    cell.appearingAsSelected()
+                }
                 return cell
                 
             case .graph(let number):
@@ -213,7 +224,7 @@ extension OverviewViewController {
                 let group = NSCollectionLayoutGroup.vertical(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.075)), subitems: [item])
                 let section = NSCollectionLayoutSection(group: group)
                 
-                section.interGroupSpacing = 8
+                section.interGroupSpacing = 4
                 section.contentInsets = .init(top: 0, leading: 16, bottom: 0, trailing: 16)
                 
                 return section
