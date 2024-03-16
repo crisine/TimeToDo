@@ -53,7 +53,7 @@ class OverviewViewModel {
         inputDidSelectCalendarCellTrigger.bind { [weak self] cell in
             guard let cell else { return }
             self?.selectedCalendarCell = cell
-            print("selected Cell Info: \(cell)")
+            self?.calcDateDays()
         }
         
         inputTodoDoneButtonTrigger.bind { [weak self] todoId in
@@ -89,7 +89,13 @@ class OverviewViewModel {
                 
                 let todayString = dateFormatter.string(from: Date()).split(separator: " ").map { String($0) }[0]
                 let isToday = separatedDateString[0] == todayString ? true : false
-                let isSelected = selectedCalendarCell?.dayNumber == separatedDateString[0] ? true : false
+                var isSelected: Bool
+                
+                if let selectedCalendarCell {
+                    isSelected = selectedCalendarCell.dayNumber == separatedDateString[0] ? true : false
+                } else {
+                    isSelected = isToday == true ? true : false
+                }
                 
                 dateDayList.append(DateDay(dayNumber: separatedDateString[0], weekday: separatedDateString[1], isToday: isToday, isSelected: isSelected))
                 
