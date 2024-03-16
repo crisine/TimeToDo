@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		FAA141012BA479B000D12951 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA141002BA479B000D12951 /* Date+Extension.swift */; };
+		FAA141042BA5DC5600D12951 /* PomodoroStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA141032BA5DC5600D12951 /* PomodoroStat.swift */; };
 		FAA928632B99850800B21BA7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928622B99850800B21BA7 /* AppDelegate.swift */; };
 		FAA928652B99850800B21BA7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928642B99850800B21BA7 /* SceneDelegate.swift */; };
 		FAA9286C2B99850900B21BA7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAA9286B2B99850900B21BA7 /* Assets.xcassets */; };
@@ -50,6 +51,7 @@
 
 /* Begin PBXFileReference section */
 		FAA141002BA479B000D12951 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		FAA141032BA5DC5600D12951 /* PomodoroStat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroStat.swift; sourceTree = "<group>"; };
 		FAA9285F2B99850800B21BA7 /* TimeToDo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeToDo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAA928622B99850800B21BA7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FAA928642B99850800B21BA7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 			children = (
 				FAA928C42B9DA57B00B21BA7 /* Todo.swift */,
 				FAA928E32BA0605100B21BA7 /* DateDay.swift */,
+				FAA141032BA5DC5600D12951 /* PomodoroStat.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -389,6 +392,7 @@
 				FAA928E62BA0765700B21BA7 /* Calendar+Extension.swift in Sources */,
 				FAA928852B9999A400B21BA7 /* BaseViewController.swift in Sources */,
 				FAA928A62B999F7A00B21BA7 /* SettingViewController.swift in Sources */,
+				FAA141042BA5DC5600D12951 /* PomodoroStat.swift in Sources */,
 				FAA928A22B999F2D00B21BA7 /* DetailTodoViewController.swift in Sources */,
 				FAA928D02B9EED7A00B21BA7 /* DetailTodoViewModel.swift in Sources */,
 				FAA928B52B9B294F00B21BA7 /* Observable.swift in Sources */,

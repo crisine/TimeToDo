@@ -9,6 +9,14 @@ import UIKit
 
 final class DetailTodoViewController: BaseViewController {
     
+    enum PomodoroDashboardSection: Int, Hashable, CaseIterable {
+        case today
+        case week
+        case alltime
+    }
+    
+    
+    
     private let titleLabel: UILabel = {
         let view = UILabel()
         
@@ -26,6 +34,30 @@ final class DetailTodoViewController: BaseViewController {
         return view
     }()
     
+    private let timerImageView: UIImageView = {
+        let view = UIImageView()
+        
+        view.image = UIImage(systemName: "alarm")?.withTintColor(.tint)
+        view.tintColor = .tint
+        
+        return view
+    }()
+    private let estimatedPomodoroMinutesLabel: UILabel = {
+        let view = UILabel()
+        
+        view.font = .boldSystemFont(ofSize: 24)
+        view.textColor = .text
+        
+        return view
+    }()
+    
+    private lazy var pomodoroDashboardCollectionView: UICollectionView = {
+        let view = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 8
+        view.backgroundColor = .systemGray6
+        return view
+    }()
     
     private let memoHolderLabel: UILabel = {
         let view = UILabel()
@@ -73,7 +105,7 @@ final class DetailTodoViewController: BaseViewController {
     }
     
     override func configureHierarchy() {
-        [titleLabel, titleLableUnderLineView, memoHolderLabel, memoTextView, priorityLabel, dueDateLabel].forEach {
+        [titleLabel, titleLableUnderLineView, timerImageView, estimatedPomodoroMinutesLabel, pomodoroDashboardCollectionView, memoHolderLabel, memoTextView, priorityLabel, dueDateLabel].forEach {
             view.addSubview($0)
         }
     }
@@ -92,20 +124,39 @@ final class DetailTodoViewController: BaseViewController {
             make.height.equalTo(0.5)
         }
         
-        memoHolderLabel.snp.makeConstraints { make in
+        timerImageView.snp.makeConstraints { make in
             make.top.equalTo(titleLableUnderLineView.snp.bottom).offset(8)
+            make.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
+            make.size.equalTo(32)
+        }
+        
+        estimatedPomodoroMinutesLabel.snp.makeConstraints { make in
+            make.top.equalTo(timerImageView.snp.top)
+            make.leading.equalTo(timerImageView.snp.trailing).offset(4)
+            make.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.height.equalTo(timerImageView.snp.height)
+        }
+        
+        memoHolderLabel.snp.makeConstraints { make in
+            make.top.equalTo(estimatedPomodoroMinutesLabel.snp.bottom).offset(8)
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
             make.height.equalTo(20)
         }
         
         memoTextView.snp.makeConstraints { make in
             make.top.equalTo(memoHolderLabel.snp.bottom).offset(4)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
             make.height.equalTo(160)
         }
         
+        pomodoroDashboardCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(memoTextView.snp.bottom).offset(8)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.height.equalTo(120)
+        }
+        
         priorityLabel.snp.makeConstraints { make in
-            make.top.equalTo(memoTextView.snp.bottom).offset(16)
+            make.top.equalTo(pomodoroDashboardCollectionView.snp.bottom).offset(16)
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
         }
         
@@ -120,6 +171,11 @@ final class DetailTodoViewController: BaseViewController {
         
         // TODO: MVVM 기준으로 바뀌어야 할 듯?
         titleLabel.text = todo.title
+        
+        if let estimatedPomodoroMinutes = todo.estimatedPomodoroMinutes {
+            estimatedPomodoroMinutesLabel.text = "\(estimatedPomodoroMinutes) min."
+        }
+        
         memoTextView.text = todo.memo
         priorityLabel.text = "\(todo.priority ?? 0)"
         dueDateLabel.text = todo.dueDate?.formatted()
@@ -128,4 +184,14 @@ final class DetailTodoViewController: BaseViewController {
         navigationController?.navigationBar.topItem?.title = ""
     }
 
+}
+
+// MARK: CollectionView 관련
+extension DetailTodoViewController {
+    
+    private func createLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewFlowLayout()
+        
+        return layout
+    }
 }

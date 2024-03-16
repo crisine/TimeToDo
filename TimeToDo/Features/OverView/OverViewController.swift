@@ -234,25 +234,8 @@ extension OverviewViewController {
     }
 }
 
-// MARK: NavigationBar 관련
-extension OverviewViewController {
-    
-    private func configureNavigationBar() {
-        
-        let addTodoBarButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(didAddTodoBarButtonTapped))
-        addTodoBarButton.tintColor = .tint
-        
-        navigationItem.setRightBarButton(addTodoBarButton, animated: true)
-    }
-    
-    @objc private func didAddTodoBarButtonTapped() {
-        let nav = UINavigationController(rootViewController: AddTodoViewController())
-        nav.modalPresentationStyle = .fullScreen
-        navigationController?.present(nav, animated: true)
-    }
-}
 
-// MARK: collectionView 이벤트 관련
+// MARK: CollectionView 이벤트 관련
 extension OverviewViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -279,6 +262,26 @@ extension OverviewViewController: UICollectionViewDelegate {
 //        viewModel.inputDidSelectItemAtTrigger.value = (dateDay)
     }
 }
+
+
+// MARK: NavigationBar 관련
+extension OverviewViewController {
+    
+    private func configureNavigationBar() {
+        
+        let addTodoBarButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(didAddTodoBarButtonTapped))
+        addTodoBarButton.tintColor = .tint
+        
+        navigationItem.setRightBarButton(addTodoBarButton, animated: true)
+    }
+    
+    @objc private func didAddTodoBarButtonTapped() {
+        let nav = UINavigationController(rootViewController: AddTodoViewController())
+        nav.modalPresentationStyle = .fullScreen
+        navigationController?.present(nav, animated: true)
+    }
+}
+
 
 // MARK: 버튼 이벤트 관련
 extension OverviewViewController {
