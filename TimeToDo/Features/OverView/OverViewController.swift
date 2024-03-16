@@ -44,7 +44,6 @@ final class OverviewViewController: BaseViewController {
         super.viewDidLoad()
         
         mainCollectionView.delegate = self
-        navigationItem.title = "OverView"
         
         configureNavigationBar()
         transform()
@@ -69,11 +68,11 @@ final class OverviewViewController: BaseViewController {
             self?.reconfigureSnapshotItems()
         }
         
-        viewModel.outputDidSelectItemAt.bind { [weak self] todo in
+        viewModel.outputDidSelectTodoCell.bind { [weak self] todo in
             guard let todo else { return }
             
             let vc = DetailTodoViewController()
-            vc.todo = todo
+            vc.viewModel.selectedTodo = todo
             self?.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -91,7 +90,7 @@ final class OverviewViewController: BaseViewController {
     }
     
     override func configureView() {
-        
+        navigationItem.title = "OverView"
     }
     
 }
@@ -239,18 +238,11 @@ extension OverviewViewController {
 extension OverviewViewController {
     
     private func configureNavigationBar() {
-        let calendarBarButton = UIBarButtonItem(image: UIImage(systemName: "calendar.circle"), style: .plain, target: self, action: #selector(didCalendarBarButtonTapped))
-        calendarBarButton.tintColor = .tint
         
         let addTodoBarButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(didAddTodoBarButtonTapped))
         addTodoBarButton.tintColor = .tint
         
-        navigationItem.setLeftBarButton(calendarBarButton, animated: true)
         navigationItem.setRightBarButton(addTodoBarButton, animated: true)
-    }
-    
-    @objc private func didCalendarBarButtonTapped() {
-        viewModel.inputCalendarBarButtonTrigger.value = ()
     }
     
     @objc private func didAddTodoBarButtonTapped() {
@@ -273,9 +265,7 @@ extension OverviewViewController: UICollectionViewDelegate {
         case .calendar(let dateDay):
             viewModel.inputDidSelectCalendarCellTrigger.value = (dateDay)
         case .todo(let todo):
-            let vc = DetailTodoViewController()
-            vc.todo = todo
-            navigationController?.pushViewController(vc, animated: true)
+            viewModel.inputDidSelectTodoCellTrigger.value = (todo)
         default:
             print("")
         }

@@ -224,9 +224,7 @@ extension AddTodoViewController {
             return
         }
         
-        let todo = Todo(title: todoTitle, memo: viewModel.todoMemoString, modifiedDate: Date(), dueDate: viewModel.dueDate, estimatedPomodoroMinutes: viewModel.pomodoroMinutes)
-        
-        viewModel.inputDoneButtonTrigger.value = (todo)
+        viewModel.inputDoneButtonTrigger.value = ()
         
         navigationController?.dismiss(animated: true)
     }
@@ -270,7 +268,8 @@ extension AddTodoViewController: UITextViewDelegate {
         if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             textView.text = "todo_memo_placeholder".localized()
             textView.textColor = .systemGray3
-            viewModel.inputTextViewDidBeginEditTrigger.value = ()
+        } else {
+            viewModel.inputTextViewDidEndEditTrigger.value = (textView.text)
         }
     }
 }

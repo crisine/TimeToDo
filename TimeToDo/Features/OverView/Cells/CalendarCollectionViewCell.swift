@@ -15,8 +15,9 @@ class CalendarCollectionViewCell: BaseCollectionViewCell {
         view.backgroundColor = .background
         view.clipsToBounds = true
         view.layer.cornerRadius = 8
+        
         view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 0.25
+        view.layer.shadowOpacity = 1
         view.layer.shadowOffset = CGSize(width: 0, height: 0)
         view.layer.shadowRadius = 2
         view.layer.masksToBounds = false
@@ -67,6 +68,7 @@ class CalendarCollectionViewCell: BaseCollectionViewCell {
         dayNumberImageView.image = nil
         dayNumberImageView.tintColor = .tint
         backView.backgroundColor = .background
+        backView.layer.shadowOpacity = 3
     }
     
     override func configureCell() {
@@ -79,5 +81,6 @@ class CalendarCollectionViewCell: BaseCollectionViewCell {
     
     func appearingAsSelected() {
         backView.backgroundColor = .systemGray4
+        backView.layer.shadowOpacity = 0
     }
 }

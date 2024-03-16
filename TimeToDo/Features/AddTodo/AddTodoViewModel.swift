@@ -18,7 +18,7 @@ class AddTodoViewModel {
     
     var todoTitleString: String?
     var todoMemoString: String?
-    var dueDate: Date?
+    var todoDueDate: Date?
     var pomodoroMinutes: Int?
     
     var isAddTodoTextFieldEdited: Bool {
@@ -31,10 +31,11 @@ class AddTodoViewModel {
     
     var inputTodoTitle: Observable<String?> = Observable(nil)
     var inputTodoMemo: Observable<String?> = Observable(nil)
-    var inputDoneButtonTrigger: Observable<Todo?> = Observable(nil)
     var inputTextViewDidBeginEditTrigger: Observable<Void?> = Observable(nil)
+    var inputTextViewDidEndEditTrigger: Observable<String?> = Observable(nil)
     var inputPomoTime: Observable<Int?> = Observable(nil)
     var inputDueDate: Observable<Date?> = Observable(nil)
+    var inputDoneButtonTrigger: Observable<Void?> = Observable(nil)
     
     var outputPomoTime: Observable<String?> = Observable(nil)
     var outputDueDate: Observable<String?> = Observable(nil)
@@ -45,18 +46,12 @@ class AddTodoViewModel {
             self?.todoTitleString = todoTitle
         }
         
-        inputTodoMemo.bind { [weak self] todoMemo in
-            guard let todoMemo else { return }
-            self?.todoMemoString = todoMemo
-        }
-        
-        inputDoneButtonTrigger.bind { [weak self] todo in
-            guard let todo else { return }
-            self?.addTodo(todo: todo)
-        }
-        
         inputTextViewDidBeginEditTrigger.bind { [weak self] _ in
             self?.addTodoTextFieldEdited.toggle()
+        }
+        
+        inputTextViewDidEndEditTrigger.bind { [weak self] memoString in
+            self?.todoMemoString = memoString
         }
         
         inputPomoTime.bind { [weak self] minutes in
@@ -67,8 +62,16 @@ class AddTodoViewModel {
         
         inputDueDate.bind { [weak self] dueDate in
             guard let dueDate else { return }
-            self?.dueDate = dueDate
+            self?.todoDueDate = dueDate
             self?.outputDueDate.value = (dueDate.toString)
+        }
+        
+        inputDoneButtonTrigger.bind { [weak self] _ in
+            
+            guard let todoTitleString = self?.todoTitleString else { return }
+            
+            let todo = Todo(title: todoTitleString, memo: self?.todoMemoString, dueDate: self?.todoDueDate, estimatedPomodoroMinutes: self?.pomodoroMinutes)
+            self?.addTodo(todo: todo)
         }
     }
     
