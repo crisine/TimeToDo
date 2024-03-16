@@ -60,6 +60,7 @@ final class OverviewViewController: BaseViewController {
     
     func transform() {
         viewModel.outputDateDayList.bind { [weak self] _ in
+            self?.configureDataSource()
             self?.updateSnapshot()
         }
         
@@ -145,10 +146,11 @@ extension OverviewViewController {
                 cell.dayLabel.text = dateDay.weekday
                 cell.dayNumberImageView.image = UIImage(systemName: "\(dateDay.dayNumber).square.fill")
                 
-                if Int(dateDay.dayNumber) == self?.viewModel.todayDayInt {
-                    cell.appearingAsToday()
-                    cell.appearingAsSelected()
-                }
+                print("dateDay.isSelected: \(dateDay.isSelected)")
+                print("dateDay.isToday: \(dateDay.isToday), day: \(dateDay.dayNumber)")
+                if dateDay.isSelected { cell.appearingAsSelected() }
+                if dateDay.isToday { cell.appearingAsToday() }
+                
                 return cell
                 
             case .graph(let number):
@@ -269,7 +271,7 @@ extension OverviewViewController: UICollectionViewDelegate {
         
         switch data {
         case .calendar(let dateDay):
-            showToast(message: dateDay.dayNumber)
+            viewModel.inputDidSelectCalendarCellTrigger.value = (dateDay)
         case .todo(let todo):
             let vc = DetailTodoViewController()
             vc.todo = todo

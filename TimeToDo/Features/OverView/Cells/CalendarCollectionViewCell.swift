@@ -63,6 +63,11 @@ class CalendarCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
+    override func prepareForReuse() {
+        dayNumberImageView.image = nil
+        dayNumberImageView.tintColor = .tint
+    }
+    
     override func configureCell() {
         
     }

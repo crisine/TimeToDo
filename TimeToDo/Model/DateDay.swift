@@ -11,5 +11,6 @@ struct DateDay: Hashable {
     
     let dayNumber: String
     let weekday: String
-    
+    let isToday: Bool
+    let isSelected: Bool
 }

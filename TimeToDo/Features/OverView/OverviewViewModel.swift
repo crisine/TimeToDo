@@ -13,11 +13,13 @@ class OverviewViewModel {
     private let repository = Repository()
     
     var todayDayInt: Int = Date().dayToInt
+    var selectedCalendarCell: DateDay?
     
     var inputCalendarBarButtonTrigger: Observable<Void?> = Observable(nil)
     
     var inputViewWillAppearTrigger: Observable<Void?> = Observable(nil)
     var inputDidSelectItemAtTrigger: Observable<Todo?> = Observable(nil)
+    var inputDidSelectCalendarCellTrigger: Observable<DateDay?> = Observable(nil)
     
     var inputTodoDoneButtonTrigger: Observable<ObjectId?> = Observable(nil)
     
@@ -34,9 +36,9 @@ class OverviewViewModel {
     
     func transform() {
         
-        inputCalendarBarButtonTrigger.bind { [weak self] _ in
-            
-        }
+//        inputCalendarBarButtonTrigger.bind { [weak self] _ in
+//            
+//        }
         
         inputViewWillAppearTrigger.bind { [weak self] _ in
             self?.fetchTodo()
@@ -45,6 +47,13 @@ class OverviewViewModel {
         
         inputDidSelectItemAtTrigger.bind { [weak self] todo in
             self?.outputDidSelectItemAt.value = todo
+            self?.calcDateDays()
+        }
+        
+        inputDidSelectCalendarCellTrigger.bind { [weak self] cell in
+            guard let cell else { return }
+            self?.selectedCalendarCell = cell
+            print("selected Cell Info: \(cell)")
         }
         
         inputTodoDoneButtonTrigger.bind { [weak self] todoId in
@@ -78,7 +87,11 @@ class OverviewViewModel {
             
                 let separatedDateString = dateFormatter.string(from: dateIterator).split(separator: " ").map { String($0) }
                 
-                dateDayList.append(DateDay(dayNumber: separatedDateString[0], weekday: separatedDateString[1]))
+                let todayString = dateFormatter.string(from: Date()).split(separator: " ").map { String($0) }[0]
+                let isToday = separatedDateString[0] == todayString ? true : false
+                let isSelected = selectedCalendarCell?.dayNumber == separatedDateString[0] ? true : false
+                
+                dateDayList.append(DateDay(dayNumber: separatedDateString[0], weekday: separatedDateString[1], isToday: isToday, isSelected: isSelected))
                 
                 guard let nextDateIterator = calendar.date(byAdding: .day, value: 1, to: dateIterator) else { return }
                 
