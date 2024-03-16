@@ -15,7 +15,7 @@ final class DetailTodoViewController: BaseViewController {
         case alltime
     }
     
-    
+    typealias PomodoroDashboardDataSource = UICollectionViewDiffableDataSource<PomodoroDashboardSection, PomodoroStat>
     
     private let titleLabel: UILabel = {
         let view = UILabel()

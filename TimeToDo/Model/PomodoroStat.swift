@@ -5,8 +5,11 @@
 //  Created by Minho on 3/16/24.
 //
 
-struct PomodoroStat {
+import Foundation
+
+struct PomodoroStat: Hashable {
     
+    let id = UUID()
     let totalPomodoroCount: Int
     let totalPomodoroMinutes: Int
     

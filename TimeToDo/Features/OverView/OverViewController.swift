@@ -222,7 +222,7 @@ extension OverviewViewController {
                 
             case .todo:
                 let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
-                let group = NSCollectionLayoutGroup.vertical(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.075)), subitems: [item])
+                let group = NSCollectionLayoutGroup.vertical(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(52)), subitems: [item])
                 let section = NSCollectionLayoutSection(group: group)
                 
                 section.interGroupSpacing = 4
