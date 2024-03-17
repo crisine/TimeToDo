@@ -6,6 +6,7 @@
 //
 
 import RealmSwift
+import Foundation
 
 class Repository {
 
@@ -31,6 +32,12 @@ class Repository {
     func fetchTodo(id: ObjectId) -> Results<Todo> {
         return realm.objects(Todo.self).where { todo in
             todo.id == id
+        }
+    }
+    
+    func fetchPomodoro(todoId: ObjectId) -> Results<Pomodoro> {
+        return realm.objects(Pomodoro.self).where { pomodoro in
+            pomodoro.todoId == todoId
         }
     }
     

@@ -116,8 +116,9 @@ final class DetailTodoViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewModel.outputViewWillAppearTrigger.bind { [weak self] _ in
-            self?.updateSnapShot()
+        viewModel.outputViewWillAppearTrigger.bind { [weak self] pomodoroStatArray in
+            guard let pomodoroStatArray else { return }
+            self?.updateSnapShot(pomodoroStatArray)
         }
         
         pomodoroDashboardCollectionView.delegate = self
@@ -210,14 +211,14 @@ final class DetailTodoViewController: BaseViewController {
 // MARK: CollectionView 관련
 extension DetailTodoViewController {
     
-    private func updateSnapShot() {
+    private func updateSnapShot(_ pomodoroStatArray: [PomodoroStat]) {
         var snapshot = NSDiffableDataSourceSnapshot<PomodoroDashboardSection, PomodoroSectionItem>()
         
         snapshot.appendSections(sections)
         
-        snapshot.appendItems([.today(PomodoroStat(totalPomodoroCount: 1, totalPomodoroMinutes: 25))], toSection: .today)
-        snapshot.appendItems([.week(PomodoroStat(totalPomodoroCount: 10, totalPomodoroMinutes: 250))], toSection: .week)
-        snapshot.appendItems([.alltime(PomodoroStat(totalPomodoroCount: 100, totalPomodoroMinutes: 2500))], toSection: .alltime)
+        snapshot.appendItems([.today(pomodoroStatArray[PomodoroDashboardSection.today.rawValue])], toSection: .today)
+        snapshot.appendItems([.week(pomodoroStatArray[PomodoroDashboardSection.week.rawValue])], toSection: .week)
+        snapshot.appendItems([.alltime(pomodoroStatArray[PomodoroDashboardSection.alltime.rawValue])], toSection: .alltime)
         
         dataSource.apply(snapshot, animatingDifferences: true)
     }
@@ -229,9 +230,9 @@ extension DetailTodoViewController {
             
             switch itemIdentifier {
             case .today(let pomodoroStat):
-                cell.titleLabel.text = viewModel.
+                cell.titleLabel.text = "오늘"
             case .week(let pomodoroStat):
-                
+                cell.titleLabel.text = "이번주"
             case .alltime(let pomodoroStat):
                 
             }
