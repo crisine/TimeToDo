@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		FAA141012BA479B000D12951 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA141002BA479B000D12951 /* Date+Extension.swift */; };
 		FAA141042BA5DC5600D12951 /* PomodoroStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA141032BA5DC5600D12951 /* PomodoroStat.swift */; };
+		FAA141072BA6C74800D12951 /* PomodoroStatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA141062BA6C74800D12951 /* PomodoroStatCollectionViewCell.swift */; };
+		FAA141092BA6CAD700D12951 /* Pomodoro.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA141082BA6CAD700D12951 /* Pomodoro.swift */; };
 		FAA928632B99850800B21BA7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928622B99850800B21BA7 /* AppDelegate.swift */; };
 		FAA928652B99850800B21BA7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928642B99850800B21BA7 /* SceneDelegate.swift */; };
 		FAA9286C2B99850900B21BA7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAA9286B2B99850900B21BA7 /* Assets.xcassets */; };
@@ -52,6 +54,8 @@
 /* Begin PBXFileReference section */
 		FAA141002BA479B000D12951 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		FAA141032BA5DC5600D12951 /* PomodoroStat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroStat.swift; sourceTree = "<group>"; };
+		FAA141062BA6C74800D12951 /* PomodoroStatCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroStatCollectionViewCell.swift; sourceTree = "<group>"; };
+		FAA141082BA6CAD700D12951 /* Pomodoro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pomodoro.swift; sourceTree = "<group>"; };
 		FAA9285F2B99850800B21BA7 /* TimeToDo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeToDo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAA928622B99850800B21BA7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FAA928642B99850800B21BA7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -105,6 +109,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FAA141052BA6C73600D12951 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				FAA141062BA6C74800D12951 /* PomodoroStatCollectionViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		FAA928562B99850800B21BA7 = {
 			isa = PBXGroup;
 			children = (
@@ -197,6 +209,7 @@
 		FAA928902B999C9F00B21BA7 /* DetailTodo */ = {
 			isa = PBXGroup;
 			children = (
+				FAA141052BA6C73600D12951 /* Cell */,
 				FAA928A12B999F2D00B21BA7 /* DetailTodoViewController.swift */,
 				FAA928CF2B9EED7A00B21BA7 /* DetailTodoViewModel.swift */,
 			);
@@ -268,6 +281,7 @@
 			children = (
 				FAA928C42B9DA57B00B21BA7 /* Todo.swift */,
 				FAA928E32BA0605100B21BA7 /* DateDay.swift */,
+				FAA141082BA6CAD700D12951 /* Pomodoro.swift */,
 				FAA141032BA5DC5600D12951 /* PomodoroStat.swift */,
 			);
 			path = Model;
@@ -404,9 +418,11 @@
 				FAA928C22B9DA49900B21BA7 /* Repository.swift in Sources */,
 				FAA928C72B9DAB8100B21BA7 /* OverviewViewModel.swift in Sources */,
 				FAA9290D2BA34A9000B21BA7 /* PomoPickerViewController.swift in Sources */,
+				FAA141072BA6C74800D12951 /* PomodoroStatCollectionViewCell.swift in Sources */,
 				FAA9288D2B999C5400B21BA7 /* MainTabBarViewController.swift in Sources */,
 				FAA928D32B9F340800B21BA7 /* CalendarCollectionViewCell.swift in Sources */,
 				FAA928AC2B99A14B00B21BA7 /* String+Extension.swift in Sources */,
+				FAA141092BA6CAD700D12951 /* Pomodoro.swift in Sources */,
 				FAA9289E2B999E7600B21BA7 /* OverViewController.swift in Sources */,
 				FAA928B72B9C9C1F00B21BA7 /* Notification.swift in Sources */,
 				FAA928D72B9F35E500B21BA7 /* UICollectionViewCell+Extension.swift in Sources */,

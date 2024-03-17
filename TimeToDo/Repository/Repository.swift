@@ -11,6 +11,19 @@ class Repository {
 
     private let realm = try! Realm()
     
+    // MARK: Create
+    func addTodo(_ todo: Todo) {
+        do {
+            try realm.write {
+                realm.add(todo)
+            }
+        } catch {
+            dump(error)
+        }
+    }
+
+    
+    // MARK: Read
     func fetchTodo() -> Results<Todo> {
         return realm.objects(Todo.self)
     }
@@ -21,21 +34,13 @@ class Repository {
         }
     }
     
+    
+    // MARK: Update
     func updateTodoCompleteStatus(id: ObjectId) {
         do {
             let todo = fetchTodo(id: id).first
             try realm.write {
                 todo?.isCompleted?.toggle()
-            }
-        } catch {
-            dump(error)
-        }
-    }
-    
-    func addTodo(_ todo: Todo) {
-        do {
-            try realm.write {
-                realm.add(todo)
             }
         } catch {
             dump(error)
@@ -52,6 +57,8 @@ class Repository {
         }
     }
     
+    
+    // MARK: Delete
     func removeTodo(_ todo: Todo) {
         do {
             try realm.write {

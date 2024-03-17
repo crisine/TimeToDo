@@ -15,7 +15,16 @@ final class DetailTodoViewController: BaseViewController {
         case alltime
     }
     
-    typealias PomodoroDashboardDataSource = UICollectionViewDiffableDataSource<PomodoroDashboardSection, PomodoroStat>
+    enum PomodoroSectionItem: Hashable {
+        case today(PomodoroStat)
+        case week(PomodoroStat)
+        case alltime(PomodoroStat)
+    }
+    
+    typealias PomodoroDashboardDataSource = UICollectionViewDiffableDataSource<PomodoroDashboardSection, PomodoroSectionItem>
+    
+    private var dataSource: PomodoroDashboardDataSource! = nil
+    private let sections = PomodoroDashboardSection.allCases
     
     private let titleLabel: UILabel = {
         let view = UILabel()
@@ -100,8 +109,20 @@ final class DetailTodoViewController: BaseViewController {
     
     let viewModel = DetailTodoViewModel()
     
+    override func viewWillAppear(_ animated: Bool) {
+        viewModel.inputViewWillAppearTrigger.value = ()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        viewModel.outputViewWillAppearTrigger.bind { [weak self] _ in
+            self?.updateSnapShot()
+        }
+        
+        pomodoroDashboardCollectionView.delegate = self
+        
+        pomodoroDashboardCollectionView.register(PomodoroStatCollectionViewCell.self, forCellWithReuseIdentifier: PomodoroStatCollectionViewCell.identifier)
     }
     
     override func configureHierarchy() {
@@ -189,9 +210,51 @@ final class DetailTodoViewController: BaseViewController {
 // MARK: CollectionView 관련
 extension DetailTodoViewController {
     
-    private func createLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewFlowLayout()
+    private func updateSnapShot() {
+        var snapshot = NSDiffableDataSourceSnapshot<PomodoroDashboardSection, PomodoroSectionItem>()
         
-        return layout
+        snapshot.appendSections(sections)
+        
+        snapshot.appendItems([.today(PomodoroStat(totalPomodoroCount: 1, totalPomodoroMinutes: 25))], toSection: .today)
+        snapshot.appendItems([.week(PomodoroStat(totalPomodoroCount: 10, totalPomodoroMinutes: 250))], toSection: .week)
+        snapshot.appendItems([.alltime(PomodoroStat(totalPomodoroCount: 100, totalPomodoroMinutes: 2500))], toSection: .alltime)
+        
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
+    
+    private func configureDataSource() {
+        dataSource = PomodoroDashboardDataSource(collectionView: pomodoroDashboardCollectionView, cellProvider: { [weak self] collectionView, indexPath, itemIdentifier in
+            
+            let cell: PomodoroStatCollectionViewCell = self?.pomodoroDashboardCollectionView.dequeueReusableCell(withReuseIdentifier: PomodoroStatCollectionViewCell.identifier, for: indexPath) as! PomodoroStatCollectionViewCell
+            
+            switch itemIdentifier {
+            case .today(let pomodoroStat):
+                cell.titleLabel.text = viewModel.
+            case .week(let pomodoroStat):
+                
+            case .alltime(let pomodoroStat):
+                
+            }
+        })
+    }
+    
+    private func createLayout() -> UICollectionViewCompositionalLayout {
+        UICollectionViewCompositionalLayout { sectionIndex, layoutEnvironment in
+            
+            let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
+            
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .absolute(100), heightDimension: .absolute(100)), subitems: [item])
+            
+            let section = NSCollectionLayoutSection(group: group)
+            
+            section.orthogonalScrollingBehavior = .none
+            
+            return section
+        }
+    }
+}
+
+// MARK: CollectionView Delegate 관련
+extension DetailTodoViewController: UICollectionViewDelegate {
+    
 }

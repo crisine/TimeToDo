@@ -111,7 +111,7 @@ extension OverviewViewController {
         print("updateSnapshot")
         var snapshot = NSDiffableDataSourceSnapshot<OverviewSection, OverviewSectionItem>()
         
-        snapshot.appendSections([.calendar, .graph, .todo])
+        snapshot.appendSections(sections)
         viewModel.outputDateDayList.value?.forEach { snapshot.appendItems([.calendar($0)], toSection: .calendar) }
         
         // TODO: Todo 데이터를 전달하여 각 Bar에서 날짜별로 판단하게 해야 함..
