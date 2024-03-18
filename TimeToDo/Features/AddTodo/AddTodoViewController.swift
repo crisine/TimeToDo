@@ -167,11 +167,19 @@ final class AddTodoViewController: BaseViewController {
 extension AddTodoViewController {
     
     private func createLayout() -> UICollectionViewLayout {
-        var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
-        configuration.backgroundColor = .background
-        configuration.showsSeparators = true
         
-        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+        let layout = UICollectionViewCompositionalLayout { sectionIndex, environment in
+            var listConfiguration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+            listConfiguration.backgroundColor = .background
+            listConfiguration.showsSeparators = true
+            
+            let section = NSCollectionLayoutSection.list(using: listConfiguration, layoutEnvironment: environment)
+            
+            section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
+            
+            return section
+        }
+        
         return layout
     }
     
