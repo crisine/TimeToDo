@@ -19,18 +19,19 @@ final class PomoTimerViewController: BaseViewController {
         view.layer.borderWidth = 2
         view.clipsToBounds = true
         view.layer.cornerRadius = 8
+        view.setTitleColor(.text, for: .normal)
         
         return view
     }()
     let timeLabel: UILabel = {
-    let view = UILabel()
+        let view = UILabel()
     
-    view.font = .boldSystemFont(ofSize: 40)
-    view.textAlignment = .center
-    view.textColor = .text
-    
-    return view
-}()
+        view.font = .boldSystemFont(ofSize: 40)
+        view.textAlignment = .center
+        view.textColor = .text
+        
+        return view
+    }()
     let startButton: UIButton = {
     let view = UIButton(configuration: .filled())
         
@@ -48,9 +49,17 @@ final class PomoTimerViewController: BaseViewController {
         return view
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        viewModel.inputViewWillAppearTrigger.value = ()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        transform()
+    }
+    
+    private func transform() {
         viewModel.outputTimerLabelText.bind { [weak self] timeString in
             self?.timeLabel.text = timeString
         }
@@ -59,7 +68,9 @@ final class PomoTimerViewController: BaseViewController {
             self?.startButton.setTitle(titleText, for: .normal)
         }
         
-        viewModel.inputViewDidLoadTrigger.value = ()
+        viewModel.outputTodoButtonTitleText.bind { [weak self] todoButtonTitleText in
+            self?.selectTodoButton.setTitle(todoButtonTitleText, for: .normal)
+        }
     }
     
     override func configureHierarchy() {
@@ -95,6 +106,8 @@ final class PomoTimerViewController: BaseViewController {
     }
     
     override func configureView() {
+        selectTodoButton.addTarget(self, action: #selector(didSelectTodoButtonTapped), for: .touchUpInside)
+        
         startButton.addTarget(self, action: #selector(didStartButtonTapped), for: .touchUpInside)
         resetButton.addTarget(self, action: #selector(didResetButtonTapped), for: .touchUpInside)
     }
@@ -115,6 +128,22 @@ extension PomoTimerViewController: UNUserNotificationCenterDelegate {
 
 // MARK: 버튼 이벤트 관련
 extension PomoTimerViewController {
+    
+    @objc
+    private func didSelectTodoButtonTapped() {
+        let vc = TodoSelectViewController()
+        vc.delegate = self
+        
+        let nav = UINavigationController(rootViewController: vc)
+        
+        if let sheet = nav.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersGrabberVisible = true
+        }
+        
+        self.present(nav, animated: true)
+    }
+    
     @objc
     private func didStartButtonTapped() {
         viewModel.inputStartbuttonTapped.value = ()
@@ -123,5 +152,12 @@ extension PomoTimerViewController {
     @objc
     private func didResetButtonTapped() {
         viewModel.inputResetButtonTapped.value = ()
+    }
+}
+
+// MARK: TodoSelectController Protocol 관련
+extension PomoTimerViewController: SendTodoData {
+    func sendTodo(todo: Todo) {
+        viewModel.inputSelectTodoButtonTapped.value = (todo)
     }
 }

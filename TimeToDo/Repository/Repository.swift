@@ -23,6 +23,15 @@ class Repository {
         }
     }
 
+    func addPomodoro(_ pomodoro: Pomodoro) {
+        do {
+            try realm.write {
+                realm.add(pomodoro)
+            }
+        } catch {
+            dump(error)
+        }
+    }
     
     // MARK: Read
     func fetchTodo() -> Results<Todo> {
@@ -33,6 +42,12 @@ class Repository {
     func fetchTodo(id: ObjectId) -> Results<Todo> {
         return realm.objects(Todo.self).where { todo in
             todo.id == id
+        }
+    }
+    
+    func fetchNotCompletedTodo() -> Results<Todo> {
+        return realm.objects(Todo.self).where { todo in
+            todo.isCompleted == false
         }
     }
     

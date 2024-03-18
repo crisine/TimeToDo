@@ -12,6 +12,7 @@
 		FAA141072BA6C74800D12951 /* PomodoroStatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA141062BA6C74800D12951 /* PomodoroStatCollectionViewCell.swift */; };
 		FAA141092BA6CAD700D12951 /* Pomodoro.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA141082BA6CAD700D12951 /* Pomodoro.swift */; };
 		FAA1410C2BA7105800D12951 /* TodoSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA1410B2BA7105800D12951 /* TodoSelectViewController.swift */; };
+		FAA141152BA7F1C100D12951 /* TodoSelectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA141142BA7F1C100D12951 /* TodoSelectViewModel.swift */; };
 		FAA928632B99850800B21BA7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928622B99850800B21BA7 /* AppDelegate.swift */; };
 		FAA928652B99850800B21BA7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928642B99850800B21BA7 /* SceneDelegate.swift */; };
 		FAA9286C2B99850900B21BA7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAA9286B2B99850900B21BA7 /* Assets.xcassets */; };
@@ -58,6 +59,7 @@
 		FAA141062BA6C74800D12951 /* PomodoroStatCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroStatCollectionViewCell.swift; sourceTree = "<group>"; };
 		FAA141082BA6CAD700D12951 /* Pomodoro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pomodoro.swift; sourceTree = "<group>"; };
 		FAA1410B2BA7105800D12951 /* TodoSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoSelectViewController.swift; sourceTree = "<group>"; };
+		FAA141142BA7F1C100D12951 /* TodoSelectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoSelectViewModel.swift; sourceTree = "<group>"; };
 		FAA9285F2B99850800B21BA7 /* TimeToDo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeToDo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAA928622B99850800B21BA7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FAA928642B99850800B21BA7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				FAA1410B2BA7105800D12951 /* TodoSelectViewController.swift */,
+				FAA141142BA7F1C100D12951 /* TodoSelectViewModel.swift */,
 			);
 			path = SubView;
 			sourceTree = "<group>";
@@ -432,6 +435,7 @@
 				FAA9290D2BA34A9000B21BA7 /* PomoPickerViewController.swift in Sources */,
 				FAA141072BA6C74800D12951 /* PomodoroStatCollectionViewCell.swift in Sources */,
 				FAA9288D2B999C5400B21BA7 /* MainTabBarViewController.swift in Sources */,
+				FAA141152BA7F1C100D12951 /* TodoSelectViewModel.swift in Sources */,
 				FAA928D32B9F340800B21BA7 /* CalendarCollectionViewCell.swift in Sources */,
 				FAA928AC2B99A14B00B21BA7 /* String+Extension.swift in Sources */,
 				FAA141092BA6CAD700D12951 /* Pomodoro.swift in Sources */,

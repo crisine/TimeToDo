@@ -125,4 +125,8 @@ class TodoCollectionViewCell: BaseCollectionViewCell {
     override func configureCell() {
         
     }
+    
+    func updateUI() {
+        
+    }
 }
