@@ -13,6 +13,7 @@
 		FAA141092BA6CAD700D12951 /* Pomodoro.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA141082BA6CAD700D12951 /* Pomodoro.swift */; };
 		FAA1410C2BA7105800D12951 /* TodoSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA1410B2BA7105800D12951 /* TodoSelectViewController.swift */; };
 		FAA141152BA7F1C100D12951 /* TodoSelectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA141142BA7F1C100D12951 /* TodoSelectViewModel.swift */; };
+		FAA141172BA8471500D12951 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA141162BA8471500D12951 /* CircularProgressView.swift */; };
 		FAA928632B99850800B21BA7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928622B99850800B21BA7 /* AppDelegate.swift */; };
 		FAA928652B99850800B21BA7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928642B99850800B21BA7 /* SceneDelegate.swift */; };
 		FAA9286C2B99850900B21BA7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAA9286B2B99850900B21BA7 /* Assets.xcassets */; };
@@ -60,6 +61,7 @@
 		FAA141082BA6CAD700D12951 /* Pomodoro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pomodoro.swift; sourceTree = "<group>"; };
 		FAA1410B2BA7105800D12951 /* TodoSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoSelectViewController.swift; sourceTree = "<group>"; };
 		FAA141142BA7F1C100D12951 /* TodoSelectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoSelectViewModel.swift; sourceTree = "<group>"; };
+		FAA141162BA8471500D12951 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		FAA9285F2B99850800B21BA7 /* TimeToDo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeToDo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAA928622B99850800B21BA7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FAA928642B99850800B21BA7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 			children = (
 				FAA1410B2BA7105800D12951 /* TodoSelectViewController.swift */,
 				FAA141142BA7F1C100D12951 /* TodoSelectViewModel.swift */,
+				FAA141162BA8471500D12951 /* CircularProgressView.swift */,
 			);
 			path = SubView;
 			sourceTree = "<group>";
@@ -441,6 +444,7 @@
 				FAA141092BA6CAD700D12951 /* Pomodoro.swift in Sources */,
 				FAA9289E2B999E7600B21BA7 /* OverViewController.swift in Sources */,
 				FAA928B72B9C9C1F00B21BA7 /* Notification.swift in Sources */,
+				FAA141172BA8471500D12951 /* CircularProgressView.swift in Sources */,
 				FAA928D72B9F35E500B21BA7 /* UICollectionViewCell+Extension.swift in Sources */,
 				FAA928632B99850800B21BA7 /* AppDelegate.swift in Sources */,
 				FAA928652B99850800B21BA7 /* SceneDelegate.swift in Sources */,

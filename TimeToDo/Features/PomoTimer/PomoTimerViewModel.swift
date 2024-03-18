@@ -11,7 +11,7 @@ final class PomoTimerViewModel {
     
     private let repository = Repository()
     
-    private var frame: CGRect?
+    private var circularViewProgressValue = 1.0
     private var timer = Timer()
     private var count = 0
     private var startedTime: Date?
@@ -28,6 +28,7 @@ final class PomoTimerViewModel {
     var outputStartButtonTitleText: Observable<String?> = Observable("start_timer".localized())
     var outputTimerLabelText: Observable<String?> = Observable(nil)
     var outputTodoButtonTitleText: Observable<String?> = Observable(nil)
+    var outputCircularProgress: Observable<Double?> = Observable(nil)
     
     init() {
         transform()
@@ -96,6 +97,8 @@ final class PomoTimerViewModel {
         timer.invalidate()
         isTimerRunning = false
         startedTime = nil
+        circularViewProgressValue = 0
+        outputCircularProgress.value = (circularViewProgressValue)
         
         guard let estimatedPomodoroMinutes = selectedTodo.estimatedPomodoroMinutes else { return }
         count = estimatedPomodoroMinutes * 60
@@ -107,28 +110,30 @@ final class PomoTimerViewModel {
     }
     
     private func makeNewTimer() {
-        print("=====새 타이머가 생성되었습니다.=====")
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCounter), userInfo: nil, repeats: true)
     }
     
     @objc private func timerCounter() {
+        guard let estimatedPomodoroMinutes = selectedTodo?.estimatedPomodoroMinutes else { return }
         
         if count - 1 >= 0 {
             count = count - 1
+            circularViewProgressValue = 1.0 - (Double(count) / Double(estimatedPomodoroMinutes * 60))
+            outputCircularProgress.value = (circularViewProgressValue)
         } else {
             // MARK: 타이머가 다 된 경우
             // MARK: 1.0 버전 기준에서는 초기화를 누르는 경우의 시간을 적립하지 않는 것으로 정의한다.
             guard let selectedTodo, 
                   let estimatedPomodoroMinutes = selectedTodo.estimatedPomodoroMinutes,
-                  let startedTime else { 
-                
-                print("선택된 todo가 없거나, startedTime이 없습니다. \(selectedTodo), \(startedTime)")
-                return }
+                  let startedTime else { return }
             
             let pomodoro = Pomodoro(todoId: selectedTodo.id, elapsedMinutes: estimatedPomodoroMinutes, startedTime: startedTime, endedTime: Date())
             
             repository.addPomodoro(pomodoro)
             
+            
+            circularViewProgressValue = 0
+            outputCircularProgress.value = (circularViewProgressValue)
             
             count = estimatedPomodoroMinutes * 60
             self.startedTime = nil

@@ -23,6 +23,16 @@ final class PomoTimerViewController: BaseViewController {
         
         return view
     }()
+    let circularProgressView: CircularProgressView = {
+        let view = CircularProgressView(frame: .init(x: 0, y: 0, width: 300, height: 300), lineWidth: 10, rounded: false)
+        
+        view.progressColor = .systemGray6
+        view.trackColor = .tint
+        
+        view.timeToFill = 0
+        
+        return view
+    }()
     let timeLabel: UILabel = {
         let view = UILabel()
     
@@ -64,6 +74,11 @@ final class PomoTimerViewController: BaseViewController {
             self?.timeLabel.text = timeString
         }
         
+        viewModel.outputCircularProgress.bind { [weak self] progressValue in
+            guard let progressValue else { return }
+            self?.circularProgressView.progress = progressValue
+        }
+        
         viewModel.outputStartButtonTitleText.bind { [weak self] titleText in
             self?.startButton.setTitle(titleText, for: .normal)
         }
@@ -74,7 +89,7 @@ final class PomoTimerViewController: BaseViewController {
     }
     
     override func configureHierarchy() {
-        [selectTodoButton, timeLabel, startButton, resetButton].forEach {
+        [selectTodoButton, circularProgressView, timeLabel, startButton, resetButton].forEach {
             view.addSubview($0)
         }
     }
@@ -86,9 +101,14 @@ final class PomoTimerViewController: BaseViewController {
             make.height.equalTo(40)
         }
         
+        circularProgressView.snp.makeConstraints { make in
+            make.center.equalTo(view.center)
+            make.size.equalTo(300)
+        }
+        
         timeLabel.snp.makeConstraints { make in
-            make.top.equalTo(selectTodoButton.snp.bottom).offset(120)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.center.equalTo(circularProgressView.snp.center)
+            make.horizontalEdges.equalTo(circularProgressView.snp.horizontalEdges).inset(16)
             make.height.equalTo(48)
         }
         
