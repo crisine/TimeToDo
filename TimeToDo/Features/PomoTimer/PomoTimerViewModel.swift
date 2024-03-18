@@ -73,13 +73,16 @@ final class PomoTimerViewModel {
     private func startButtonTapped() {
         guard selectedTodo != nil else { return }
         
+        if startedTime == nil {
+            startedTime = Date()
+        }
+        
         if isTimerRunning {
             isTimerRunning = false
             timer.invalidate()
             outputStartButtonTitleText.value = "resume_timer".localized()
             Notification.shared.removeNotification(notificationIdentifiers: [notificationIdentifier])
         } else {
-            startedTime = startedTime == nil ? Date() : nil
             isTimerRunning = true
             outputStartButtonTitleText.value = "pause_timer".localized()
             makeNewTimer()
@@ -104,6 +107,7 @@ final class PomoTimerViewModel {
     }
     
     private func makeNewTimer() {
+        print("=====새 타이머가 생성되었습니다.=====")
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCounter), userInfo: nil, repeats: true)
     }
     
