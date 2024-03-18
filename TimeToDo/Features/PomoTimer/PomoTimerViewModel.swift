@@ -82,8 +82,6 @@ final class PomoTimerViewModel {
             isTimerRunning = false
             timer.invalidate()
             outputStartButtonTitleText.value = "start_timer".localized()
-            // Local Notification 등을 줄 방법은 없을까?
-            
         }
         
         let time = secondsToHoursMinutesSeconds(seconds: count)

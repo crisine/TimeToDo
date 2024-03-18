@@ -12,13 +12,13 @@ final class PomodoroStatCollectionViewCell: BaseCollectionViewCell {
     let titleLabel: UILabel = {
         let view = UILabel()
         
-        view.font = .systemFont(ofSize: 16)
+        view.font = .systemFont(ofSize: 24, weight: .heavy)
         view.textColor = .text
         view.textAlignment = .center
         
         return view
     }()
-    let pomodoroTimerImageView: UIImageView = {
+    private let pomodoroTimerImageView: UIImageView = {
         let view = UIImageView()
         
         view.image = UIImage(systemName: "alarm")
@@ -29,16 +29,18 @@ final class PomodoroStatCollectionViewCell: BaseCollectionViewCell {
     let totalTimeLabel: UILabel = {
         let view = UILabel()
         
-        view.font = .systemFont(ofSize: 14)
+        view.font = .systemFont(ofSize: 16)
         view.textColor = .text
+        
         
         return view
     }()
     let totalCountLabel: UILabel = {
         let view = UILabel()
         
-        view.font = .systemFont(ofSize: 14)
+        view.font = .systemFont(ofSize: 16)
         view.textColor = .text
+        
         
         return view
     }()
@@ -57,20 +59,23 @@ final class PomodoroStatCollectionViewCell: BaseCollectionViewCell {
         }
         
         pomodoroTimerImageView.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(8)
             make.leading.equalTo(contentView.safeAreaLayoutGuide).offset(16)
-            make.size.equalTo(40)
+            make.size.equalTo(20)
         }
         
         totalTimeLabel.snp.makeConstraints { make in
-            make.top.equalTo(pomodoroTimerImageView.snp.top).offset(4)
+            make.top.equalTo(pomodoroTimerImageView.snp.top)
+            make.leading.equalTo(pomodoroTimerImageView.snp.trailing).offset(4)
             make.trailing.equalTo(contentView.safeAreaLayoutGuide).inset(8)
-            make.height.equalTo(26)
+            make.height.equalTo(18)
         }
         
         totalCountLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(pomodoroTimerImageView.snp.bottom).offset(-4)
-            make.trailing.equalTo(contentView.safeAreaLayoutGuide).inset(8)
-            make.height.equalTo(16)
+            make.top.equalTo(totalTimeLabel.snp.bottom).offset(4)
+            make.leading.equalTo(totalTimeLabel.snp.leading)
+            make.trailing.equalTo(totalTimeLabel.snp.trailing)
+            make.height.equalTo(18)
         }
     }
     

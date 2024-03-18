@@ -26,25 +26,25 @@ class DetailTodoViewModel {
     private func fetchPomodoroStat() {
         guard let selectedTodo else { return }
 
-        var pomodoroInAllTime = Array(repository.fetchPomodoro(todoId: selectedTodo.id))
+        let pomodoroInAllTime = Array(repository.fetchPomodoro(todoId: selectedTodo.id))
 
-        var currentCalendar = Calendar.current
+        let currentCalendar = Calendar.current
         
-        var pomodoroInToday = pomodoroInAllTime.filter { currentCalendar.isDateInToday($0.endedTime) }
-        var pomodoroStatInToday = PomodoroStat(totalPomodoroCount: pomodoroInToday.count, totalPomodoroMinutes: pomodoroInToday.reduce(0, { partialResult, pomodoro in
-            pomodoro.elapsedMinutes
+        let pomodoroInToday = pomodoroInAllTime.filter { currentCalendar.isDateInToday($0.endedTime) }
+        let pomodoroStatInToday = PomodoroStat(totalPomodoroCount: pomodoroInToday.count, totalPomodoroMinutes: pomodoroInToday.reduce(0, { partialResult, pomodoro in
+            partialResult + pomodoro.elapsedMinutes
         }))
         
-        var pomodoroInWeek = pomodoroInAllTime.filter { isInCurrentWeek(date: $0.endedTime) }
-        var pomodoroStatInWeek = PomodoroStat(totalPomodoroCount: pomodoroInWeek.count, totalPomodoroMinutes: pomodoroInWeek.reduce(0, { partialResult, pomodoro in
-            pomodoro.elapsedMinutes
+        let pomodoroInWeek = pomodoroInAllTime.filter { isInCurrentWeek(date: $0.endedTime) }
+        let pomodoroStatInWeek = PomodoroStat(totalPomodoroCount: pomodoroInWeek.count, totalPomodoroMinutes: pomodoroInWeek.reduce(0, { partialResult, pomodoro in
+            partialResult + pomodoro.elapsedMinutes
         }))
         
-        var pomodoroStatInAllTime = PomodoroStat(totalPomodoroCount: pomodoroInAllTime.count, totalPomodoroMinutes: pomodoroInAllTime.reduce(0, { partialResult, pomodoro in
-            pomodoro.elapsedMinutes
+        let pomodoroStatInAllTime = PomodoroStat(totalPomodoroCount: pomodoroInAllTime.count, totalPomodoroMinutes: pomodoroInAllTime.reduce(0, { partialResult, pomodoro in
+            partialResult + pomodoro.elapsedMinutes
         }))
         
-        var pomodoroStatArray: [PomodoroStat] = [pomodoroStatInToday, pomodoroStatInWeek, pomodoroStatInAllTime]
+        let pomodoroStatArray: [PomodoroStat] = [pomodoroStatInToday, pomodoroStatInWeek, pomodoroStatInAllTime]
         
         guard !pomodoroStatArray.isEmpty else { return }
         outputViewWillAppearTrigger.value = (pomodoroStatArray)

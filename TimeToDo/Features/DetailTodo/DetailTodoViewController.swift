@@ -65,6 +65,7 @@ final class DetailTodoViewController: BaseViewController {
         view.clipsToBounds = true
         view.layer.cornerRadius = 8
         view.backgroundColor = .systemGray6
+        view.isScrollEnabled = false
         return view
     }()
     
@@ -116,14 +117,18 @@ final class DetailTodoViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        pomodoroDashboardCollectionView.delegate = self
+        
+        transform()
+        configureCollectionView()
+        configureDataSource()
+    }
+    
+    private func transform() {
         viewModel.outputViewWillAppearTrigger.bind { [weak self] pomodoroStatArray in
             guard let pomodoroStatArray else { return }
             self?.updateSnapShot(pomodoroStatArray)
         }
-        
-        pomodoroDashboardCollectionView.delegate = self
-        
-        pomodoroDashboardCollectionView.register(PomodoroStatCollectionViewCell.self, forCellWithReuseIdentifier: PomodoroStatCollectionViewCell.identifier)
     }
     
     override func configureHierarchy() {
@@ -174,7 +179,7 @@ final class DetailTodoViewController: BaseViewController {
         pomodoroDashboardCollectionView.snp.makeConstraints { make in
             make.top.equalTo(memoTextView.snp.bottom).offset(8)
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
-            make.height.equalTo(120)
+            make.height.equalTo(100)
         }
         
         priorityLabel.snp.makeConstraints { make in
@@ -204,6 +209,8 @@ final class DetailTodoViewController: BaseViewController {
         
         navigationController?.navigationBar.tintColor = .tint
         navigationController?.navigationBar.topItem?.title = ""
+        
+        
     }
 
 }
@@ -211,14 +218,19 @@ final class DetailTodoViewController: BaseViewController {
 // MARK: CollectionView 관련
 extension DetailTodoViewController {
     
+    private func configureCollectionView() {
+        pomodoroDashboardCollectionView.register(PomodoroStatCollectionViewCell.self, forCellWithReuseIdentifier: PomodoroStatCollectionViewCell.identifier)
+    }
+    
     private func updateSnapShot(_ pomodoroStatArray: [PomodoroStat]) {
         var snapshot = NSDiffableDataSourceSnapshot<PomodoroDashboardSection, PomodoroSectionItem>()
         
         snapshot.appendSections(sections)
         
-        snapshot.appendItems([.today(pomodoroStatArray[PomodoroDashboardSection.today.rawValue])], toSection: .today)
-        snapshot.appendItems([.week(pomodoroStatArray[PomodoroDashboardSection.week.rawValue])], toSection: .week)
-        snapshot.appendItems([.alltime(pomodoroStatArray[PomodoroDashboardSection.alltime.rawValue])], toSection: .alltime)
+        snapshot.appendItems([
+            .today(pomodoroStatArray[PomodoroDashboardSection.today.rawValue]),
+            .week(pomodoroStatArray[PomodoroDashboardSection.week.rawValue]),
+            .alltime(pomodoroStatArray[PomodoroDashboardSection.alltime.rawValue])])
         
         dataSource.apply(snapshot, animatingDifferences: true)
     }
@@ -228,23 +240,38 @@ extension DetailTodoViewController {
             
             let cell: PomodoroStatCollectionViewCell = self?.pomodoroDashboardCollectionView.dequeueReusableCell(withReuseIdentifier: PomodoroStatCollectionViewCell.identifier, for: indexPath) as! PomodoroStatCollectionViewCell
             
+            var pomoStat: PomodoroStat
+            
             switch itemIdentifier {
             case .today(let pomodoroStat):
                 cell.titleLabel.text = "오늘"
+                pomoStat = pomodoroStat
             case .week(let pomodoroStat):
-                cell.titleLabel.text = "이번주"
+                cell.titleLabel.text = "이번 주"
+                pomoStat = pomodoroStat
             case .alltime(let pomodoroStat):
-                
+                cell.titleLabel.text = "전체"
+                pomoStat = pomodoroStat
             }
+            
+            if pomoStat.totalPomodoroMinutes >= 60 {
+                cell.totalTimeLabel.text = "\(pomoStat.totalPomodoroMinutes / 60)시간 \(pomoStat.totalPomodoroMinutes % 60)분"
+            } else {
+                cell.totalTimeLabel.text = "\(pomoStat.totalPomodoroMinutes)분"
+            }
+            
+            cell.totalCountLabel.text = "\(pomoStat.totalPomodoroCount)회"
+            
+            return cell
         })
     }
     
     private func createLayout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { sectionIndex, layoutEnvironment in
             
-            let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
+            let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1/3), heightDimension: .fractionalHeight(1)))
             
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .absolute(100), heightDimension: .absolute(100)), subitems: [item])
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)), subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
             

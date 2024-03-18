@@ -12,6 +12,16 @@ final class PomoTimerViewController: BaseViewController {
     
     let viewModel = PomoTimerViewModel()
     
+    let selectTodoButton: UIButton = {
+        let view = UIButton()
+        
+        view.layer.borderColor = UIColor.tint.cgColor
+        view.layer.borderWidth = 2
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 8
+        
+        return view
+    }()
     let timeLabel: UILabel = {
     let view = UILabel()
     
@@ -53,14 +63,20 @@ final class PomoTimerViewController: BaseViewController {
     }
     
     override func configureHierarchy() {
-        [timeLabel, startButton, resetButton].forEach {
+        [selectTodoButton, timeLabel, startButton, resetButton].forEach {
             view.addSubview($0)
         }
     }
     
     override func configureConstraints() {
+        selectTodoButton.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(80)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.height.equalTo(40)
+        }
+        
         timeLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(160)
+            make.top.equalTo(selectTodoButton.snp.bottom).offset(120)
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
             make.height.equalTo(48)
         }
