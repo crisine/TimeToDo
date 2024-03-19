@@ -17,9 +17,20 @@ final class TodoSelectViewController: BaseViewController {
         case main
     }
     
+    
     private let viewModel = TodoSelectViewModel()
     var delegate: SendTodoData?
     
+    private let titleTextLabel: UILabel = {
+        let view = UILabel()
+        
+        view.text = "할 일을 선택하세요"
+        view.textColor = .text
+        view.font = .boldSystemFont(ofSize: 24)
+        view.textAlignment = .center
+        
+        return view
+    }()
     private lazy var todoCollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
         view.delegate = self
@@ -39,12 +50,23 @@ final class TodoSelectViewController: BaseViewController {
     
     
     override func configureHierarchy() {
-        view.addSubview(todoCollectionView)
+        [titleTextLabel, todoCollectionView].forEach {
+            view.addSubview($0)
+        }
     }
     
     override func configureConstraints() {
+        
+        titleTextLabel.snp.makeConstraints { make in
+            make.top.equalTo(view).offset(24)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(8)
+            make.height.equalTo(26)
+        }
+        
         todoCollectionView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide).inset(8)
+            make.top.equalTo(titleTextLabel.snp.bottom).offset(8)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(8)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(4)
         }
     }
     

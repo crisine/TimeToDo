@@ -45,15 +45,26 @@ class Repository {
         }
     }
     
-    func fetchNotCompletedTodo() -> Results<Todo> {
-        return realm.objects(Todo.self).where { todo in
-            todo.isCompleted == false
-        }
-    }
-    
     func fetchPomodoro(todoId: ObjectId) -> Results<Pomodoro> {
         return realm.objects(Pomodoro.self).where { pomodoro in
             pomodoro.todoId == todoId
+        }
+    }
+    
+    func fetchNotCompletedPomodoroTodo() -> Results<Todo> {
+        return realm.objects(Todo.self).where { todo in
+            todo.isCompleted == false &&
+            todo.estimatedPomodoroMinutes != nil
+        }
+    }
+    
+    func fetchCompletedPomodoroListOnSpecificDate(_ date: Date) -> Results<Pomodoro> {
+        return realm.objects(Pomodoro.self).where { pomodoro in
+            let calendar = Calendar.current
+            let start = calendar.startOfDay(for: date)
+            let end = calendar.date(byAdding: DateComponents(day: 1), to: start)!
+            
+            return pomodoro.startedTime >= start && pomodoro.endedTime <= end
         }
     }
     

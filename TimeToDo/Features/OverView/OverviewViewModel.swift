@@ -24,7 +24,9 @@ class OverviewViewModel {
     var inputTodoDoneButtonTrigger: Observable<ObjectId?> = Observable(nil)
     
     var outputDidSelectTodoCell: Observable<Todo?> = Observable(nil)
+    
     var outputDateDayList: Observable<[DateDay]?> = Observable(nil)
+    var graphPomodoroDataList: [Pomodoro] = []
     var outputTodoList: Observable<[Todo]?> = Observable(nil)
     
     var outputTodoDoneButtonImage: Observable<Void?> = Observable(nil)
@@ -38,6 +40,7 @@ class OverviewViewModel {
         
         inputViewWillAppearTrigger.bind { [weak self] _ in
             self?.fetchTodo()
+            self?.fetchGraphTodoData()
             self?.calcDateDays()
         }
         
@@ -62,8 +65,13 @@ class OverviewViewModel {
         let todoList = Array(repository.fetchTodo().filter { todo in
             todo.isDeleted == false
         })
-        print("fetchTodo: \(todoList)")
-        outputTodoList.value = todoList
+        outputTodoList.value = (todoList)
+    }
+    
+    private func fetchGraphTodoData() {
+        // MARK: 1.0 버전 기준에서는 오늘에 해당하는 데이터만 가져오기
+        // MARK: 다른 셀을 선택하려고 하면 위의 DateDay 구조체의 내부 값 문제때문에..
+        graphPomodoroDataList = Array(repository.fetchCompletedPomodoroListOnSpecificDate(Date()))
     }
     
     private func calcDateDays() {
@@ -100,12 +108,11 @@ class OverviewViewModel {
             }
         }
         
-        outputDateDayList.value = dateDayList
+        outputDateDayList.value = (dateDayList)
     }
     
     private func toggleTodoIdCompleted(_ todoId: ObjectId?) {
         guard let todoId else { return }
-        print("toggling todo")
         repository.updateTodoCompleteStatus(id: todoId)
     }
     

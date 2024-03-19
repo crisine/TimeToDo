@@ -38,7 +38,7 @@ class DueDatePickerViewController: BaseViewController {
     }()
     
     var delegate: SendDueDate?
-    var selectedDueDate: Date?
+    private var selectedDueDate: Date?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +61,10 @@ class DueDatePickerViewController: BaseViewController {
     override func configureView() {
         navigationItem.setLeftBarButton(cancelBarButton, animated: true)
         navigationItem.setRightBarButton(doneBarButton, animated: true)
+        
+        if let selectedDueDate {
+            calendarView.select(selectedDueDate)
+        }
     }
 }
 
@@ -81,5 +85,12 @@ extension DueDatePickerViewController: FSCalendarDelegate {
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         selectedDueDate = date
         doneBarButton.isEnabled = true
+    }
+}
+
+// MARK: Date 값 전달 관련
+extension DueDatePickerViewController: SendDueDate {
+    func sendDueDate(date: Date) {
+        selectedDueDate = date
     }
 }

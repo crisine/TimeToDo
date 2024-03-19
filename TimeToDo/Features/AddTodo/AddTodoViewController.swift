@@ -91,6 +91,9 @@ final class AddTodoViewController: BaseViewController {
     private var itemList = [Item(section: .date, iconImage: UIImage(systemName: "calendar")!, title: "마감 날짜",                           value: "", type: .dueDate),
                             Item(section: .pomo, iconImage: UIImage(systemName: "timer")!, title: "뽀모도로 시간", value: "", type: .pomoTime)]
     
+    private lazy var doneButton = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(didDoneButtonTapped))
+    private lazy var cancelButton = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(didCancelButtonTapped))
+    
     private let viewModel = AddTodoViewModel()
     
     override func viewDidLoad() {
@@ -151,14 +154,15 @@ final class AddTodoViewController: BaseViewController {
     override func configureView() {
         navigationItem.title = "새로운 할 일 추가"
         
-        let doneButton = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(didDoneButtonTapped))
         doneButton.tintColor = .tint
+        doneButton.isEnabled = false
         
-        let cancelButton = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(didCancelButtonTapped))
         cancelButton.tintColor = .systemRed
         
         navigationItem.rightBarButtonItem = doneButton
         navigationItem.leftBarButtonItem = cancelButton
+        
+        titleTextField.addTarget(self, action: #selector(didTitleTextFieldChanged), for: .editingChanged)
     }
     
 }
@@ -253,9 +257,21 @@ extension AddTodoViewController: SendPomotime, SendDueDate {
     }
 }
 
+// MARK: TextField 관련
 extension AddTodoViewController: UITextFieldDelegate {
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
+    @objc
+    private func didTitleTextFieldChanged(_ textField: UITextField) {
+        guard let text = textField.text else { return }
+        
+        if !text.isEmpty {
+            doneButton.isEnabled = true
+        } else {
+            doneButton.isEnabled = false
+        }
+    }
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
         viewModel.inputTodoTitle.value = (textField.text)
     }
 }
@@ -276,6 +292,16 @@ extension AddTodoViewController: UITextViewDelegate {
         if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             textView.text = "todo_memo_placeholder".localized()
             textView.textColor = .systemGray3
+            viewModel.inputTextViewDidBeginEditTrigger.value = ()
+        } else {
+            viewModel.inputTextViewDidEndEditTrigger.value = (textView.text)
+        }
+    }
+    
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        if viewModel.isAddTodoTextFieldEdited == true &&
+            textView.text == "todo_memo_placeholder".localized() {
+            return
         } else {
             viewModel.inputTextViewDidEndEditTrigger.value = (textView.text)
         }
@@ -301,6 +327,10 @@ extension AddTodoViewController: UICollectionViewDelegate {
         let vc = DueDatePickerViewController()
         vc.delegate = self
         
+        if let selectedDueDate = viewModel.todoDueDate {
+            vc.sendDueDate(date: selectedDueDate)
+        }
+        
         let nav = UINavigationController(rootViewController: vc)
         
         if let sheet = nav.sheetPresentationController {
@@ -314,6 +344,10 @@ extension AddTodoViewController: UICollectionViewDelegate {
     private func didPomoTimeCellTapped() {
         let vc = PomoPickerViewController()
         vc.delegate = self
+        
+        if let minutes = viewModel.pomodoroMinutes {
+            vc.sendPomoTime(minutes: minutes)
+        }
         
         let nav = UINavigationController(rootViewController: vc)
         

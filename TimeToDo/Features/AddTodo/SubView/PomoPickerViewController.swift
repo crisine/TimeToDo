@@ -34,12 +34,17 @@ class PomoPickerViewController: BaseViewController {
     var delegate: SendPomotime?
     
     override func viewWillAppear(_ animated: Bool) {
-        pomoPickerView.selectRow(24, inComponent: 0, animated: true)
+        
+        if selectedPomoTime == nil {
+            selectedPomoTime = 25
+            return pomoPickerView.selectRow(24, inComponent: 0, animated: true)
+        } else {
+            return pomoPickerView.selectRow(selectedPomoTime! - 1, inComponent: 0, animated: true)
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         pomoPickerView.delegate = self
         pomoPickerView.dataSource = self
@@ -96,5 +101,12 @@ extension PomoPickerViewController: UIPickerViewDelegate, UIPickerViewDataSource
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         selectedPomoTime = Int(pickerTitleList[row])
+    }
+}
+
+// MARK: Pomodoro 시간 값 전달 관련
+extension PomoPickerViewController: SendPomotime {
+    func sendPomoTime(minutes: Int) {
+        selectedPomoTime = minutes
     }
 }

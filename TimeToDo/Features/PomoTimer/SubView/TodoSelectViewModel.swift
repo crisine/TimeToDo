@@ -19,7 +19,7 @@ final class TodoSelectViewModel {
     
     private func transform() {
         inputViewDidLoadTrigger.bind { [weak self] _ in
-            guard let fetchedTodoList = self?.repository.fetchNotCompletedTodo() else { return }
+            guard let fetchedTodoList = self?.repository.fetchNotCompletedPomodoroTodo() else { return }
             self?.fetchedTodoList = Array(fetchedTodoList)
         }
     }

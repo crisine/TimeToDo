@@ -70,6 +70,17 @@ final class PomoTimerViewController: BaseViewController {
     }
     
     private func transform() {
+        
+        viewModel.outputTimerIsRunning.bind { [weak self] timerIsRunning in
+            guard let timerIsRunning else { return }
+            
+            if timerIsRunning {
+                self?.disableSelectTodoButton()
+            } else {
+                self?.enableSelectTodoButton()
+            }
+        }
+        
         viewModel.outputTimerLabelText.bind { [weak self] timeString in
             self?.timeLabel.text = timeString
         }
@@ -85,6 +96,11 @@ final class PomoTimerViewController: BaseViewController {
         
         viewModel.outputTodoButtonTitleText.bind { [weak self] todoButtonTitleText in
             self?.selectTodoButton.setTitle(todoButtonTitleText, for: .normal)
+        }
+        
+        viewModel.outputTodoIsntSelectedMessage.bind { [weak self] message in
+            guard let message else { return }
+            self?.showToast(message: message)
         }
     }
     
@@ -132,6 +148,17 @@ final class PomoTimerViewController: BaseViewController {
         resetButton.addTarget(self, action: #selector(didResetButtonTapped), for: .touchUpInside)
     }
     
+    private func enableSelectTodoButton() {
+        selectTodoButton.isEnabled = true
+        selectTodoButton.layer.borderColor = UIColor.tint.cgColor
+        selectTodoButton.backgroundColor = .background
+    }
+    
+    private func disableSelectTodoButton() {
+        selectTodoButton.isEnabled = false
+        selectTodoButton.layer.borderColor = UIColor.systemGray.cgColor
+        selectTodoButton.backgroundColor = .systemGray6
+    }
 }
 
 // MARK: local push 관련
@@ -151,6 +178,15 @@ extension PomoTimerViewController {
     
     @objc
     private func didSelectTodoButtonTapped() {
+        
+        // 뽀모도로 시간이 이미 1초라도 경과했으면 초기화에 대한 경고를 띄워줘야 한다.
+        if let pomodoroHasStarted = viewModel.pomodoroHasStarted,
+               pomodoroHasStarted == true {
+            showAlert(title: "뽀모도로가 진행 중입니다.", message: "작업을 변경하는 경우 뽀모도로 진행 상황을 잃을 수 있습니다.", okTitle: "확인") { [weak self] in
+                self?.viewModel.inputResetButtonTapped.value = ()
+            }
+        }
+        
         let vc = TodoSelectViewController()
         vc.delegate = self
         

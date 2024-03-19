@@ -29,9 +29,10 @@ final class MainTabBarViewController: UITabBarController {
         
         pomoTimerVC.tabBarItem = UITabBarItem(title: "pomotimer_tab_bar_title".localized(), image: UIImage(systemName: "timer"), selectedImage: UIImage(systemName: "timer_fill"))
         
-        settingVC.tabBarItem = UITabBarItem(title: "setting_tab_bar_title".localized(), image: UIImage(systemName: "gear"), selectedImage: UIImage(systemName: "gear_fill"))
+        // 1.0기준 설정 뷰 제외
+//        settingVC.tabBarItem = UITabBarItem(title: "setting_tab_bar_title".localized(), image: UIImage(systemName: "gear"), selectedImage: UIImage(systemName: "gear_fill"))
         
-        setViewControllers([overViewVC, pomoTimerVC, settingVC], animated: false)
+        setViewControllers([overViewVC, pomoTimerVC], animated: false)
     }
     
 }

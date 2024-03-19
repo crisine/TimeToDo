@@ -20,7 +20,7 @@ final class OverviewViewController: BaseViewController {
 
     enum OverviewSectionItem: Hashable {
         case calendar(DateDay)
-        case graph(Int)
+        case graph([Pomodoro])
         case todo(Todo)
     }
     
@@ -108,14 +108,13 @@ extension OverviewViewController {
     }
     
     func updateSnapshot() {
-        print("updateSnapshot")
         var snapshot = NSDiffableDataSourceSnapshot<OverviewSection, OverviewSectionItem>()
         
         snapshot.appendSections(sections)
         viewModel.outputDateDayList.value?.forEach { snapshot.appendItems([.calendar($0)], toSection: .calendar) }
         
         // TODO: Todo 데이터를 전달하여 각 Bar에서 날짜별로 판단하게 해야 함..
-        [1, 10, 100, 1000].forEach { snapshot.appendItems([.graph($0)], toSection: .graph) }
+        snapshot.appendItems([.graph(viewModel.graphPomodoroDataList)], toSection: .graph)
         
         // TODO: Todo 끌어와서 표시해보기
         viewModel.outputTodoList.value?.forEach { snapshot.appendItems([.todo($0)], toSection: .todo) }
@@ -145,27 +144,15 @@ extension OverviewViewController {
                 cell.dayLabel.text = dateDay.weekday
                 cell.dayNumberImageView.image = UIImage(systemName: "\(dateDay.dayNumber).square.fill")
                 
-                print("dateDay.isSelected: \(dateDay.isSelected)")
-                print("dateDay.isToday: \(dateDay.isToday), day: \(dateDay.dayNumber)")
                 if dateDay.isSelected { cell.appearingAsSelected() }
                 if dateDay.isToday { cell.appearingAsToday() }
                 
                 return cell
                 
-            case .graph(let number):
+            case .graph(let pomodoroList):
                 let cell = self?.mainCollectionView.dequeueReusableCell(withReuseIdentifier: ChartCollectionViewCell.identifier, for: indexPath) as! ChartCollectionViewCell
                 
-                // MARK: 잠깐만.. 이대로면 계속 barChartEntry가 생겨서 마지막 데이터만 들어가겠는데..? 해결 방법 필요!!
-//                var barChartEntry = [BarChartDataEntry]()
-//                
-//                let value = BarChartDataEntry(x: Double(number), y: Double(Int.random(in: 1...3)))
-//                barChartEntry.append(value)
-//                
-//                let bar = BarChartDataSet(entries: barChartEntry, label: "완료한 할 일")
-//                bar.colors = [NSUIColor.tint]
-//                
-//                let data = BarChartData(dataSet: bar)
-//                cell.barChartView.data = data
+                cell.updateCell(pomodoroList: pomodoroList)
                 
                 return cell
             case .todo(let todo):
@@ -176,7 +163,6 @@ extension OverviewViewController {
                 
                 let doneButtonImageName = todo.isCompleted == true ? "checkmark.circle.fill" : "circle"
                 cell.doneButton.setImage(UIImage(systemName: doneButtonImageName), for: .normal)
-                print(doneButtonImageName)
                 
                 cell.dueDateLabel.text = todo.dueDate?.toString
                 cell.subStackView.isHidden = todo.dueDate != nil ? false : true
@@ -287,7 +273,6 @@ extension OverviewViewController {
 extension OverviewViewController {
     @objc private func didTodoDoneButtonTapped(gesture: TodoDoneButtonGestureRecognizer) {
         guard let id = gesture.id else { return }
-        print("gesture catched")
         viewModel.inputTodoDoneButtonTrigger.value = (id)
     }
 }
