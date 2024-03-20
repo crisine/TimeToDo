@@ -68,7 +68,7 @@ final class PomoTimerViewModel {
     }
     
     private func startButtonTapped() {
-        guard selectedTodo != nil else {
+        guard let selectedTodo else {
             return outputTodoIsntSelectedMessage.value = ("할 일을 선택해주세요")
         }
         
@@ -87,7 +87,7 @@ final class PomoTimerViewModel {
             isTimerRunning = true
             outputStartButtonTitleText.value = "pause_timer".localized()
             makeNewTimer()
-            Notification.shared.sendNotification(seconds: Double(pomodoroSeconds), notificationIdentifier: notificationIdentifier)
+            Notification.shared.sendNotification(title: selectedTodo.title, body: "뽀모도로 타이머가 종료되었습니다.", seconds: Double(pomodoroSeconds), notificationIdentifier: notificationIdentifier)
             outputTimerIsRunning.value = (true)
         }
     }

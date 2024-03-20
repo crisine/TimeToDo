@@ -16,12 +16,14 @@ final class OverviewViewController: BaseViewController {
         case calendar
         case graph
         case todo
+        case completedTodo
     }
 
     enum OverviewSectionItem: Hashable {
         case calendar(DateDay)
         case graph([Pomodoro])
         case todo(Todo)
+        case completedTodo(Todo)
     }
     
     lazy var mainCollectionView: UICollectionView = {
@@ -57,7 +59,7 @@ final class OverviewViewController: BaseViewController {
         mainCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
     }
     
-    func transform() {
+    private func transform() {
         viewModel.outputDateDayList.bind { [weak self] _ in
             self?.configureDataSource()
             self?.updateSnapshot()
@@ -65,7 +67,7 @@ final class OverviewViewController: BaseViewController {
         
         viewModel.outputTodoList.bind { [weak self] _ in
             self?.updateSnapshot() // TODO: 임시방편 (Todo 셀에 변화가 있을때마다 이쪽도 호출됨)
-            self?.reconfigureSnapshotItems()
+//            self?.reconfigureSnapshotItems()
         }
         
         viewModel.outputDidSelectTodoCell.bind { [weak self] todo in
@@ -116,8 +118,17 @@ extension OverviewViewController {
         // TODO: Todo 데이터를 전달하여 각 Bar에서 날짜별로 판단하게 해야 함..
         snapshot.appendItems([.graph(viewModel.graphPomodoroDataList)], toSection: .graph)
         
-        // TODO: Todo 끌어와서 표시해보기
-        viewModel.outputTodoList.value?.forEach { snapshot.appendItems([.todo($0)], toSection: .todo) }
+        viewModel.outputTodoList.value?.filter({ todo in
+            todo.isCompleted == false
+        }).forEach({ todo in
+            snapshot.appendItems([.todo(todo)], toSection: .todo)
+        })
+        
+        viewModel.outputTodoList.value?.filter({ todo in
+            todo.isCompleted == true
+        }).forEach({ todo in
+            snapshot.appendItems([.completedTodo(todo)], toSection: .completedTodo)
+        })
         
         dataSource.apply(snapshot, animatingDifferences: true)
     }
@@ -160,8 +171,7 @@ extension OverviewViewController {
             case .todo(let todo):
                 let cell = self?.mainCollectionView.dequeueReusableCell(withReuseIdentifier: TodoCollectionViewCell.identifier, for: indexPath) as! TodoCollectionViewCell
                 
-                let titleText = todo.isCompleted == true ? todo.title.strikeThrough() : NSAttributedString(string: todo.title)
-                cell.todoTitleLabel.attributedText = titleText
+                cell.todoTitleLabel.text = todo.title
                 
                 let doneButtonImageName = todo.isCompleted == true ? "checkmark.circle.fill" : "circle"
                 cell.doneButton.setImage(UIImage(systemName: doneButtonImageName), for: .normal)
@@ -171,6 +181,27 @@ extension OverviewViewController {
                 
                 let gesture = TodoDoneButtonGestureRecognizer(target: self, action: #selector(self?.didTodoDoneButtonTapped))
                 gesture.id = todo.id
+                
+                cell.doneButton.addGestureRecognizer(gesture)
+                
+                return cell
+            case .completedTodo(let completedTodo):
+                let cell = self?.mainCollectionView.dequeueReusableCell(withReuseIdentifier: TodoCollectionViewCell.identifier, for: indexPath) as! TodoCollectionViewCell
+                
+                // TODO: 데이터를 셀에 넘기고 셀에서 알아서 하는 식으로 1.1v 이후로 고칠 것
+                cell.todoTitleLabel.text = completedTodo.title
+                cell.todoTitleLabel.textColor = .systemGray
+                
+                let doneButtonImageName = completedTodo.isCompleted == true ? "checkmark.circle.fill" : "circle"
+                cell.doneButton.setImage(UIImage(systemName: doneButtonImageName), for: .normal)
+                
+                cell.backgroundView?.backgroundColor = .systemGray4
+                
+                cell.dueDateLabel.text = completedTodo.dueDate?.toString
+                cell.subStackView.isHidden = completedTodo.dueDate != nil ? false : true
+                
+                let gesture = TodoDoneButtonGestureRecognizer(target: self, action: #selector(self?.didTodoDoneButtonTapped))
+                gesture.id = completedTodo.id
                 
                 cell.doneButton.addGestureRecognizer(gesture)
                 
@@ -209,6 +240,15 @@ extension OverviewViewController {
                 return section
                 
             case .todo:
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
+                let group = NSCollectionLayoutGroup.vertical(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(52)), subitems: [item])
+                let section = NSCollectionLayoutSection(group: group)
+                
+                section.interGroupSpacing = 4
+                section.contentInsets = .init(top: 0, leading: 16, bottom: 0, trailing: 16)
+                
+                return section
+            case .completedTodo:
                 let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
                 let group = NSCollectionLayoutGroup.vertical(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(52)), subitems: [item])
                 let section = NSCollectionLayoutSection(group: group)

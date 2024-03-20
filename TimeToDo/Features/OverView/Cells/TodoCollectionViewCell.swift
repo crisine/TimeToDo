@@ -126,6 +126,11 @@ class TodoCollectionViewCell: BaseCollectionViewCell {
         
     }
     
+    override func prepareForReuse() {
+        backView.backgroundColor = .systemGray6
+        todoTitleLabel.textColor = .text
+    }
+    
     func updateUI() {
         
     }

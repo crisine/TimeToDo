@@ -71,9 +71,7 @@ class OverviewViewModel {
 
     // TODO: filtering이 필요함. 가령 현재 날짜의 Todo만 보인다던가 등..
     private func fetchTodo() {
-        let todoList = Array(repository.fetchTodo().filter { todo in
-            todo.isDeleted == false
-        })
+        let todoList = Array(repository.fetchTodo())
         outputTodoList.value = (todoList)
     }
     

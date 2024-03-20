@@ -17,17 +17,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="uUp-34-gbr">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                            <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Splash" translatesAutoresizingMaskIntoConstraints="NO" id="svO-GT-VS8">
+                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="uUp-34-gbr" secondAttribute="bottom" id="40z-PX-5gj"/>
-                            <constraint firstItem="uUp-34-gbr" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="RwJ-CQ-G8o"/>
-                            <constraint firstItem="uUp-34-gbr" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="h3f-IS-3kM"/>
-                            <constraint firstItem="uUp-34-gbr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="iVo-rt-aC0"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="svO-GT-VS8" secondAttribute="bottom" id="AZI-ON-Tv6"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="svO-GT-VS8" secondAttribute="trailing" id="LkY-1F-kau"/>
+                            <constraint firstItem="svO-GT-VS8" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="awh-Ac-eJd"/>
+                            <constraint firstItem="svO-GT-VS8" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="tof-ph-Yl9"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -37,7 +37,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="splash" width="414" height="736"/>
+        <image name="Splash" width="414" height="736"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

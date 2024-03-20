@@ -25,11 +25,11 @@ final class Notification {
         }
     }
 
-    func sendNotification(seconds: Double, notificationIdentifier: String) {
+    func sendNotification(title: String, body: String, seconds: Double, notificationIdentifier: String) {
         let notificationContent = UNMutableNotificationContent()
 
-        notificationContent.title = "뽀모도로 종료"
-        notificationContent.body = "뽀모도로 타이머가 종료되었습니다"
+        notificationContent.title = title
+        notificationContent.body = body
 
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: seconds, repeats: false)
         let request = UNNotificationRequest(identifier: notificationIdentifier,
