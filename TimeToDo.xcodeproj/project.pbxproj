@@ -14,6 +14,7 @@
 		FAA1410C2BA7105800D12951 /* TodoSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA1410B2BA7105800D12951 /* TodoSelectViewController.swift */; };
 		FAA141152BA7F1C100D12951 /* TodoSelectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA141142BA7F1C100D12951 /* TodoSelectViewModel.swift */; };
 		FAA141172BA8471500D12951 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA141162BA8471500D12951 /* CircularProgressView.swift */; };
+		FAA141262BAB2BC300D12951 /* SwiftyGif in Frameworks */ = {isa = PBXBuildFile; productRef = FAA141252BAB2BC300D12951 /* SwiftyGif */; };
 		FAA928632B99850800B21BA7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928622B99850800B21BA7 /* AppDelegate.swift */; };
 		FAA928652B99850800B21BA7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA928642B99850800B21BA7 /* SceneDelegate.swift */; };
 		FAA9286C2B99850900B21BA7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAA9286B2B99850900B21BA7 /* Assets.xcassets */; };
@@ -105,6 +106,7 @@
 			files = (
 				FAA928822B99998F00B21BA7 /* Toast in Frameworks */,
 				FAA9290B2BA3393600B21BA7 /* FSCalendar in Frameworks */,
+				FAA141262BAB2BC300D12951 /* SwiftyGif in Frameworks */,
 				FAA9287F2B99997D00B21BA7 /* RealmSwift in Frameworks */,
 				FAA928E92BA07C5000B21BA7 /* DGCharts in Frameworks */,
 				FAA9287D2B99997D00B21BA7 /* Realm in Frameworks */,
@@ -353,6 +355,7 @@
 				FAA928812B99998F00B21BA7 /* Toast */,
 				FAA928E82BA07C5000B21BA7 /* DGCharts */,
 				FAA9290A2BA3393600B21BA7 /* FSCalendar */,
+				FAA141252BAB2BC300D12951 /* SwiftyGif */,
 			);
 			productName = TimeToDo;
 			productReference = FAA9285F2B99850800B21BA7 /* TimeToDo.app */;
@@ -390,6 +393,7 @@
 				FAA928802B99998F00B21BA7 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				FAA928E72BA07C5000B21BA7 /* XCRemoteSwiftPackageReference "Charts" */,
 				FAA929092BA3393600B21BA7 /* XCRemoteSwiftPackageReference "FSCalendar" */,
+				FAA141242BAB2BC300D12951 /* XCRemoteSwiftPackageReference "SwiftyGif" */,
 			);
 			productRefGroup = FAA928602B99850800B21BA7 /* Products */;
 			projectDirPath = "";
@@ -524,7 +528,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -582,7 +586,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -602,9 +606,12 @@
 				DEVELOPMENT_TEAM = JJS82CC46U;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TimeToDo/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Time To Do";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -634,9 +641,12 @@
 				DEVELOPMENT_TEAM = JJS82CC46U;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TimeToDo/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Time To Do";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -680,6 +690,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		FAA141242BAB2BC300D12951 /* XCRemoteSwiftPackageReference "SwiftyGif" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kirualex/SwiftyGif.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.4.4;
+			};
+		};
 		FAA928782B99995C00B21BA7 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -723,6 +741,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		FAA141252BAB2BC300D12951 /* SwiftyGif */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FAA141242BAB2BC300D12951 /* XCRemoteSwiftPackageReference "SwiftyGif" */;
+			productName = SwiftyGif;
+		};
 		FAA928792B99995C00B21BA7 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = FAA928782B99995C00B21BA7 /* XCRemoteSwiftPackageReference "SnapKit" */;
