@@ -117,7 +117,12 @@ final class PomoTimerViewModel {
         startedTime = nil
         circularViewProgressValue = 0
         outputCircularProgress.value = (circularViewProgressValue)
+        outputTimerIsRunning.value = isTimerRunning
         pomodoroHasStarted = false
+        
+        guard let selectedTodo else { return }
+        guard let estimatedPomodoroMinutes = selectedTodo.estimatedPomodoroMinutes else { return }
+        pomodoroSeconds = estimatedPomodoroMinutes * 60
     }
     
     @objc private func timerCounter() {

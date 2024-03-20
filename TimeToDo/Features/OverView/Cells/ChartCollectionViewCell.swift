@@ -50,38 +50,6 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
     
     override func configureCell() {
         
-        var barChartEntry = [BarChartDataEntry]()
-        
-        /*
-            시간계산쪽이 좀 문제인데..
-            통계를 낼거면 일단 0~23시가 X축을 담당하고, Y축은 최대 60까지 솟을 수 있도록 만들어야 함
-            
-            뽀모도로 시간은 startedTime 하고 endTime 사이가 걸친 경우가 문제가 될텐데
-         
-            [일단 Cell 바깥의 Datasource에서 오늘 진행한 Todo만 던져준다고 가정]
-            0시 loop를 도는 경우 Date의 날짜값 중 startedDate 의 HH:MM 값이 00:00~00:59 인 값을 찾아야함
-            
-         그러면 예를 들어서 시작이 00:50 인 투두가 있고 25분인 뽀모도로가 있다고 치자. 그러면 00:00과의 차이를 구하고
-         
-         */
-        
-//        pomodoroList.forEach { pomodoro in
-//            barChartEntry.append(BarChartDataEntry(x: <#T##Double#>, y: <#T##Double#>))
-//        }
-        
-        let value = BarChartDataEntry(x: 0, y: 4)
-        let value2 = BarChartDataEntry(x: 1, y: 7)
-        let value3 = BarChartDataEntry(x: 2, y: 3)
-        barChartEntry.append(value)
-        barChartEntry.append(value2)
-        barChartEntry.append(value3)
-        
-        let bar = BarChartDataSet(entries: barChartEntry, label: "집중한 시간")
-        bar.colors = [NSUIColor.tint]
-        
-        let data = BarChartData(dataSet: bar)
-        barChartView.data = data
-        barChartView.drawGridBackgroundEnabled = false
     }
     
     private func formatLeftAxis(leftAxis: YAxis) {
@@ -89,39 +57,69 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
         formatter.numberStyle = .decimal
         leftAxis.valueFormatter = DefaultAxisValueFormatter(formatter: formatter)
         leftAxis.axisMinimum = 0
+        leftAxis.axisMaximum = 60
     }
     
     private func formatXAxis(xAxis: XAxis) {
-        // TODO: (values: ) 에 [dateString] 등이 전달되어야 막대 하단에 날짜등을 표시할 수 있음.
-        xAxis.valueFormatter = IndexAxisValueFormatter(values: ["03/01", "03/02", "03/03"]) // MARK: 임시 데이터!!
+        let axisValueList = Array(0...23).map { holderNumber in
+            "\(holderNumber)시"
+        }
+        
+        xAxis.valueFormatter = IndexAxisValueFormatter(values: axisValueList)
         xAxis.labelPosition = .bottom
         xAxis.drawGridLinesEnabled = false
     }
     
-    func updateCell(pomodoroList: [Pomodoro]) {
+    func updateCell(currentDate: Date, pomodoroList: [Pomodoro]) {
         
-        /*
-            1. X축에는 0~23시가 들어가야함
-            2. Y축은 해당 시간 내에서 집중한 시간을 계산해야함.
-         */
         var barChartEntry = [BarChartDataEntry]()
         
-        pomodoroList.forEach { pomodoro in
-            barChartEntry.append(BarChartDataEntry(x: <#T##Double#>, y: <#T##Double#>))
-        }
+        // 현재 선택한 날짜와 시간을 가져옴
+        let now = currentDate
+        let calendar = Calendar.current
+
+        // 현재 날짜의 0시로 설정
+        var currentDateComponents = calendar.dateComponents([.year, .month, .day], from: now)
+        currentDateComponents.hour = 0
+        let startDate = calendar.date(from: currentDateComponents)!
+
+        var timeList = Array(repeating: 0, count: 24)
+        var passingTime = 0
+        
+        // 데이터 선별하여 따로 담기
+        for hour in 0..<24 {
+            
+            // 현재 날짜의 시간을 시간대(hour)로 설정
+            let date = calendar.date(byAdding: .hour, value: hour, to: startDate)!
+            
+            timeList[hour] += passingTime
+            passingTime = 0 // 진입 전 초기화
+            
+            pomodoroList.forEach { pomo in
                 
-        let value = BarChartDataEntry(x: 0, y: 4)
-        let value2 = BarChartDataEntry(x: 1, y: 7)
-        let value3 = BarChartDataEntry(x: 2, y: 3)
-        barChartEntry.append(value)
-        barChartEntry.append(value2)
-        barChartEntry.append(value3)
+                if pomo.startedTime >= date && pomo.endedTime <= date + 3600 {
+                    timeList[hour] += pomo.elapsedMinutes
+                } else if pomo.startedTime <= date && pomo.endedTime >= date {
+                    timeList[hour] += abs(Int(pomo.startedTime.timeIntervalSince(date)) / 60)
+                    passingTime += abs(Int(pomo.endedTime.timeIntervalSince(date)) / 60)
+                }
+                
+            }
+        }
+        
+        // 데이터 추가
+        for hour in 0..<24 {
+            barChartEntry.append(BarChartDataEntry(x: Double(hour), y: Double(timeList[hour])))
+        }
         
         let bar = BarChartDataSet(entries: barChartEntry, label: "집중한 시간")
         bar.colors = [NSUIColor.tint]
+        bar.drawValuesEnabled = false
         
         let data = BarChartData(dataSet: bar)
+        
         barChartView.data = data
         barChartView.drawGridBackgroundEnabled = false
     }
+
 }

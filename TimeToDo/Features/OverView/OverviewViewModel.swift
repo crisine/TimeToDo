@@ -14,6 +14,7 @@ class OverviewViewModel {
     
     var todayDayInt: Int = Date().dayToInt
     var selectedCalendarCell: DateDay?
+    var selectedDate: Date?
     
     // var inputCalendarBarButtonTrigger: Observable<Void?> = Observable(nil)
     
@@ -37,11 +38,13 @@ class OverviewViewModel {
     }
     
     func transform() {
-        
         inputViewWillAppearTrigger.bind { [weak self] _ in
             self?.fetchTodo()
-            self?.fetchGraphTodoData()
+            self?.fetchGraphPomodoroData()
             self?.calcDateDays()
+            
+            guard let selectedDate = self?.calcSelectedDate() else { return }
+            self?.selectedDate = selectedDate
         }
         
         inputDidSelectTodoCellTrigger.bind { [weak self] todo in
@@ -51,6 +54,12 @@ class OverviewViewModel {
         inputDidSelectCalendarCellTrigger.bind { [weak self] cell in
             guard let cell else { return }
             self?.selectedCalendarCell = cell
+            
+            guard let selectedDate = self?.calcSelectedDate() else { return }
+            self?.selectedDate = selectedDate
+            
+            self?.fetchGraphPomodoroData()
+            
             self?.calcDateDays()
         }
         
@@ -68,10 +77,20 @@ class OverviewViewModel {
         outputTodoList.value = (todoList)
     }
     
-    private func fetchGraphTodoData() {
+    private func fetchGraphPomodoroData() {
         // MARK: 1.0 버전 기준에서는 오늘에 해당하는 데이터만 가져오기
         // MARK: 다른 셀을 선택하려고 하면 위의 DateDay 구조체의 내부 값 문제때문에..
-        graphPomodoroDataList = Array(repository.fetchCompletedPomodoroListOnSpecificDate(Date()))
+        guard let selectedDate = calcSelectedDate() else { return }
+        graphPomodoroDataList = Array(repository.fetchCompletedPomodoroListOnSpecificDate(selectedDate))
+    }
+    
+    private func calcSelectedDate() -> Date? {
+        if let selectedCalendarCell {
+            let selectedDay = selectedCalendarCell.dayNumber
+            return combineDate(day: selectedDay, month: getCurrentMonth(), year: getCurrentYear())
+        } else {
+            return Date()
+        }
     }
     
     private func calcDateDays() {
@@ -109,6 +128,29 @@ class OverviewViewModel {
         }
         
         outputDateDayList.value = (dateDayList)
+    }
+    
+    private func combineDate(day: String, month: String, year: String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+
+        guard let date = dateFormatter.date(from: "\(year)-\(month)-\(day)") else {
+            return nil
+        }
+
+        return date
+    }
+
+    private func getCurrentMonth() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM"
+        return dateFormatter.string(from: Date())
+    }
+
+    private func getCurrentYear() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy"
+        return dateFormatter.string(from: Date())
     }
     
     private func toggleTodoIdCompleted(_ todoId: ObjectId?) {

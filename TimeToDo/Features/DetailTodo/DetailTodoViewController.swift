@@ -60,6 +60,23 @@ final class DetailTodoViewController: BaseViewController {
         return view
     }()
     
+    private let calendarImageView: UIImageView = {
+        let view = UIImageView()
+        
+        view.image = UIImage(systemName: "calendar.badge.clock")
+        view.tintColor = .tint
+        
+        return view
+    }()
+    private let dueDateLabel: UILabel = {
+        let view = UILabel()
+        
+        view.font = .boldSystemFont(ofSize: 24)
+        view.textColor = .text
+        
+        return view
+    }()
+    
     private lazy var pomodoroDashboardCollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
         view.clipsToBounds = true
@@ -99,14 +116,6 @@ final class DetailTodoViewController: BaseViewController {
         
         return view
     }()
-    private let dueDateLabel: UILabel = {
-        let view = UILabel()
-        
-        view.font = .systemFont(ofSize: 14)
-        view.textColor = .text
-        
-        return view
-    }()
     
     let viewModel = DetailTodoViewModel()
     
@@ -132,7 +141,7 @@ final class DetailTodoViewController: BaseViewController {
     }
     
     override func configureHierarchy() {
-        [titleLabel, titleLableUnderLineView, timerImageView, estimatedPomodoroMinutesLabel, pomodoroDashboardCollectionView, memoHolderLabel, memoTextView, priorityLabel, dueDateLabel].forEach {
+        [titleLabel, titleLableUnderLineView, timerImageView, estimatedPomodoroMinutesLabel, calendarImageView, dueDateLabel, pomodoroDashboardCollectionView, memoHolderLabel, memoTextView].forEach {
             view.addSubview($0)
         }
     }
@@ -164,8 +173,21 @@ final class DetailTodoViewController: BaseViewController {
             make.height.equalTo(timerImageView.snp.height)
         }
         
+        calendarImageView.snp.makeConstraints { make in
+            make.top.equalTo(timerImageView.snp.bottom).offset(8)
+            make.leading.equalTo(timerImageView.snp.leading)
+            make.size.equalTo(timerImageView)
+        }
+        
+        dueDateLabel.snp.makeConstraints { make in
+            make.top.equalTo(calendarImageView.snp.top)
+            make.leading.equalTo(calendarImageView.snp.trailing).offset(4)
+            make.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.height.equalTo(calendarImageView.snp.height)
+        }
+        
         memoHolderLabel.snp.makeConstraints { make in
-            make.top.equalTo(estimatedPomodoroMinutesLabel.snp.bottom).offset(8)
+            make.top.equalTo(calendarImageView.snp.bottom).offset(8)
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
             make.height.equalTo(20)
         }
@@ -182,15 +204,10 @@ final class DetailTodoViewController: BaseViewController {
             make.height.equalTo(100)
         }
         
-        priorityLabel.snp.makeConstraints { make in
-            make.top.equalTo(pomodoroDashboardCollectionView.snp.bottom).offset(16)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
-        }
-        
-        dueDateLabel.snp.makeConstraints { make in
-            make.top.equalTo(priorityLabel.snp.bottom).offset(16)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
-        }
+//        priorityLabel.snp.makeConstraints { make in
+//            make.top.equalTo(pomodoroDashboardCollectionView.snp.bottom).offset(16)
+//            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
+//        }
     }
     
     override func configureView() {
@@ -199,18 +216,29 @@ final class DetailTodoViewController: BaseViewController {
         // TODO: MVVM 기준으로 바뀌어야 할 듯?
         titleLabel.text = todo.title
         
+        // TODO: 차후 아래의 뽀모도로 시간과 달력의 경우 UI요소를 스택뷰에 넣고, 값들이 존재하지 않으면 스택뷰자체를 숨기는 식으로 할 것
+        
         if let estimatedPomodoroMinutes = todo.estimatedPomodoroMinutes {
             estimatedPomodoroMinutesLabel.text = "\(estimatedPomodoroMinutes) min."
+        } else {
+            estimatedPomodoroMinutesLabel.text = "-"
+        }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        if let dueDate = todo.dueDate {
+            dueDateLabel.text = dateFormatter.string(from: dueDate)
+        } else {
+            dueDateLabel.text = "-"
         }
         
         memoTextView.text = todo.memo
         priorityLabel.text = "\(todo.priority ?? 0)"
-        dueDateLabel.text = todo.dueDate?.formatted()
+        
         
         navigationController?.navigationBar.tintColor = .tint
         navigationController?.navigationBar.topItem?.title = ""
-        
-        
     }
 
 }

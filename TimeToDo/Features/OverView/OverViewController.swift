@@ -152,7 +152,9 @@ extension OverviewViewController {
             case .graph(let pomodoroList):
                 let cell = self?.mainCollectionView.dequeueReusableCell(withReuseIdentifier: ChartCollectionViewCell.identifier, for: indexPath) as! ChartCollectionViewCell
                 
-                cell.updateCell(pomodoroList: pomodoroList)
+                guard let selectedDate = self?.viewModel.selectedDate else { return cell }
+
+                cell.updateCell(currentDate: selectedDate, pomodoroList: pomodoroList)
                 
                 return cell
             case .todo(let todo):
@@ -238,14 +240,6 @@ extension OverviewViewController: UICollectionViewDelegate {
         default:
             print("")
         }
-        
-        
-        
-//        guard let dateDay = dataSource.itemIdentifier(for: indexPath) else {
-//            // TODO: 에러 처리
-//            return
-//        }
-//        viewModel.inputDidSelectItemAtTrigger.value = (dateDay)
     }
 }
 
