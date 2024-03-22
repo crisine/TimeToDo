@@ -152,6 +152,8 @@ final class AddTodoViewController: BaseViewController {
     }
     
     override func configureView() {
+        super.configureView()
+        
         navigationItem.title = "새로운 할 일 추가"
         
         doneButton.tintColor = .tint

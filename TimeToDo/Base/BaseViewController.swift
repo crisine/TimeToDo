@@ -24,7 +24,13 @@ class BaseViewController: UIViewController {
     
     func configureConstraints() {}
     
-    func configureView() {}
+    func configureView() {
+        let imageView = UIImageView(image: UIImage(named: "NavLogo"))
+        navigationItem.titleView = imageView
+        
+        imageView.contentMode = .scaleAspectFit
+        imageView.frame = CGRect(x: 0, y: 0, width: 120, height: 64)
+    }
     
     func showAlert(title: String, message: String, okTitle: String,
                    handler: @escaping (() -> Void)) {

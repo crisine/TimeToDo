@@ -112,7 +112,7 @@ final class PomoTimerViewController: BaseViewController {
     
     override func configureConstraints() {
         selectTodoButton.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(80)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(32)
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
             make.height.equalTo(40)
         }
@@ -142,6 +142,7 @@ final class PomoTimerViewController: BaseViewController {
     }
     
     override func configureView() {
+        super.configureView()
         selectTodoButton.addTarget(self, action: #selector(didSelectTodoButtonTapped), for: .touchUpInside)
         
         startButton.addTarget(self, action: #selector(didStartButtonTapped), for: .touchUpInside)

@@ -92,7 +92,8 @@ final class OverviewViewController: BaseViewController {
     }
     
     override func configureView() {
-        navigationItem.title = "OverView"
+        super.configureView()
+        
     }
     
 }

@@ -43,6 +43,12 @@ final class PomoTimerViewModel {
             self?.outputTimerLabelText.value = self?.makeTimeString(hours: time.0, minutes: time.1, seconds: time.2)
             self?.outputTodoButtonTitleText.value = self?.selectedTodo != nil ? self?.selectedTodo?.title : "할 일을 선택하세요"
             Notification.shared.requestNotificationAuthorization()
+            
+            guard let selectedTodo = self?.selectedTodo else { return }
+            if self?.repository.fetchTodo(id: selectedTodo.id).first?.isCompleted == true {
+                self?.resetButtonTapped()
+                self?.selectedTodo = nil
+            }
         }
         
         inputSelectTodoButtonTapped.bind { [weak self] todo in

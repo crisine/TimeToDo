@@ -211,6 +211,7 @@ final class DetailTodoViewController: BaseViewController {
     }
     
     override func configureView() {
+        super.configureView()
         guard let todo = viewModel.selectedTodo else { return }
         
         // TODO: MVVM 기준으로 바뀌어야 할 듯?

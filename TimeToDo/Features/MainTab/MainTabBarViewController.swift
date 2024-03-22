@@ -10,7 +10,7 @@ import UIKit
 final class MainTabBarViewController: UITabBarController {
     
     private let overViewVC = UINavigationController(rootViewController: OverviewViewController()) 
-    private let pomoTimerVC = PomoTimerViewController()
+    private let pomoTimerVC = UINavigationController(rootViewController: PomoTimerViewController())
     private let settingVC = SettingViewController()
     
     override func viewDidLoad() {
