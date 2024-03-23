@@ -317,6 +317,8 @@ extension OverviewViewController: UICollectionViewDelegate {
             viewModel.inputDidSelectCalendarCellTrigger.value = (dateDay)
         case .todo(let todo):
             viewModel.inputDidSelectTodoCellTrigger.value = (todo)
+        case .completedTodo(let todo):
+            viewModel.inputDidSelectTodoCellTrigger.value = (todo)
         default:
             print("")
         }
