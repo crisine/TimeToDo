@@ -12,6 +12,8 @@ import DGCharts
 
 final class OverviewViewController: BaseViewController {
     
+    static let sectionHeaderElementKind = "section-header-element-kind"
+    
     enum OverviewSection: Int, Hashable, CaseIterable {
         case calendar
         case graph
@@ -108,6 +110,8 @@ extension OverviewViewController {
         mainCollectionView.register(CalendarCollectionViewCell.self, forCellWithReuseIdentifier: CalendarCollectionViewCell.identifier)
         mainCollectionView.register(ChartCollectionViewCell.self, forCellWithReuseIdentifier: ChartCollectionViewCell.identifier)
         mainCollectionView.register(TodoCollectionViewCell.self, forCellWithReuseIdentifier: TodoCollectionViewCell.identifier)
+        
+        mainCollectionView.register(SectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "SectionHeaderView")
     }
     
     func updateSnapshot() {
@@ -209,6 +213,30 @@ extension OverviewViewController {
                 return cell
             }
         })
+        
+        // Section Header 등록
+        let headerRegistration = UICollectionView.SupplementaryRegistration
+        <SectionHeaderView>(elementKind: OverviewViewController.sectionHeaderElementKind) {
+            (supplementaryView, string, indexPath) in
+            switch OverviewSection(rawValue: indexPath.section) {
+            case .calendar:
+                supplementaryView.titleLabel.text = "Calendar"
+            case .graph:
+                supplementaryView.titleLabel.text = "일일 집중 시간"
+            case .todo:
+                supplementaryView.titleLabel.text = "할 일"
+            case .completedTodo:
+                supplementaryView.titleLabel.text = "완료한 할 일"
+            default:
+                print("an error occured white setting header registration")
+            }
+        }
+        
+        // dataSource 에다가 Section Header Dequeue
+        dataSource.supplementaryViewProvider = { (view, kind, index) in
+            return self.mainCollectionView.dequeueConfiguredReusableSupplementary(
+                using: headerRegistration, for: index)
+        }
     }
     
     // 각 섹션 - 그룹 - 셀의 레이아웃 잡는 부분
@@ -216,6 +244,11 @@ extension OverviewViewController {
         UICollectionViewCompositionalLayout { sectionIndex, layoutEnviornment in
             
             guard let section = OverviewSection(rawValue: sectionIndex) else { return nil }
+            
+            let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                   heightDimension: .absolute(48)),
+                elementKind: OverviewViewController.sectionHeaderElementKind, alignment: .topLeading)
             
             switch section {
             case .calendar:
@@ -228,6 +261,8 @@ extension OverviewViewController {
                 // MARK: item을 group에 넣고, group을 section에 넣음
                 let section = NSCollectionLayoutSection(group: group)
                 
+                let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(40))
+                
                 section.orthogonalScrollingBehavior = .continuous
             
                 return section
@@ -237,6 +272,8 @@ extension OverviewViewController {
                 let section = NSCollectionLayoutSection(group: group)
                 
                 section.orthogonalScrollingBehavior = .groupPaging
+                section.contentInsets = .init(top: 0, leading: 16, bottom: 0, trailing: 16)
+                section.boundarySupplementaryItems = [sectionHeader]
                 
                 return section
                 
@@ -247,6 +284,7 @@ extension OverviewViewController {
                 
                 section.interGroupSpacing = 4
                 section.contentInsets = .init(top: 0, leading: 16, bottom: 0, trailing: 16)
+                section.boundarySupplementaryItems = [sectionHeader]
                 
                 return section
             case .completedTodo:
@@ -256,6 +294,7 @@ extension OverviewViewController {
                 
                 section.interGroupSpacing = 4
                 section.contentInsets = .init(top: 0, leading: 16, bottom: 0, trailing: 16)
+                section.boundarySupplementaryItems = [sectionHeader]
                 
                 return section
             }
@@ -282,6 +321,9 @@ extension OverviewViewController: UICollectionViewDelegate {
             print("")
         }
     }
+    
+    
+    
 }
 
 

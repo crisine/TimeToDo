@@ -9,7 +9,7 @@ import UIKit
 
 class SectionHeaderView: UICollectionReusableView {
     
-    private var titleLabel: UILabel = {
+    var titleLabel: UILabel = {
         let view = UILabel()
         view.textColor = .text
         view.font = .boldSystemFont(ofSize: 24)
@@ -35,7 +35,7 @@ class SectionHeaderView: UICollectionReusableView {
     }
     
     private func configureView() {
-        titleLabel.text = "이게 됨?"
+        
     }
     
     required init?(coder: NSCoder) {
