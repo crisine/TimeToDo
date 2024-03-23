@@ -15,10 +15,13 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
     lazy var barChartView: BarChartView = {
         let view = BarChartView()
 
-        view.rightAxis.enabled = false  // 우측 비표시
+//        view.rightAxis.enabled = false
         
-        formatLeftAxis(leftAxis: view.leftAxis)
         formatXAxis(xAxis: view.xAxis)
+        formatYAxis(yAxis: view.leftAxis)
+        formatYAxis(yAxis: view.rightAxis)
+        
+        view.rightAxis.drawLabelsEnabled = false
         
         view.drawGridBackgroundEnabled = false
         
@@ -44,7 +47,8 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
     
     override func configureConstraints() {
         barChartView.snp.makeConstraints { make in
-            make.edges.equalTo(contentView.safeAreaLayoutGuide)
+            make.top.leading.bottom.equalTo(contentView.safeAreaLayoutGuide)
+            make.trailing.equalTo(contentView.safeAreaLayoutGuide).offset(-32)
         }
     }
     
@@ -52,12 +56,12 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
         
     }
     
-    private func formatLeftAxis(leftAxis: YAxis) {
+    private func formatYAxis(yAxis: YAxis) {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        leftAxis.valueFormatter = DefaultAxisValueFormatter(formatter: formatter)
-        leftAxis.axisMinimum = 0
-        leftAxis.axisMaximum = 60
+        yAxis.valueFormatter = DefaultAxisValueFormatter(formatter: formatter)
+        yAxis.axisMinimum = 0
+        yAxis.axisMaximum = 60
     }
     
     private func formatXAxis(xAxis: XAxis) {
