@@ -13,6 +13,8 @@ final class TodoSelectViewModel {
     
     var inputViewDidLoadTrigger: Observable<Void?> = Observable(nil)
     
+    var outputViewDidLoad: Observable<Void?> = Observable(nil)
+    
     init() {
         transform()
     }
@@ -21,6 +23,10 @@ final class TodoSelectViewModel {
         inputViewDidLoadTrigger.bind { [weak self] _ in
             guard let fetchedTodoList = self?.repository.fetchNotCompletedPomodoroTodo() else { return }
             self?.fetchedTodoList = Array(fetchedTodoList)
+            
+            if fetchedTodoList.isEmpty {
+                self?.outputViewDidLoad.value = ()
+            }
         }
     }
 }

@@ -11,7 +11,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
@@ -36,26 +35,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
-        // Called when the scene has moved from an inactive state to an active state.
-        // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+        print("포그라운드로 완전히 돌아옴")
     }
 
+    // 앱이 백그라운드로 빠지기 직전에 호출
     func sceneWillResignActive(_ scene: UIScene) {
-        // Called when the scene will move from an active state to an inactive state.
-        // This may occur due to temporary interruptions (ex. an incoming phone call).
+        print("백그라운드로 빠지기 전")
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "sceneWillResignActive"), object: nil)
     }
 
     // 앱이 다시 포그라운드로 돌아오는 시점
     func sceneWillEnterForeground(_ scene: UIScene) {
-        // Called as the scene transitions from the background to the foreground.
-        // Use this method to undo the changes made on entering the background.
+        print("포그라운드로 돌아올 예정")
+        NotificationCenter.default.post(name: NSNotification.Name("sceneWillEnterForeground"), object: nil)
     }
 
     // 앱이 완전히 백그라운드로 빠졌을 때
     func sceneDidEnterBackground(_ scene: UIScene) {
-        // Called as the scene transitions from the foreground to the background.
-        // Use this method to save data, release shared resources, and store enough scene-specific state information
-        // to restore the scene back to its current state.
+        print("백그라운드로 완전히 빠짐")
     }
 
 

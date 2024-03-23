@@ -229,7 +229,7 @@ extension OverviewViewController {
                 let section = NSCollectionLayoutSection(group: group)
                 
                 section.orthogonalScrollingBehavior = .continuous
-
+            
                 return section
             case .graph:
                 let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))

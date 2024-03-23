@@ -36,6 +36,18 @@ final class TodoSelectViewController: BaseViewController {
         view.delegate = self
         return view
     }()
+    private let emptyViewLabel: UILabel = {
+        let view = UILabel()
+        
+        view.numberOfLines = 0
+        view.text = "할 일이 없습니다.\n할 일을 새로 추가해주세요!"
+        view.font = .systemFont(ofSize: 24)
+        view.textAlignment = .center
+        view.textColor = .text
+        view.isHidden = true
+        
+        return view
+    }()
     
     private var dataSource: UICollectionViewDiffableDataSource<Section, Todo>!
     
@@ -48,9 +60,16 @@ final class TodoSelectViewController: BaseViewController {
         updateSnapShot()
     }
     
+    private func transform() {
+        viewModel.outputViewDidLoad.bind { _ in
+            self.emptyViewLabel.isHidden = false
+            self.todoCollectionView.isHidden = true
+        }
+    }
+    
     
     override func configureHierarchy() {
-        [titleTextLabel, todoCollectionView].forEach {
+        [titleTextLabel, todoCollectionView, emptyViewLabel].forEach {
             view.addSubview($0)
         }
     }
@@ -68,10 +87,14 @@ final class TodoSelectViewController: BaseViewController {
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(8)
             make.bottom.equalTo(view.safeAreaLayoutGuide).inset(4)
         }
+        
+        emptyViewLabel.snp.makeConstraints { make in
+            make.center.equalTo(view.safeAreaLayoutGuide)
+        }
     }
     
     override func configureView() {
-        
+        transform()
     }
     
 }

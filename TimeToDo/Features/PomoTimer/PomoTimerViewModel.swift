@@ -19,6 +19,8 @@ final class PomoTimerViewModel {
     private let notificationIdentifier = "pomoNotify"
     var pomodoroHasStarted: Bool?
     
+    private var dateBeforeSceneResigned: Date?
+    
     private var selectedTodo: Todo?
     
     var inputViewWillAppearTrigger: Observable<Void?> = Observable(nil)
@@ -35,6 +37,7 @@ final class PomoTimerViewModel {
     
     init() {
         transform()
+        sceneDelegateNotification()
     }
     
     private func transform() {
@@ -84,37 +87,60 @@ final class PomoTimerViewModel {
         }
         
         if isTimerRunning {
-            isTimerRunning = false
-            timer.invalidate()
-            outputStartButtonTitleText.value = "resume_timer".localized()
-            Notification.shared.removeNotification(notificationIdentifiers: [notificationIdentifier])
-            outputTimerIsRunning.value = (false)
+            pauseTimer()
         } else {
-            isTimerRunning = true
-            outputStartButtonTitleText.value = "pause_timer".localized()
-            makeNewTimer()
-            Notification.shared.sendNotification(title: selectedTodo.title, body: "뽀모도로 타이머가 종료되었습니다.", seconds: Double(pomodoroSeconds), notificationIdentifier: notificationIdentifier)
-            outputTimerIsRunning.value = (true)
+            runTimer()
         }
     }
     
+    private func runTimer() {
+        isTimerRunning = true
+        outputStartButtonTitleText.value = "pause_timer".localized()
+        
+        makeNewTimer()
+        registerPomodoroNotification()
+        outputTimerIsRunning.value = (true)
+    }
+    
+    private func pauseTimer() {
+        isTimerRunning = false
+        timer.invalidate()
+        outputStartButtonTitleText.value = "resume_timer".localized()
+        removePomodoroNotification()
+        outputTimerIsRunning.value = (false)
+    }
+    
+    private func registerPomodoroNotification() {
+        guard let selectedTodo else {
+            return outputTodoIsntSelectedMessage.value = ("할 일을 선택해주세요")
+        }
+        
+        Notification.shared.sendNotification(title: selectedTodo.title, body: "뽀모도로 타이머가 종료되었습니다.", seconds: Double(pomodoroSeconds), notificationIdentifier: notificationIdentifier)
+    }
+    
+    private func removePomodoroNotification() {
+        Notification.shared.removeNotification(notificationIdentifiers: [notificationIdentifier])
+    }
+    
     private func resetButtonTapped() {
-        guard let selectedTodo else { return }
-        
         resetPomodoroStatus()
-        
+        resetTimer()
+        removePomodoroNotification()
+        outputTimerIsRunning.value = (false)
+    }
+    
+    private func makeNewTimer() {
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCounter), userInfo: nil, repeats: true)
+    }
+    
+    private func resetTimer() {
+        guard let selectedTodo else { return }
         guard let estimatedPomodoroMinutes = selectedTodo.estimatedPomodoroMinutes else { return }
         pomodoroSeconds = estimatedPomodoroMinutes * 60
         
         let time = secondsToHoursMinutesSeconds(seconds: pomodoroSeconds)
         outputTimerLabelText.value = makeTimeString(hours: time.0, minutes: time.1, seconds: time.2)
         outputStartButtonTitleText.value = "start_timer".localized()
-        Notification.shared.removeNotification(notificationIdentifiers: [notificationIdentifier])
-        outputTimerIsRunning.value = (false)
-    }
-    
-    private func makeNewTimer() {
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCounter), userInfo: nil, repeats: true)
     }
     
     private func resetPomodoroStatus() {
@@ -125,10 +151,6 @@ final class PomoTimerViewModel {
         outputCircularProgress.value = (circularViewProgressValue)
         outputTimerIsRunning.value = isTimerRunning
         pomodoroHasStarted = false
-        
-        guard let selectedTodo else { return }
-        guard let estimatedPomodoroMinutes = selectedTodo.estimatedPomodoroMinutes else { return }
-        pomodoroSeconds = estimatedPomodoroMinutes * 60
     }
     
     @objc private func timerCounter() {
@@ -150,7 +172,7 @@ final class PomoTimerViewModel {
             repository.addPomodoro(pomodoro)
             
             resetPomodoroStatus()
-            outputStartButtonTitleText.value = "start_timer".localized()
+            resetTimer()
         }
         
         let time = secondsToHoursMinutesSeconds(seconds: pomodoroSeconds)
@@ -170,5 +192,27 @@ final class PomoTimerViewModel {
         timeString += " : "
         timeString += String(format: "%02d", seconds)
         return timeString
+    }
+    
+    private func sceneDelegateNotification() {
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "sceneWillResignActive"), object: nil, queue: nil) { [weak self] _ in
+            self?.dateBeforeSceneResigned = Date()
+        }
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "sceneWillEnterForeground"), object: nil, queue: nil) { [weak self] _ in
+            guard let dateBeforeSceneResigned = self?.dateBeforeSceneResigned else { return }
+            guard let pomodoroSeconds = self?.pomodoroSeconds else { return }
+
+            let currentDate = Date()
+            let timeIntervalSeconds = Int(currentDate.timeIntervalSince(dateBeforeSceneResigned))
+            
+            if timeIntervalSeconds > pomodoroSeconds {
+                self?.pomodoroSeconds = 0
+            } else {
+                self?.pauseTimer()
+                self?.pomodoroSeconds -= timeIntervalSeconds
+                self?.runTimer()
+            }
+        }
     }
 }
