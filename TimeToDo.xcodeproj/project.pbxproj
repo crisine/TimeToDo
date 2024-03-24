@@ -54,6 +54,7 @@
 		FAA9290D2BA34A9000B21BA7 /* PomoPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA9290C2BA34A9000B21BA7 /* PomoPickerViewController.swift */; };
 		FAB7BC4E2BADEE2D00752CA2 /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB7BC4D2BADEE2D00752CA2 /* SectionHeaderView.swift */; };
 		FAB7BC502BADEF1500752CA2 /* UICollectionReusableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB7BC4F2BADEF1500752CA2 /* UICollectionReusableView+Extension.swift */; };
+		FAB7BC552BAFCF4D00752CA2 /* ChartSubview.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB7BC542BAFCF4D00752CA2 /* ChartSubview.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,6 +101,7 @@
 		FAA9290C2BA34A9000B21BA7 /* PomoPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomoPickerViewController.swift; sourceTree = "<group>"; };
 		FAB7BC4D2BADEE2D00752CA2 /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
 		FAB7BC4F2BADEF1500752CA2 /* UICollectionReusableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionReusableView+Extension.swift"; sourceTree = "<group>"; };
+		FAB7BC542BAFCF4D00752CA2 /* ChartSubview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartSubview.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -322,6 +324,7 @@
 			children = (
 				FAA928D22B9F340800B21BA7 /* CalendarCollectionViewCell.swift */,
 				FAA928EA2BA07DE600B21BA7 /* ChartCollectionViewCell.swift */,
+				FAB7BC542BAFCF4D00752CA2 /* ChartSubview.swift */,
 				FAA928EC2BA0ACAE00B21BA7 /* TodoCollectionViewCell.swift */,
 			);
 			path = Cells;
@@ -435,6 +438,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAA928E62BA0765700B21BA7 /* Calendar+Extension.swift in Sources */,
+				FAB7BC552BAFCF4D00752CA2 /* ChartSubview.swift in Sources */,
 				FAA928852B9999A400B21BA7 /* BaseViewController.swift in Sources */,
 				FAA928A62B999F7A00B21BA7 /* SettingViewController.swift in Sources */,
 				FAA141042BA5DC5600D12951 /* PomodoroStat.swift in Sources */,

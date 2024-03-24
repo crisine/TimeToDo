@@ -12,10 +12,9 @@ import RealmSwift
 
 class ChartCollectionViewCell: BaseCollectionViewCell {
     
+    var chartSubView: ChartSubview?
     lazy var barChartView: BarChartView = {
         let view = BarChartView()
-
-//        view.rightAxis.enabled = false
         
         formatXAxis(xAxis: view.xAxis)
         formatYAxis(yAxis: view.leftAxis)
@@ -48,12 +47,12 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
     override func configureConstraints() {
         barChartView.snp.makeConstraints { make in
             make.top.leading.bottom.equalTo(contentView.safeAreaLayoutGuide)
-            make.trailing.equalTo(contentView.safeAreaLayoutGuide).offset(-32)
+            make.trailing.equalTo(contentView.safeAreaLayoutGuide)
         }
     }
     
     override func configureCell() {
-        
+        barChartView.delegate = self
     }
     
     private func formatYAxis(yAxis: YAxis) {
@@ -119,6 +118,7 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
         let bar = BarChartDataSet(entries: barChartEntry, label: "집중한 시간")
         bar.colors = [NSUIColor.tint]
         bar.drawValuesEnabled = false
+
         
         let data = BarChartData(dataSet: bar)
         
@@ -126,4 +126,35 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
         barChartView.drawGridBackgroundEnabled = false
     }
 
+}
+
+extension ChartCollectionViewCell: ChartViewDelegate {
+    func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+        guard let barEntry = entry as? BarChartDataEntry else { return }
+        
+        // TODO: 커스텀 뷰를 그릴 때 CGRect 부분에 Bar 위치를 넣어주어야 할 듯.
+        if chartSubView == nil {
+            makeChartViewFrame(highlight: highlight)
+            contentView.addSubview(chartSubView!)
+        } else {
+            chartSubView?.removeFromSuperview()
+            chartSubView = nil
+            makeChartViewFrame(highlight: highlight)
+            contentView.addSubview(chartSubView!)
+        }
+        
+        let valueString = String("\(Int((barEntry.y)))분")
+        chartSubView?.updateValue(valueString)
+    }
+    
+    private func makeChartViewFrame(highlight: Highlight) {
+        chartSubView = ChartSubview(frame: CGRect(x: highlight.xPx - 25,
+                                                  y: highlight.yPx - 35,
+                                                  width: 50,
+                                                  height: 25))
+    }
+    
+    func chartValueNothingSelected(_ chartView: ChartViewBase) {
+        print("ChartValue Nothing Selected!!")
+    }
 }

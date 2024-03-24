@@ -271,7 +271,9 @@ extension OverviewViewController {
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.25)), subitems: [item])
                 let section = NSCollectionLayoutSection(group: group)
                 
-                section.orthogonalScrollingBehavior = .groupPaging
+                // TODO: 나중에 추가 그래프 형식을 만들었을 때나 paging으로 전환
+//                section.orthogonalScrollingBehavior = .groupPaging
+                section.orthogonalScrollingBehavior = .none
                 section.contentInsets = .init(top: 0, leading: 16, bottom: 0, trailing: 16)
                 section.boundarySupplementaryItems = [sectionHeader]
                 
