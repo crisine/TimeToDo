@@ -155,6 +155,7 @@ extension ChartCollectionViewCell: ChartViewDelegate {
     }
     
     func chartValueNothingSelected(_ chartView: ChartViewBase) {
-        print("ChartValue Nothing Selected!!")
+        chartSubView?.removeFromSuperview()
+        chartSubView = nil
     }
 }
