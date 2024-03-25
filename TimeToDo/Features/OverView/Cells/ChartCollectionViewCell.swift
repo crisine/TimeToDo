@@ -65,7 +65,7 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
     
     private func formatXAxis(xAxis: XAxis) {
         let axisValueList = Array(0...23).map { holderNumber in
-            "\(holderNumber)시"
+            "\(holderNumber)" + "short_hour_label".localized()
         }
         
         xAxis.valueFormatter = IndexAxisValueFormatter(values: axisValueList)
@@ -115,7 +115,7 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
             barChartEntry.append(BarChartDataEntry(x: Double(hour), y: Double(timeList[hour])))
         }
         
-        let bar = BarChartDataSet(entries: barChartEntry, label: "집중한 시간")
+        let bar = BarChartDataSet(entries: barChartEntry, label: "focused_time_label".localized())
         bar.colors = [NSUIColor.tint]
         bar.drawValuesEnabled = false
 
@@ -143,7 +143,8 @@ extension ChartCollectionViewCell: ChartViewDelegate {
             contentView.addSubview(chartSubView!)
         }
         
-        let valueString = String("\(Int((barEntry.y)))분")
+        let valueString = String("\(Int((barEntry.y)))") + "short_minute_label".localized()
+        
         chartSubView?.updateValue(valueString)
     }
     

@@ -184,7 +184,7 @@ extension PomoTimerViewController {
         // 뽀모도로 시간이 이미 1초라도 경과했으면 초기화에 대한 경고를 띄워줘야 한다.
         if let pomodoroHasStarted = viewModel.pomodoroHasStarted,
                pomodoroHasStarted == true {
-            showAlert(title: "뽀모도로가 진행 중입니다.", message: "작업을 변경하는 경우 뽀모도로 진행 상황을 잃을 수 있습니다.", okTitle: "확인") { [weak self] in
+            showAlert(title: "pomodoro_in_progress_label".localized(), message: "lose_pomodoro_alert_message_label".localized(), okTitle: "confirm_button_label".localized()) { [weak self] in
                 self?.viewModel.inputResetButtonTapped.value = ()
             }
         }

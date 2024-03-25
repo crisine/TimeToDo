@@ -222,11 +222,11 @@ extension OverviewViewController {
             case .calendar:
                 supplementaryView.titleLabel.text = "Calendar"
             case .graph:
-                supplementaryView.titleLabel.text = "일일 집중 시간"
+                supplementaryView.titleLabel.text = "daily_focus_time".localized()
             case .todo:
-                supplementaryView.titleLabel.text = "할 일"
+                supplementaryView.titleLabel.text = "to_do_section".localized()
             case .completedTodo:
-                supplementaryView.titleLabel.text = "완료한 할 일"
+                supplementaryView.titleLabel.text = "completed_to_do_section".localized()
             default:
                 print("an error occured white setting header registration")
             }

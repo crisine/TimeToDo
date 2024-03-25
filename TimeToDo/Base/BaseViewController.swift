@@ -36,11 +36,11 @@ class BaseViewController: UIViewController {
                    handler: @escaping (() -> Void)) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        let okAction = UIAlertAction(title: okTitle, style: .default) { _ in
+        let okAction = UIAlertAction(title: okTitle, style: .destructive) { _ in
             handler()
         }
         
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let cancelAction = UIAlertAction(title: "cancel_button_label".localized(), style: .cancel)
         
         alert.addAction(okAction)
         alert.addAction(cancelAction)

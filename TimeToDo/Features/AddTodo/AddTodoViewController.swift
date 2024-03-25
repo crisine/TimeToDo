@@ -63,7 +63,7 @@ final class AddTodoViewController: BaseViewController {
     private let pomoPickerButton: UIButton = {
         let view = UIButton(configuration: .filled())
         
-        view.setTitle("뽀모도로 시간 선택하기", for: .normal)
+        view.setTitle("choose_pomodoro_time_label".localized(), for: .normal)
         view.titleLabel?.font = .boldSystemFont(ofSize: 24)
         view.setImage(UIImage(systemName: "alarm"), for: .normal)
         view.tintColor = .systemRed
@@ -88,11 +88,11 @@ final class AddTodoViewController: BaseViewController {
     private var dataSource: UICollectionViewDiffableDataSource<Section, Item>! = nil
     private var currentSnapShot: NSDiffableDataSourceSnapshot<Section, Item>! = nil
     
-    private var itemList = [Item(section: .date, iconImage: UIImage(systemName: "calendar")!, title: "마감 날짜",                           value: "", type: .dueDate),
-                            Item(section: .pomo, iconImage: UIImage(systemName: "timer")!, title: "뽀모도로 시간", value: "", type: .pomoTime)]
+    private var itemList = [Item(section: .date, iconImage: UIImage(systemName: "calendar")!, title: "due_date_label".localized(),                           value: "", type: .dueDate),
+                            Item(section: .pomo, iconImage: UIImage(systemName: "timer")!, title: "pomodoro_time_label".localized(), value: "", type: .pomoTime)]
     
-    private lazy var doneButton = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(didDoneButtonTapped))
-    private lazy var cancelButton = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(didCancelButtonTapped))
+    private lazy var doneButton = UIBarButtonItem(title: "done_button_label".localized(), style: .done, target: self, action: #selector(didDoneButtonTapped))
+    private lazy var cancelButton = UIBarButtonItem(title: "cancel_button_label".localized(), style: .plain, target: self, action: #selector(didCancelButtonTapped))
     
     private let viewModel = AddTodoViewModel()
     

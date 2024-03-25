@@ -129,8 +129,15 @@ class OverviewViewModel {
     }
     
     private func combineDate(day: String, month: String, year: String) -> Date? {
+        let currentLocale = Locale.current
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        if currentLocale.identifier == "en_US" {
+            dateFormatter.dateFormat = "us_dateformat".localized()
+        } else {
+            dateFormatter.dateFormat = "kr_dateformat".localized()
+        }
+        
 
         guard let date = dateFormatter.date(from: "\(year)-\(month)-\(day)") else {
             return nil

@@ -24,7 +24,7 @@ final class TodoSelectViewController: BaseViewController {
     private let titleTextLabel: UILabel = {
         let view = UILabel()
         
-        view.text = "할 일을 선택하세요"
+        view.text = "choose_task_to_do".localized()
         view.textColor = .text
         view.font = .boldSystemFont(ofSize: 24)
         view.textAlignment = .center
@@ -40,7 +40,7 @@ final class TodoSelectViewController: BaseViewController {
         let view = UILabel()
         
         view.numberOfLines = 0
-        view.text = "할 일이 없습니다.\n할 일을 새로 추가해주세요!"
+        view.text = "empty_pomodoro_to_do".localized() + "\n" + "empty_please_add_to_do".localized()
         view.font = .systemFont(ofSize: 24)
         view.textAlignment = .center
         view.textColor = .text

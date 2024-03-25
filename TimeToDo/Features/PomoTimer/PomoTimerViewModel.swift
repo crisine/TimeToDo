@@ -44,7 +44,7 @@ final class PomoTimerViewModel {
         inputViewWillAppearTrigger.bind { [weak self] _ in
             guard let time = self?.secondsToHoursMinutesSeconds(seconds: self?.pomodoroSeconds ?? 0) else { return }
             self?.outputTimerLabelText.value = self?.makeTimeString(hours: time.0, minutes: time.1, seconds: time.2)
-            self?.outputTodoButtonTitleText.value = self?.selectedTodo != nil ? self?.selectedTodo?.title : "할 일을 선택하세요"
+            self?.outputTodoButtonTitleText.value = self?.selectedTodo != nil ? self?.selectedTodo?.title : "choose_task_to_do".localized()
             Notification.shared.requestNotificationAuthorization()
             
             guard let selectedTodo = self?.selectedTodo else { return }
@@ -78,7 +78,7 @@ final class PomoTimerViewModel {
     
     private func startButtonTapped() {
         guard let selectedTodo else {
-            return outputTodoIsntSelectedMessage.value = ("할 일을 선택해주세요")
+            return outputTodoIsntSelectedMessage.value = ("please_choose_task_to_do".localized())
         }
         
         if startedTime == nil {
@@ -112,10 +112,10 @@ final class PomoTimerViewModel {
     
     private func registerPomodoroNotification() {
         guard let selectedTodo else {
-            return outputTodoIsntSelectedMessage.value = ("할 일을 선택해주세요")
+            return outputTodoIsntSelectedMessage.value = ("please_choose_task_to_do".localized())
         }
         
-        Notification.shared.sendNotification(title: selectedTodo.title, body: "뽀모도로 타이머가 종료되었습니다.", seconds: Double(pomodoroSeconds), notificationIdentifier: notificationIdentifier)
+        Notification.shared.sendNotification(title: selectedTodo.title, body: "pomodoro_timer_ended".localized(), seconds: Double(pomodoroSeconds), notificationIdentifier: notificationIdentifier)
     }
     
     private func removePomodoroNotification() {

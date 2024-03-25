@@ -225,8 +225,15 @@ final class DetailTodoViewController: BaseViewController {
             estimatedPomodoroMinutesLabel.text = "-"
         }
         
+        let currentLocale = Locale.current
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        if currentLocale.identifier == "en_US" {
+            dateFormatter.dateFormat = "us_dateformat".localized()
+        } else {
+            dateFormatter.dateFormat = "kr_dateformat".localized()
+        }
+        
         
         if let dueDate = todo.dueDate {
             dueDateLabel.text = dateFormatter.string(from: dueDate)
@@ -273,23 +280,24 @@ extension DetailTodoViewController {
             
             switch itemIdentifier {
             case .today(let pomodoroStat):
-                cell.titleLabel.text = "오늘"
+                cell.titleLabel.text = "today_label".localized()
                 pomoStat = pomodoroStat
             case .week(let pomodoroStat):
-                cell.titleLabel.text = "이번 주"
+                cell.titleLabel.text = "weekly_label".localized()
                 pomoStat = pomodoroStat
             case .alltime(let pomodoroStat):
-                cell.titleLabel.text = "전체"
+                cell.titleLabel.text = "all_time_label".localized()
                 pomoStat = pomodoroStat
             }
             
             if pomoStat.totalPomodoroMinutes >= 60 {
-                cell.totalTimeLabel.text = "\(pomoStat.totalPomodoroMinutes / 60)시간 \(pomoStat.totalPomodoroMinutes % 60)분"
+                cell.totalTimeLabel.text = "\(pomoStat.totalPomodoroMinutes / 60) " + "short_hour_label".localized() + " \(pomoStat.totalPomodoroMinutes % 60) " + "short_minute_label".localized()
             } else {
-                cell.totalTimeLabel.text = "\(pomoStat.totalPomodoroMinutes)분"
+                cell.totalTimeLabel.text = "\(pomoStat.totalPomodoroMinutes) " + "short_minute_label".localized()
             }
             
-            cell.totalCountLabel.text = "\(pomoStat.totalPomodoroCount)회"
+            let timeCountLabel = pomoStat.totalPomodoroCount > 1 ? "times_count_label".localized() : "time_count_label".localized()
+            cell.totalCountLabel.text = "\(pomoStat.totalPomodoroCount) " + timeCountLabel
             
             return cell
         })

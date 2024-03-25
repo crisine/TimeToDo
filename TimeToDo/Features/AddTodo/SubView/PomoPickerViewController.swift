@@ -15,12 +15,12 @@ class PomoPickerViewController: BaseViewController {
     
     private let pickerTitleList = (1...1440).map { String($0) }
     private lazy var doneBarButton: UIBarButtonItem = {
-        let view = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(didDoneBarButtonTapped))
+        let view = UIBarButtonItem(title: "done_button_label".localized(), style: .done, target: self, action: #selector(didDoneBarButtonTapped))
         view.tintColor = .tint
         return view
     }()
     private lazy var cancelBarButton: UIBarButtonItem = {
-        let view = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(didCancelBarButtonTapped))
+        let view = UIBarButtonItem(title: "cancel_button_label".localized(), style: .plain, target: self, action: #selector(didCancelBarButtonTapped))
         view.tintColor = .systemRed
         return view
     }()

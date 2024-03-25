@@ -35,7 +35,7 @@ class Repository {
     
     // MARK: Read
     func fetchTodo() -> Results<Todo> {
-        print(realm.configuration.fileURL)
+        print(realm.configuration.fileURL ?? "no url")
         return realm.objects(Todo.self)
     }
     
