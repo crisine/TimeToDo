@@ -11,7 +11,13 @@ extension Date {
     
     var toString: String? {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd EE"
+        
+        if Locale.current.identifier == "en_US" {
+            formatter.dateFormat = "us_dateformat".localized()
+        } else {
+            formatter.dateFormat = "kr_dateformat".localized()
+        }
+        
         return formatter.string(from: self)
     }
     

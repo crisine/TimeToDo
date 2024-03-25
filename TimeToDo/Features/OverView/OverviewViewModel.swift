@@ -101,7 +101,12 @@ class OverviewViewModel {
             
             var dateIterator = firstDayOfMonth
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "dd EE"
+            
+            if Locale.current.identifier == "en_US" {
+                dateFormatter.dateFormat = "d EE"
+            } else {
+                dateFormatter.dateFormat = "dd EE"
+            }
             
             while dateIterator <= lastDayOfMonth {
             
@@ -132,23 +137,35 @@ class OverviewViewModel {
         let currentLocale = Locale.current
         let dateFormatter = DateFormatter()
         
+        // TODO: 테스트 후 en_US 로 변경
         if currentLocale.identifier == "en_US" {
             dateFormatter.dateFormat = "us_dateformat".localized()
+            
+            guard let date = dateFormatter.date(from: "\(month) \(day), \(year)") else {
+                return nil
+            }
+            
+            return date
         } else {
             dateFormatter.dateFormat = "kr_dateformat".localized()
+            
+            guard let date = dateFormatter.date(from: "\(year)-\(month)-\(day)") else {
+                return nil
+            }
+            
+            return date
         }
-        
-
-        guard let date = dateFormatter.date(from: "\(year)-\(month)-\(day)") else {
-            return nil
-        }
-
-        return date
     }
 
     private func getCurrentMonth() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM"
+    
+        if Locale.current.identifier == "en_US" {
+            dateFormatter.dateFormat = "MMMM"
+        } else {
+            dateFormatter.dateFormat = "MM"
+        }
+        
         return dateFormatter.string(from: Date())
     }
 

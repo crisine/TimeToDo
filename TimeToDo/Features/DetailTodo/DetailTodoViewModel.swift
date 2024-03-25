@@ -14,12 +14,20 @@ class DetailTodoViewModel {
     var selectedTodo: Todo?
     
     var inputViewWillAppearTrigger: Observable<Void?> = Observable(nil)
+    var inputDeleteMenuButtonTapped: Observable<Void?> = Observable(nil)
     
     var outputViewWillAppearTrigger: Observable<[PomodoroStat]?> = Observable(nil)
+    var outputDeleteMenuButtonTapped: Observable<Void?> = Observable(nil)
     
     init() {
         inputViewWillAppearTrigger.bind { [weak self] _ in
             self?.fetchPomodoroStat()
+        }
+        
+        inputDeleteMenuButtonTapped.bind { [weak self] _ in
+            guard let selectedTodo = self?.selectedTodo else { return }
+            self?.repository.removeTodo(selectedTodo)
+            self?.outputDeleteMenuButtonTapped.value = ()
         }
     }
     
@@ -49,7 +57,6 @@ class DetailTodoViewModel {
         guard !pomodoroStatArray.isEmpty else { return }
         outputViewWillAppearTrigger.value = (pomodoroStatArray)
     }
-    
     
     private func isInCurrentWeek(date: Date) -> Bool {
         let calendar = Calendar.current

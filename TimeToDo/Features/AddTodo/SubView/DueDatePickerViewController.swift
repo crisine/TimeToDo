@@ -16,15 +16,16 @@ class DueDatePickerViewController: BaseViewController {
     
     private let calendarView: FSCalendar = {
         
-    let view = FSCalendar()
-    view.appearance.selectionColor = .tint
-    view.appearance.weekdayFont = .boldSystemFont(ofSize: 18)
-    view.appearance.weekdayTextColor = .tint
-    view.appearance.headerTitleColor = .tint
-    view.appearance.headerTitleFont = .boldSystemFont(ofSize: 24)
-    view.appearance.titleDefaultColor = .text
-    return view
-}()
+        let view = FSCalendar()
+        view.locale = Locale.init(identifier: Locale.current.identifier)
+        view.appearance.selectionColor = .tint
+        view.appearance.weekdayFont = .boldSystemFont(ofSize: 18)
+        view.appearance.weekdayTextColor = .tint
+        view.appearance.headerTitleColor = .tint
+        view.appearance.headerTitleFont = .boldSystemFont(ofSize: 24)
+        view.appearance.titleDefaultColor = .text
+        return view
+    }()
     private lazy var cancelBarButton: UIBarButtonItem = {
         let view = UIBarButtonItem(title: "cancel_button_label".localized(), style: .plain, target: self, action: #selector(didCancelBarButtonTapped))
         view.tintColor = .systemRed

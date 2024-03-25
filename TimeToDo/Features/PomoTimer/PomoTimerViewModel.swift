@@ -45,7 +45,6 @@ final class PomoTimerViewModel {
             guard let time = self?.secondsToHoursMinutesSeconds(seconds: self?.pomodoroSeconds ?? 0) else { return }
             self?.outputTimerLabelText.value = self?.makeTimeString(hours: time.0, minutes: time.1, seconds: time.2)
             self?.outputTodoButtonTitleText.value = self?.selectedTodo != nil ? self?.selectedTodo?.title : "choose_task_to_do".localized()
-            Notification.shared.requestNotificationAuthorization()
             
             guard let selectedTodo = self?.selectedTodo else { return }
             if self?.repository.fetchTodo(id: selectedTodo.id).first?.isCompleted == true {
@@ -77,6 +76,8 @@ final class PomoTimerViewModel {
     }
     
     private func startButtonTapped() {
+        Notification.shared.requestNotificationAuthorization()
+        
         guard let selectedTodo else {
             return outputTodoIsntSelectedMessage.value = ("please_choose_task_to_do".localized())
         }

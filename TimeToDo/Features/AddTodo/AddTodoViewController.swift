@@ -94,7 +94,11 @@ final class AddTodoViewController: BaseViewController {
     private lazy var doneButton = UIBarButtonItem(title: "done_button_label".localized(), style: .done, target: self, action: #selector(didDoneButtonTapped))
     private lazy var cancelButton = UIBarButtonItem(title: "cancel_button_label".localized(), style: .plain, target: self, action: #selector(didCancelButtonTapped))
     
-    private let viewModel = AddTodoViewModel()
+    let viewModel = AddTodoViewModel()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        viewModel.inputViewWillAppearTrigger.value = ()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -111,6 +115,17 @@ final class AddTodoViewController: BaseViewController {
     }
     
     private func transform() {
+        
+        viewModel.outputTodoTitle.bind { [weak self] title in
+            self?.titleTextField.text = title
+            self?.doneButton.isEnabled = true
+        }
+        
+        viewModel.outputTodoMemo.bind { [weak self] memo in
+            self?.memoTextView.text = memo
+            self?.memoTextView.textColor = .text
+        }
+        
         viewModel.outputDueDate.bind { [weak self] dueDate in
             guard let dueDate else { return }
             self?.itemList[0].value = dueDate
@@ -153,8 +168,6 @@ final class AddTodoViewController: BaseViewController {
     
     override func configureView() {
         super.configureView()
-        
-        navigationItem.title = "새로운 할 일 추가"
         
         doneButton.tintColor = .tint
         doneButton.isEnabled = false

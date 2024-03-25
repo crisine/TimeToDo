@@ -131,12 +131,18 @@ final class DetailTodoViewController: BaseViewController {
         transform()
         configureCollectionView()
         configureDataSource()
+        configureBarButton()
     }
     
     private func transform() {
         viewModel.outputViewWillAppearTrigger.bind { [weak self] pomodoroStatArray in
             guard let pomodoroStatArray else { return }
             self?.updateSnapShot(pomodoroStatArray)
+            self?.configureView()
+        }
+        
+        viewModel.outputDeleteMenuButtonTapped.bind { [weak self] _ in
+            self?.navigationController?.popViewController(animated: true)
         }
     }
     
@@ -243,12 +249,41 @@ final class DetailTodoViewController: BaseViewController {
         
         memoTextView.text = todo.memo
         priorityLabel.text = "\(todo.priority ?? 0)"
+    }
+    
+    private func configureBarButton() {
+        // 서브메뉴에 사용할 액션
+        let modifyAction = { [weak self] (action: UIAction) in
+            let vc = AddTodoViewController()
+            vc.viewModel.modifyTodo = self?.viewModel.selectedTodo
+            
+            let nav = UINavigationController(rootViewController: vc)
+            
+            nav.modalPresentationStyle = .fullScreen
+            self?.present(nav, animated: true)
+            return
+        }
         
+        let deleteAction = { [weak self] (action: UIAction) in
+            self?.viewModel.inputDeleteMenuButtonTapped.value = ()
+            return
+        }
+        
+        let modifyMenu = UIAction(title: "modify_menu_label".localized(), image: UIImage(systemName: "square.and.pencil"), handler: modifyAction)
+        let deleteMenu = UIAction(title: "delete_menu_label".localized(), image: UIImage(systemName: "trash"), attributes: .destructive, handler: deleteAction)
+        
+        let rightBarButtonItem = UIBarButtonItem(title: "", image: UIImage(systemName: "ellipsis.circle"), primaryAction: nil, menu: UIMenu(title: "menu_label".localized(), identifier: nil, options: .displayInline, children: [modifyMenu, deleteMenu]))
+        
+        navigationItem.rightBarButtonItem = rightBarButtonItem
         
         navigationController?.navigationBar.tintColor = .tint
         navigationController?.navigationBar.topItem?.title = ""
     }
 
+    @objc
+    private func didRightBarButtonTapped() {
+        showToast(message: "tapped")
+    }
 }
 
 // MARK: CollectionView 관련

@@ -16,6 +16,8 @@ class AddTodoViewModel {
     
     private var addTodoTextFieldEdited = false
     
+    var modifyTodo: Todo?
+    
     var todoTitleString: String?
     var todoMemoString: String?
     var todoDueDate: Date?
@@ -25,9 +27,7 @@ class AddTodoViewModel {
         return addTodoTextFieldEdited
     }
     
-    var pickerViewComponetTitleList: [[String]] {
-        return [pomodoroNumbers, pomodoroTimes]
-    }
+    var inputViewWillAppearTrigger: Observable<Void?> = Observable(nil)
     
     var inputTodoTitle: Observable<String?> = Observable(nil)
     var inputTodoMemo: Observable<String?> = Observable(nil)
@@ -37,6 +37,8 @@ class AddTodoViewModel {
     var inputDueDate: Observable<Date?> = Observable(nil)
     var inputDoneButtonTrigger: Observable<Void?> = Observable(nil)
     
+    var outputTodoTitle: Observable<String?> = Observable(nil)
+    var outputTodoMemo: Observable<String?> = Observable(nil)
     var outputPomoTime: Observable<String?> = Observable(nil)
     var outputDueDate: Observable<String?> = Observable(nil)
     
@@ -70,12 +72,53 @@ class AddTodoViewModel {
             
             guard let todoTitleString = self?.todoTitleString else { return }
             
-            let todo = Todo(title: todoTitleString, memo: self?.todoMemoString, dueDate: self?.todoDueDate, estimatedPomodoroMinutes: self?.pomodoroMinutes)
-            self?.addTodo(todo: todo)
+            if let modifyTodo = self?.modifyTodo {
+                
+                let modifiedTodo = Todo(title: todoTitleString, memo: self?.todoMemoString, dueDate: self?.todoDueDate, estimatedPomodoroMinutes: self?.pomodoroMinutes)
+                
+                self?.modifyTodo(todo: modifyTodo, modifiedTodo: modifiedTodo)
+                return
+                
+            } else {
+                let todo = Todo(title: todoTitleString, memo: self?.todoMemoString, dueDate: self?.todoDueDate, estimatedPomodoroMinutes: self?.pomodoroMinutes)
+                
+                self?.addTodo(todo: todo)
+            }
         }
+        
+        inputViewWillAppearTrigger.bind { [weak self] _ in
+            self?.fillItems()
+        }
+    }
+    
+    private func fillItems() {
+        guard let modifyTodo else { return }
+        todoTitleString = modifyTodo.title
+        outputTodoTitle.value = todoTitleString
+        
+        todoMemoString = modifyTodo.memo
+        if let memo = modifyTodo.memo {
+            self.addTodoTextFieldEdited = true
+            outputTodoMemo.value = memo
+        }
+        
+        todoDueDate = modifyTodo.dueDate
+        if let dueDate = modifyTodo.dueDate {
+            outputDueDate.value = dueDate.toString
+        }
+    
+        pomodoroMinutes = modifyTodo.estimatedPomodoroMinutes
+        if let estimatedPomodoroMinutes = modifyTodo.estimatedPomodoroMinutes {
+            outputPomoTime.value = String(estimatedPomodoroMinutes)
+        }
+            
     }
     
     private func addTodo(todo: Todo) {
         repository.addTodo(todo)
+    }
+    
+    private func modifyTodo(todo: Todo, modifiedTodo: Todo) {
+        repository.updateTodo(todo: todo, modifiedTodo: modifiedTodo)
     }
 }

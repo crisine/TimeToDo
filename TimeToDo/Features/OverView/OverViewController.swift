@@ -77,6 +77,7 @@ final class OverviewViewController: BaseViewController {
             
             let vc = DetailTodoViewController()
             vc.viewModel.selectedTodo = todo
+            vc.hidesBottomBarWhenPushed = true
             self?.navigationController?.pushViewController(vc, animated: true)
         }
     }

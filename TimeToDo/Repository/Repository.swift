@@ -36,7 +36,7 @@ class Repository {
     // MARK: Read
     func fetchTodo() -> Results<Todo> {
         print(realm.configuration.fileURL ?? "no url")
-        return realm.objects(Todo.self)
+        return realm.objects(Todo.self).where{ $0.isDeleted == false }
     }
     
     func fetchTodo(id: ObjectId) -> Results<Todo> {
@@ -47,12 +47,14 @@ class Repository {
     
     func fetchPomodoro(todoId: ObjectId) -> Results<Pomodoro> {
         return realm.objects(Pomodoro.self).where { pomodoro in
-            pomodoro.todoId == todoId
+            pomodoro.todoId == todoId &&
+            pomodoro.isDeleted == false
         }
     }
     
     func fetchNotCompletedPomodoroTodo() -> Results<Todo> {
         return realm.objects(Todo.self).where { todo in
+            todo.isDeleted == false &&
             todo.isCompleted == false &&
             todo.estimatedPomodoroMinutes != nil
         }
@@ -64,7 +66,7 @@ class Repository {
             let start = calendar.startOfDay(for: date)
             let end = calendar.date(byAdding: DateComponents(day: 1), to: start)!
             
-            return pomodoro.startedTime >= start && pomodoro.endedTime <= end
+            return pomodoro.startedTime >= start && pomodoro.endedTime <= end && pomodoro.isDeleted == false
         }
     }
     
@@ -81,9 +83,16 @@ class Repository {
         }
     }
     
-    func updateTodo(_ todo: Todo) {
+    func updateTodo(todo: Todo, modifiedTodo: Todo) {
         do {
             try realm.write {
+                
+                todo.title = modifiedTodo.title
+                todo.memo = modifiedTodo.memo
+                todo.dueDate = modifiedTodo.dueDate
+                todo.estimatedPomodoroMinutes = modifiedTodo.estimatedPomodoroMinutes
+                todo.modifiedDate = Date()
+                
                 realm.add(todo, update: .modified)
             }
         } catch {
@@ -96,8 +105,9 @@ class Repository {
     func removeTodo(_ todo: Todo) {
         do {
             try realm.write {
-                realm.delete(todo)
+                todo.isDeleted = true
             }
+            removePomodoro(todoId: todo.id)
         } catch {
             dump(error)
         }
@@ -109,6 +119,20 @@ class Repository {
                 let allTodos = realm.objects(Todo.self)
                 allTodos.forEach { todo in
                     todo.isDeleted = true
+                }
+            }
+        } catch {
+            dump(error)
+        }
+    }
+    
+    func removePomodoro(todoId: ObjectId) {
+        do {
+            try realm.write {
+                realm.objects(Pomodoro.self).where { pomo in
+                    pomo.todoId == todoId
+                }.forEach { pomo in
+                    pomo.isDeleted = true
                 }
             }
         } catch {

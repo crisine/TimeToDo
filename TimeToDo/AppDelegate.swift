@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,6 +15,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     
         UNUserNotificationCenter.current().delegate = self
+        
+        let configuration = Realm.Configuration(schemaVersion: 1) { migreaion, oldSchemeVersion in
+            
+            // MARK: pomodoro에 isDeleted 컬럼 추가
+            if oldSchemeVersion < 1 {
+                print("Schema: 0 -> 1")
+            }
+        }
+        
+        Realm.Configuration.defaultConfiguration = configuration
         
         return true
     }
