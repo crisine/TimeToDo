@@ -65,7 +65,7 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
     
     private func formatXAxis(xAxis: XAxis) {
         let axisValueList = Array(0...23).map { holderNumber in
-            "\(holderNumber)" + "short_hour_label".localized()
+            "\(holderNumber)" + "short_hour_time_label".localized()
         }
         
         xAxis.valueFormatter = IndexAxisValueFormatter(values: axisValueList)

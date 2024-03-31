@@ -56,18 +56,23 @@ final class OverviewViewController: BaseViewController {
     }
     
     override func viewDidLayoutSubviews() {
+        print(#function)
         super.viewDidLayoutSubviews()
         let indexPath = IndexPath(item: viewModel.todayDayInt - 1, section: OverviewSection.calendar.rawValue)
-        mainCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
+        
+        print("indexPath : \(indexPath)")
+        mainCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
     
     private func transform() {
         viewModel.outputDateDayList.bind { [weak self] _ in
-            self?.configureDataSource()
+            print("outputDateDayList binded")
+//            self?.configureDataSource()
             self?.updateSnapshot()
         }
         
         viewModel.outputTodoList.bind { [weak self] _ in
+            print("outputTodoList binded")
             self?.updateSnapshot() // TODO: 임시방편 (Todo 셀에 변화가 있을때마다 이쪽도 호출됨)
 //            self?.reconfigureSnapshotItems()
         }
@@ -116,6 +121,7 @@ extension OverviewViewController {
     }
     
     func updateSnapshot() {
+        print(#function)
         var snapshot = NSDiffableDataSourceSnapshot<OverviewSection, OverviewSectionItem>()
         
         snapshot.appendSections(sections)
@@ -149,6 +155,7 @@ extension OverviewViewController {
     }
     
     private func configureDataSource() {
+        print(#function)
         
         dataSource = OverviewDataSource(collectionView: mainCollectionView, cellProvider: { [weak self] collectionView, indexPath, itemIdentifier in
             

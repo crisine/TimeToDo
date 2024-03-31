@@ -52,10 +52,17 @@ class OverviewViewModel {
         }
         
         inputDidSelectCalendarCellTrigger.bind { [weak self] cell in
-            guard let cell else { return }
+            guard let cell else {
+                print("error: there's no selected cell")
+                return
+            }
             self?.selectedCalendarCell = cell
             
-            guard let selectedDate = self?.calcSelectedDate() else { return }
+            guard let selectedDate = self?.calcSelectedDate() else {
+                print("error: there's no selected date")
+                return
+            }
+            
             self?.selectedDate = selectedDate
             
             self?.fetchGraphPomodoroData()
@@ -150,9 +157,11 @@ class OverviewViewModel {
             dateFormatter.dateFormat = "kr_dateformat".localized()
             
             guard let date = dateFormatter.date(from: "\(year)-\(month)-\(day)") else {
+                print("CombineDate Error Occured")
                 return nil
             }
             
+            print("combined Date : \(date)")
             return date
         }
     }

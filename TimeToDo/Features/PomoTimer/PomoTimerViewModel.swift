@@ -201,6 +201,7 @@ final class PomoTimerViewModel {
         }
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "sceneWillEnterForeground"), object: nil, queue: nil) { [weak self] _ in
+            guard self?.isTimerRunning == true else { return }
             guard let dateBeforeSceneResigned = self?.dateBeforeSceneResigned else { return }
             guard let pomodoroSeconds = self?.pomodoroSeconds else { return }
 
